@@ -1,4 +1,4 @@
-#'@title CIR Confidence Intervals of Ratios of content validity coefficients (confidence interval for diference)
+#'@title Confidence Intervals of Ratios of content validity coefficients
 #'@description Calculates confidence interval for the ratio of two content validity coefficients, based on method of variance recovery for ratios (MOVER-R).
 #'
 #'@param group1 Output dataframe 1 of one of the 'ValCont' functions to obtain content validity coefficients.
@@ -11,7 +11,7 @@
 #'dataframe with four columns: label of the items, ratio between the coefficients, the upper and upper limit of the confidence interval of the difference.
 #'
 #'@details
-#''CIR' uses method of variance recovery for ratios (MOVER-R; Zou, Donner, & Qiu, 2025), como enfoque general para dos cantidades no normales.
+#''CIR' uses method of variance recovery for ratios (MOVER-R; Zou, Donner, & Qiu, 2025), as a general approach for two non-normal quantities.
 #'Because data produced by judges' judgments tend to be asymmetrically distributed (if the item is rated, on a scale of 1 to 5, as predominantly valid then its values will be > 3), MOVER-R is appropriate for non-normal distributions.
 #'MOVER-R depends on the quality or precision of the confidence intervals calculated for the coefficients in each group.
 #'The compared content validity coefficients obtained should be of the same type, and the estimated confidence intervals for these coefficients should also come from the same level; for example, at .95 or .90.
@@ -24,29 +24,30 @@
 #' @author
 #'Cesar Merino-Soto (\email{sikayax@yahoo.cam.ar})
 #'
-#' @export
-#'
 #'@seealso
 #'\code{\link[ratesci:moverci]{ratesci::moverci}}
 #'\code{\link[ValContent:CID]{ValContent::CID}}
 #'
 #'@examples
 #'
-#'### Example 1
-#'# Group 1 output
+#'### Example 1 -----------
+#'
+#'## Group 1 output
+#'
 #'Vgroup1 <- data.frame(
 #'  V = c(0.85, 0.78, 0.90),
 #'  lwr.ci = c(0.80, 0.75, 0.88),
-#'  upr.ci = c(0.90, 0.82, 0.92)
-#')
+#'  upr.ci = c(0.90, 0.82, 0.92))
+#'
 #'rownames(Vgroup1) <- c("Item1", "Item2", "Item3")
 #'
-#'# Group 2 output
+#'## Group 2 output
+#'
 #'Vgroup2 <- data.frame(
 #'  V = c(0.80, 0.75),
 #'  lwr.ci = c(0.76, 0.70),
-#'  upr.ci = c(0.84, 0.78)
-#')
+#'  upr.ci = c(0.84, 0.78))
+#'
 #'rownames(Vgroup2) <- c("Item1", "Item2")
 #'
 #'## Run
@@ -55,8 +56,9 @@
 #'    lwr.col = "lwr.ci",
 #'    upr.col = "upr.ci")
 #'
-#'### Example 2
-#'# Random data (Low ratings): 11 items (rows), 4 raters (columns)
+#'### Example 2 -----------
+#'
+#'## Random data (Low ratings): 11 items (rows), 4 raters (columns)
 #'
 #'random_data2 <- data.frame(
 #'  juez1 = sample(1:2, 11, replace = TRUE),
@@ -65,6 +67,7 @@
 #'  juez4 = sample(1:3, 11, replace = TRUE))
 #'
 #'## Random data (High ratings): 10 items (rows), 6 raters (columns)
+#'
 #'random_data3 <- data.frame(
 #'  obs1 = sample(5:7, 10, replace = TRUE),
 #'  obs2 = sample(4:7, 10, replace = TRUE),
@@ -73,18 +76,18 @@
 #'  obs5 = sample(5:7, 10, replace = TRUE),
 #'  obs6 = sample(6:7, 10, replace = TRUE))
 #'
-#'# Saving results from Aiken's V analysis, for each group
+#'## Saving results from Aiken's V analysis, for each group
 #'output.V1 <- Vaiken(data = random_data2, min = 1, max = 7, conf.level = .90)
 #'output.V2 <- Vaiken(data = random_data3, min = 1, max = 7, conf.level = .90)
 #'
-#'# Run CID
+#'## Run CID
 #'CIR(group1 = output.V2,
 #'    group2 = output.V1,
 #'    coef.col = "V",
 #'    lwr.col = "lwr.ci",
 #'    upr.col = "upr.ci")
 #'
-
+#' @export
 CIR <- function(group1, group2, coef.col, lwr.col, upr.col) {
   # Validaciones iniciales
   if (!all(c(coef.col, lwr.col, upr.col) %in% colnames(group1))) {

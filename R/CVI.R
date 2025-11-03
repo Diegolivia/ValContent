@@ -1,4 +1,4 @@
-#'@title CVI
+#'@title Content Validity Index
 #'@description Calculate the Content Validity Index (CVI), without adjustment for random agreement.
 #'@param data dataframe, with the columns assigned to each judge, and the rows assigned to each assessed item.
 #'@param cut Specific cut-off point, from which the item is considered valid (or relevant, clear, etc.)

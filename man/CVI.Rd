@@ -2,7 +2,7 @@
 % Please edit documentation in R/CVI.R
 \name{CVI}
 \alias{CVI}
-\title{CVI}
+\title{Content Validity Index}
 \usage{
 CVI(data, cut, conf.level)
 }

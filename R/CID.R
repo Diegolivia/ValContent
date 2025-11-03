@@ -1,4 +1,4 @@
-#'@title CID (confidence interval for diference)
+#'@title Confidence interval for diference of content validity coefficients
 #'@description Calculates confidence interval for the difference of content validity coefficients, based on Method of Variance Estimates Recovery (MOVER).
 #'
 #'@param group1 Output dataframe 1 of one of the 'ValCont' functions to obtain content validity coefficients.
@@ -11,10 +11,10 @@
 #'dataframe with four columns: label of the items, difference between the coefficients, the upper and upper limit of the confidence interval of the difference.
 #'
 #'@details
-#''CID' uses Method of Variance Estimates Recovery (MOVER; Zou, & Donner, 2008).
+#'`CID` uses Method of Variance Estimates Recovery (MOVER; Zou, & Donner, 2008).
 #'Because data produced by judges' judgments tend to be asymmetrically distributed (if the item is rated, on a scale of 1 to 5, as predominantly valid then its values will be > 3), MOVER is appropriate for non-normal distributions.
 #'MOVER depends on the quality or precision of the confidence intervals calculated for the coefficients in each group.
-#'The application of MOVER for content validity coefficient was initially published by Merino-Soto (2018) for the difference between V coefficients (Aiken, 1980, 1985). Later, Merino-Soto (2023) extended this approach for AIken's V by adding a point estimator of the difference, based on the standardized difference between proportions
+#'The application of MOVER for content validity coefficient was initially published by Merino-Soto (2018) for the difference between V coefficients (Aiken, 1980, 1985). Later, Merino-Soto (2023) extended this approach for Aiken's V by adding a point estimator of the difference, based on the standardized difference between proportions
 #'The compared content validity coefficients obtained should be of the same type, and the estimated confidence intervals for these coefficients should also come from the same level; for example, at .95 or .90.
 #'Singer (2010) observed that at extremely low values (e.g., proportions near .0), the coverage of this method is not as good. In the context of comparing content validity coefficients, treated as proportions, it is rare to find such low coefficients (and their confidence intervals). Unless the items are extremely poor in content.
 #'

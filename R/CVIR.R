@@ -67,7 +67,7 @@
 #'Cesar Merino-Soto (\email{sikayax@yahoo.cam.ar})
 #'
 #'@export
-CVI_R <- function(data, cut, conf.level) {
+CVIR <- function(data, cut, conf.level) {
   # FunciOn interna para calcular el intervalo de confianza de Wilson
   get_wilson_CI <- function(x, n, conf.level) {
     p_hat <- x

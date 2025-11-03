@@ -35,8 +35,10 @@ Note: The function has not yet been prepared to resolve missing values, so the u
 }
 \examples{
 
-### Example 1
-# Group 1 output
+### Example 1 -----------
+
+## Group 1 output
+
 Vgroup1 <- data.frame(
  V = c(0.85, 0.78, 0.90),
  lwr.ci = c(0.80, 0.75, 0.88),
@@ -44,7 +46,8 @@ Vgroup1 <- data.frame(
 )
 rownames(Vgroup1) <- c("Item1", "Item2", "Item3")
 
-# Group 2 output
+## Group 2 output
+
 Vgroup2 <- data.frame(
  V = c(0.80, 0.75),
  lwr.ci = c(0.76, 0.70),
@@ -55,8 +58,9 @@ rownames(Vgroup2) <- c("Item1", "Item2")
 ## Run
 CID(Vgroup1, Vgroup2,"V","lwr.ci","upr.ci")
 
-### Example 2
-# Random data (Low ratings): 11 items (rows), 4 raters (columns)
+### Example 2 -----------
+
+## Random data (Low ratings): 11 items (rows), 4 raters (columns)
 
 random_data2 <- data.frame(
  juez1 = sample(1:2, 11, replace = TRUE),
@@ -65,6 +69,7 @@ random_data2 <- data.frame(
  juez4 = sample(1:3, 11, replace = TRUE))
 
 ## Random data (High ratings): 10 items (rows), 6 raters (columns)
+
 random_data3 <- data.frame(
  obs1 = sample(5:7, 10, replace = TRUE),
  obs2 = sample(4:7, 10, replace = TRUE),
@@ -73,24 +78,32 @@ random_data3 <- data.frame(
  obs5 = sample(5:7, 10, replace = TRUE),
  obs6 = sample(6:7, 10, replace = TRUE))
 
-# Saving results from Aiken's V analysis, for each group
+## Saving results from Aiken's V analysis, for each group
+
 output.V1 <- Vaiken(data = random_data2, min = 1, max = 7, conf.level = .90)
 output.V2 <- Vaiken(data = random_data3, min = 1, max = 7, conf.level = .90)
 
-# Run CID
+## Run CID
+
 CID(group1 = output.V2,
    group2 = output.V1,
    coef.col = "V",
    lwr.col = "lwr.ci",
    upr.col = "upr.ci")
+
 }
 \references{
-Aiken, L. R. (1980). Content validity and reliability of single items or questionnaires. Educational and. Psychological Measurement, 40, 955-959. doi: 10.1177/001316448004000419
-Aiken, L. R. (1985). Three coefficients for analyzing the reliability and validity of ratings. Educational and Psychological Measurement, 45, 131-142. doi: 10.1177/0013164485451012
-Merino-Soto, C. (2018) Confidence interval for difference between coefficients of content validity (Aiken's V): a SPSS syntax. Anales de  Psicologia, 34(3), 587-590. https://dx.doi.org/10.6018/analesps.34.3.283481.
-Merino-Soto, C. (2023). Coeficientes V de Aiken: diferencias en los juicios de validez de contenido. MHSalud, 20(1), 23-32. dx.doi.org/10.15359/mhs.20-1.3
+Aiken, L. R. (1980). Content validity and reliability of single items or questionnaires. Educational and. Psychological Measurement, 40, 955-959. https://doi.org/10.1177/001316448004000419
+
+Aiken, L. R. (1985). Three coefficients for analyzing the reliability and validity of ratings. Educational and Psychological Measurement, 45, 131-142. https://doi.org/10.1177/0013164485451012
+
+Merino-Soto, C. (2018) Confidence interval for difference between coefficients of content validity (Aiken's V): a SPSS syntax. Anales de  Psicologia, 34(3), 587-590. https://doi.org/10.6018/analesps.34.3.283481
+
+Merino-Soto, C. (2023). Coeficientes V de Aiken: diferencias en los juicios de validez de contenido. MHSalud, 20(1), 23-32. https://doi.org/10.15359/mhs.20-1.3
+
 Singer, J. (2010). Construction of confidence limits about effect measures: A general approach, by G. Y. Zou and A. Donner, Statistics in Medicine 2008; 27:1693-1702. Statistics in Medicine, 29(16), 1757–1759. https://doi.org/10.1002/sim.3887
-Zou, G.Y. and Donner, A. (2008) Construction of confidence limits about effect measures: a general approach. Stat. Med. 27, 1693–1702.  doi.org/10.1002/sim.3095
+
+Zou, G.Y. and Donner, A. (2008) Construction of confidence limits about effect measures: a general approach. Stat. Med. 27, 1693–1702. https://doi.org//10.1002/sim.3095
 }
 \seealso{
 \code{\link[ratesci:moverci]{ratesci::moverci}}

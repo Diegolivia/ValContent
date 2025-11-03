@@ -38,6 +38,7 @@
 #'
 #'@seealso
 #'\code{\link[ratesci:moverci]{ratesci::moverci}}
+#'\code{\link[ValCont:CIDsingle]{ValCont::CIDsingle}}
 #'
 #'@examples
 #'

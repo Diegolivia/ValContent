@@ -107,6 +107,7 @@ Zou, G.Y. and Donner, A. (2008) Construction of confidence limits about effect m
 }
 \seealso{
 \code{\link[ratesci:moverci]{ratesci::moverci}}
+\code{\link[ValCont:CIDsingle]{ValCont::CIDsingle}}
 }
 \author{
 Cesar Merino-Soto (\email{sikayax@yahoo.cam.ar})

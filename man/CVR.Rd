@@ -2,7 +2,7 @@
 % Please edit documentation in R/CVR.R
 \name{CVR}
 \alias{CVR}
-\title{CVR (content validity ratio)}
+\title{Content Validity Ratio}
 \usage{
 CVR(data)
 }
@@ -36,7 +36,8 @@ CVR(data = CVRdata)
 #'@export
 }
 \references{
-Lawshe, C. H. (1975). A quantitative approach to content validity. Personnel psychology, 28, 563–575.
+Lawshe, C. H. (1975). A quantitative approach to content validity. Personnel psychology, 28, 563–575. https://doi.org/10.1111/j.1744-6570.1975.tb01393.x
+
 Martuza, V.R. (1977). Applying norm-referenced and criterion-referenced measurement in education. Boston: Allyn & Bacon
 }
 \author{

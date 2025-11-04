@@ -2,7 +2,7 @@
 % Please edit documentation in R/SVALmult.R
 \name{SVALmult}
 \alias{SVALmult}
-\title{SVALmult: Substantive Validity for an set of Items}
+\title{Substantive Validity for an set of Items}
 \usage{
 SVALmult(data, columns, conf.level = 0.95)
 }
@@ -71,15 +71,15 @@ SVALmult(data = data.gais, columns = c(1,2,3), conf.level = .90)
 
 }
 \references{
-Anderson, J. C., & Gerbing, D. W. (1991). Predicting the performance of measures in a confirmatory factor analysis with a pretest assessment of their substantive validities. \emph{Journal of Applied Psychology, 76}(5), 732–740. \doi{10.1037/0021-9010.76.5.732}
+Anderson, J. C., & Gerbing, D. W. (1991). Predicting the performance of measures in a confirmatory factor analysis with a pretest assessment of their substantive validities. \emph{Journal of Applied Psychology, 76}(5), 732–740. https://doi.org/10.1037/0021-9010.76.5.732
 
-Cabedo-Peris, J., Merino-Soto, C., Chans, G.M., & Marti-Vilar, M. (2024). Exploring the Loss Aversion Scale’s psychometric properties in Spain. \emph{Scientific Reports, 14}, 15756. \doi{10.1038/s41598-024-66695-6}
+Cabedo-Peris, J., Merino-Soto, C., Chans, G.M., & Marti-Vilar, M. (2024). Exploring the Loss Aversion Scale’s psychometric properties in Spain. \emph{Scientific Reports, 14}, 15756. https://doi.org/10.1038/s41598-024-66695-6
 
 Merino-Soto, C., Calderón-De la Cruz, G., Gil-Monte, P., & Juárez-García, A. (2021). Substantive validity within the framework of content validity: Application in the Workload Scale. \emph{Revista Argentina de Ciencias del Comportamiento, 13}(1), 81–92. \url{https://revistas.unc.edu.ar/index.php/racc/article/view/20547/33426}
 
-Penfield, R. D., & Giacobbi, P. R. Jr. (2004). Applying a score confidence interval to Aiken’s item content-relevance index. \emph{Measurement in Physical Education and Exercise Science, 8}(4), 213–225. \doi{10.1207/s15327841mpee0804_3}
+Penfield, R. D., & Giacobbi, P. R. Jr. (2004). Applying a score confidence interval to Aiken’s item content-relevance index. \emph{Measurement in Physical Education and Exercise Science, 8}(4), 213–225. https://doi.org/10.1207/s15327841mpee0804_3
 
-Wilson, E. B. (1927). Probable inference, the law of succession, and statistical inference. \emph{Journal of the American Statistical Association, 22}, 209–212. \doi{10.2307/2276774}
+Wilson, E. B. (1927). Probable inference, the law of succession, and statistical inference. \emph{Journal of the American Statistical Association, 22}, 209–212. https://doi.org/10.2307/2276774
 }
 \seealso{
 \code{\link[PropCIs]{scoreci}} for score-based confidence intervals. \cr

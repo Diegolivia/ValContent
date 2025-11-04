@@ -18,14 +18,19 @@
 #'@author
 #' Cesar Merino-Soto (\email{sikayax@yahoo.com.ar})
 #'
-#'@export
-#'
 #'@examples
-#'##Load data
-#'Exampledata <- data.frame(replicate(n = 6,sample(1:5,12,rep=TRUE)))
+#'
+#'## Artificial data
+#'CVRdata <- data.frame(j1 = c(3,3,3,3,3,3,3,2,2,2),
+#'j2 = c(3,2,3,2,2,2,3,3,3,3),
+#'j3 = c(3,2,3,2,2,2,3,3,3,2),
+#'j4 = c(3,2,3,3,2,3,3,3,3,3),
+#'j5 = c(3,2,3,3,2,2,2,2,3,2))
 #'
 #'## Run CVR
-#'CVR(Exampledata)
+#'CVR(data = CVRdata)
+#'
+#'#'@export
 CVR <- function(data) {
 # Transformar las respuestas: 3 -> 1 (essential), otros -> 0
 data_binaria <- as.data.frame(t(apply(data, 1, function(row) {

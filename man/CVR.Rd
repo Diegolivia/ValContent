@@ -22,11 +22,18 @@ Under this model, the usual cut-off point for identifying essential items in the
 Note: The function has not yet been prepared to resolve missing values, so the user must remove or impute any missing values.
 }
 \examples{
-##Load data
-Exampledata <- data.frame(replicate(n = 6,sample(1:5,12,rep=TRUE)))
+
+## Artificial data
+CVRdata <- data.frame(j1 = c(3,3,3,3,3,3,3,2,2,2),
+j2 = c(3,2,3,2,2,2,3,3,3,3),
+j3 = c(3,2,3,2,2,2,3,3,3,2),
+j4 = c(3,2,3,3,2,3,3,3,3,3),
+j5 = c(3,2,3,3,2,2,2,2,3,2))
 
 ## Run CVR
-CVR(Exampledata)
+CVR(data = CVRdata)
+
+#'@export
 }
 \references{
 Lawshe, C. H. (1975). A quantitative approach to content validity. Personnel psychology, 28, 563–575.

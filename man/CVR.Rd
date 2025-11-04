@@ -16,7 +16,7 @@ dataframe with CVR coefficients for all analyzed items
 Calculate the CVR coefficient (content validity ratio)
 }
 \details{
-The CVR function calculates the content validity ratio (CVR; Lashe, 1975). CVR function that the items were rated in three categories: Not important (1), useful but not essential (2), essential (3). CVR dichotomizes each rating, and yields the proportion of judges who considered the item essential.
+The CVR function calculates the content validity ratio (CVR; Lashe, 1975). The CVR function analyses data in which the items were rated in three categories: Not important (1), useful but not essential (2), essential (3). CVR dichotomizes each rating, and yields the proportion of judges who considered the item essential.
 Under this model, the usual cut-off point for identifying essential items in the CVR should be located at the highest possible rating, i.e., on a scale of 1 to 3, the cut-off point is 3.
 
 Note: The function has not yet been prepared to resolve missing values, so the user must remove or impute any missing values.

@@ -36,6 +36,27 @@
 #'
 #' Tufte, E. R. (2022). *Seeing with Fresh Eyes: Meaning, Space, Data, Truth*. Cheshire, CT: Graphics Press LLC.
 #'
+#' @examples
+#'
+#' ## Example data
+#' Ej1 <- data.frame(
+#'  J1 = c(5, 5, 6, 6, 6, 6, 6, 6, 5, 6, 5, 6, 3, 4, 4),
+#'  J2 = c(5, 2, 6, 6, 6, 6, 6, 5, 4, 6, 5, 6, 4, 4, 3),
+#'  J3 = c(5, 5, 6, 6, 6, 5, 6, 5, 4, 5, 5, 6, 5, 3, 5),
+#'  J4 = c(5, 5, 6, 6, 6, 6, 6, 6, 5, 6, 3, 6, 5, 3, 5),
+#'  J5 = c(5, 5, 6, 6, 6, 6, 6, 6, 6, 5, 5, 6, 3, 4, 5),
+#'
+#'## Run CVI
+#' Ej1.CVIoutput <- CVI(data = Ej1, cut = 4, conf.level = .90)
+#'
+#' ## Run plot
+#'
+#' CVplot(data = Ej1.CVIoutput,
+#' item.col = “Item”,
+#' point.coefficient = “CVI”,
+#' lwr.ci = “lwr.ci”,
+#' up.ci = “upr.ci”)
+#'
 #' @export
 CVplot <- function(data, item.col, point.coeficient, lwr.ci, up.ci,
                    selected.items = NULL,

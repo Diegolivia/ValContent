@@ -50,6 +50,7 @@ Ej1 <- data.frame(
  J15 = c(5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 5, 3, 4))
 
 ## Run MER
+
 MER(data = Ej1, ncat = 6, start = 1, conf.level = .90)
 
 }
@@ -71,7 +72,7 @@ Penfield, R. D., & Miller, J. M. (2004). Improving Content Validation Studies Us
 Wilson, E. B. (1927). Probable inference, the law of succession, and statistical inference. Journal of the American Statistical Association, 22, 209-212. https://doi.org/10.2307/2276774
 }
 \seealso{
-\code{\link[ValContent:Haiken]{ValContent::HAiken}} for a homogenety coefficient
+\code{\link[ValContent:Haiken]{ValContent::HAiken}} for a homogeneity coefficient
 }
 \author{
 Cesar Merino-Soto (\email{sikayax@yahoo.cam.ar})

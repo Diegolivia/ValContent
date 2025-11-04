@@ -2,7 +2,7 @@
 % Please edit documentation in R/HAiken.R
 \name{Haiken}
 \alias{Haiken}
-\title{HAiken (H coefficient)}
+\title{Coefficient of homogeneity of response}
 \usage{
 Haiken(data, ncat, conf.level)
 }
@@ -28,7 +28,7 @@ Other methods for estimating judges' agreement or homogeneity of response may al
 Note: The function has not yet been prepared to resolve missing values, so the user must remove or impute any missing values.
 }
 \examples{
-### Example 1
+### Example 1 --------------
 
 #Load data
 Ej2 <- data.frame(
@@ -43,20 +43,22 @@ Ej2 <- data.frame(
 # Run HAiken
 Haiken(Ej2, ncat = 5, conf.level = .90)
 
-### Example 2
+### Example 2 ----------------
 # In a dataframe where the rows are the items and the columns are the raters,
 # H can be calculated for the raters (columns) by simply transposing the data
 # and entering it as a data frame.
 
 Haiken(as.data.frame(t(Ej2)), ncat = 5, conf.level = .90)
 
-
 }
 \references{
-Aiken, L. R. (1980). Content validity and reliability of single items or questionnaires. Educational and. Psychological Measurement, 40, 955-959. doi: 10.1177/001316448004000419
-Aiken, L. R. (1985). Three coefficients for analyzing the reliability and validity of ratings. Educational and Psychological Measurement, 45, 131-142. doi: 10.1177/0013164485451012
+Aiken, L. R. (1980). Content validity and reliability of single items or questionnaires. Educational and. Psychological Measurement, 40, 955-959. https://doi.org/10.1177/001316448004000419
+
+Aiken, L. R. (1985). Three coefficients for analyzing the reliability and validity of ratings. Educational and Psychological Measurement, 45, 131-142. https://doi.org/10.1177/0013164485451012
+
 Penfield, R. D., & Miller, J. M. (2004). Improving Content Validation Studies Using an Asymmetric Confidence Interval for the Mean of Expert Ratings. Applied Measurement in Education, 17(4), 359–370. https://doi.org/10.1207/s15324818ame1704_2
-Wilson, E. B. (1927). Probable inference, the law of succession, and statistical inference. Journal of the American Statistical Association, 22, 209-212. doi: 10.2307/2276774
+
+Wilson, E. B. (1927). Probable inference, the law of succession, and statistical inference. Journal of the American Statistical Association, 22, 209-212. https://doi.org/10.2307/2276774
 }
 \seealso{
 \code{\link[PropCIs:scoreci]{PropCIs::scoreci}} for score method confidence interval

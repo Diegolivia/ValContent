@@ -15,14 +15,21 @@
 #'Note: The function has not yet been prepared to resolve missing values, so the user must remove or impute any missing values.
 #'
 #'@references
-#'Aiken, L. R. (1980). Content validity and reliability of single items or questionnaires. Educational and. Psychological Measurement, 40, 955-959. doi: 10.1177/001316448004000419
-#'Aiken, L. R. (1985). Three coefficients for analyzing the reliability and validity of ratings. Educational and Psychological Measurement, 45, 131-142. doi: 10.1177/0013164485451012
-#'Merino-Soto, C., & Livia-Segovia, J. (2022). Rating mean of expert judges and asymmetric confidence intervals in content validity: an SPSS syntax. Anales de Psicologia, 38(2), 395-398. https://dx.doi.org/10.6018/analesps.489431
+#'Aiken, L. R. (1980). Content validity and reliability of single items or questionnaires. Educational and. Psychological Measurement, 40, 955-959. https://doi.org/10.1177/001316448004000419
+#'
+#'Aiken, L. R. (1985). Three coefficients for analyzing the reliability and validity of ratings. Educational and Psychological Measurement, 45, 131-142. https://doi.org/10.1177/0013164485451012
+#'
+#'Merino-Soto, C., & Livia-Segovia, J. (2022). Rating mean of expert judges and asymmetric confidence intervals in content validity: an SPSS syntax. Anales de Psicologia, 38(2), 395-398. https://doi.org/10.6018/analesps.489431
+#'
 #'Miller, J. M., & Penfield, R. D. (2005). Using the score method to construct asymmetric confidence intervals: An SAS program for content validation in scale development. Behavior Research Methods, 37, 450-452. https://doi.org/10.3758/BF03192713
-#'Penfield, R. D. (2003). A score method of constructing asymmetric confidence intervals for the mean of a rating scale item. Psychological methods, 8(2), 149-163. https://doi.org/10.1037/1082-989x.8.2.149 [ Links ]
-#'Penfield, R. D. & Giacobbi, P. R., Jr. (2004) Applying a score confidence interval to Aiken’s item content-relevance index. Measurement in Physical Education and Exercise Science, 8(4), 213-225. doi: 10.1207/s15327841mpee0804_3
+#'
+#'Penfield, R. D. (2003). A score method of constructing asymmetric confidence intervals for the mean of a rating scale item. Psychological methods, 8(2), 149-163. https://doi.org/10.1037/1082-989x.8.2.149
+#'
+#'Penfield, R. D. & Giacobbi, P. R., Jr. (2004) Applying a score confidence interval to Aiken’s item content-relevance index. Measurement in Physical Education and Exercise Science, 8(4), 213-225. https://doi.org/10.1207/s15327841mpee0804_3
+#'
 #'Penfield, R. D., & Miller, J. M. (2004). Improving Content Validation Studies Using an Asymmetric Confidence Interval for the Mean of Expert Ratings. Applied Measurement in Education, 17(4), 359–370. https://doi.org/10.1207/s15324818ame1704_2
-#'Wilson, E. B. (1927). Probable inference, the law of succession, and statistical inference. Journal of the American Statistical Association, 22, 209-212. doi: 10.2307/2276774
+#'
+#'Wilson, E. B. (1927). Probable inference, the law of succession, and statistical inference. Journal of the American Statistical Association, 22, 209-212. https://doi.org/10.2307/2276774
 #'
 #'@seealso
 #'\code{\link[ValContent:Haiken]{ValContent::HAiken}} for a homogenety coefficient
@@ -30,11 +37,10 @@
 #'@author
 #'Cesar Merino-Soto (\email{sikayax@yahoo.cam.ar})
 #'
-#'@export
-#'
 #'@examples
 #'
-#'#Example 1
+#'## Example
+#'
 #'#Load data
 #'Ej1 <- data.frame(
 #'  J1 = c(5, 5, 6, 6, 6, 6, 6, 6, 5, 6, 5, 6, 3, 4, 4),
@@ -53,10 +59,10 @@
 #'  J14 = c(5, 5, 6, 6, 6, 6, 6, 5, 6, 6, 6, 6, 5, 4, 5),
 #'  J15 = c(5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 5, 3, 4))
 #'
-#'#Run Mean_r
+#'## Run MER
 #'MER(data = Ej1, ncat = 6, start = 1, conf.level = .90)
 #'
-
+#'@export
 MER <- function(data, ncat, start, conf.level = 0.90) {
   # Verificaciones iniciales
   if (!is.data.frame(data)) stop("'data' debe ser un data.frame")

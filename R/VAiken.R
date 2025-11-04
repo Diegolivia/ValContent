@@ -1,4 +1,4 @@
-#' @title Coeficiente V de Aiken
+#' @title Aiken's V coefficient
 #' @description Calculate the V coefficient, known as Aiken's V.
 #'
 #' @param data dataframe, with the columns assigned to each rater, and the rows assigned to each evaluated item.
@@ -7,7 +7,7 @@
 #' @param conf.level confidence level for confidence intervals (ex., .90, .95, .99)
 #'
 #'@return
-#'dataframe with V-coefficients for all items analyzed, and confidence intervals
+#'dataframe with V coefficients for all items analyzed, and confidence intervals
 #'
 #'@details
 #'Calculate the V coefficient (Aiken, 1980, 1985), with the formula of Penfield & Giacobbi (2004). It also calculates asymmetric confidence intervals (Wilson, 1927; Penfield & Giacobbi, 2004). The results should be complemented by an estimator of variability or inter-judge agreement. The function uses the modified formula presented by Penfield & Giacobbi (2004).
@@ -17,11 +17,15 @@
 #'
 #'
 #'@references
-#'Aiken, L. R. (1980). Content validity and reliability of single items or questionnaires. Educational and. Psychological Measurement, 40, 955-959. doi: 10.1177/001316448004000419
-#'Aiken, L. R. (1985). Three coefficients for analyzing the reliability and validity of ratings. Educational and Psychological Measurement, 45, 131-142. doi: 10.1177/0013164485451012
-#'Merino, C., & Livia, J. (2009). Intervalos de confianza asimetricos para el indice de validez de contenido: un programa Visual Basic para la V de Aiken. Anales de Psicologia, 25(1), 169-171
-#'Penfield, R. D. & Giacobbi, P. R., Jr. (2004) Applying a score confidence interval to Aiken’s item content-relevance index. Measurement in Physical Education and Exercise Science, 8(4), 213-225. doi: 10.1207/s15327841mpee0804_3
-#'Wilson, E. B. (1927). Probable inference, the law of succession, and statistical inference. Journal of the American Statistical Association, 22, 209-212. doi: 10.2307/2276774
+#'Aiken, L. R. (1980). Content validity and reliability of single items or questionnaires. Educational and. Psychological Measurement, 40, 955-959. https://doi.org/10.1177/001316448004000419
+#'
+#'Aiken, L. R. (1985). Three coefficients for analyzing the reliability and validity of ratings. Educational and Psychological Measurement, 45, 131-142. https://doi.org/10.1177/0013164485451012
+#'
+#'Merino, C., & Livia, J. (2009). Intervalos de confianza asimetricos para el indice de validez de contenido: un programa Visual Basic para la V de Aiken. Anales de Psicologia, 25(1), 169-171. https://revistas.um.es/analesps/article/view/71631
+#'
+#'Penfield, R. D. & Giacobbi, P. R., Jr. (2004) Applying a score confidence interval to Aiken’s item content-relevance index. Measurement in Physical Education and Exercise Science, 8(4), 213-225. https://doi.org/10.1207/s15327841mpee0804_3
+#'
+#'Wilson, E. B. (1927). Probable inference, the law of succession, and statistical inference. Journal of the American Statistical Association, 22, 209-212. https://doi.org/10.2307/2276774
 #'
 #'@seealso
 #'\code{\link[PropCIs:scoreci]{PropCIs::scoreci}} for score method confidence interval

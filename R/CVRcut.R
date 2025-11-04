@@ -24,8 +24,11 @@
 #'
 #' @references
 #' Lawshe, C. H. (1975). A quantitative approach to content validity. *Personnel Psychology*, 28(4), 563–575. https://doi.org/10.1111/j.1744-6570.1975.tb01393.x
+#'
 #' Ayre, C., & Scally, A. J. (2014). Critical Values for Lawshe’s Content Validity Ratio: Revisiting the Original Methods of Calculation. *Measurement and Evaluation in Counseling and Development*, 47(1), 79–86. https://doi.org/10.1177/0748175613513808
+#'
 #' Baghestani, A. R., Ahmadi, F., Tanha, A., & Meshkat, M. (2017). Bayesian Critical Values for Lawshe’s Content Validity Ratio. *Measurement and Evaluation in Counseling and Development*, 52(1), 69–73. https://doi.org/10.1080/07481756.2017.1308227
+#'
 #' Wilson, F. R., Pan, W., & Schumsky, D. A. (2012). Recalculation of the Critical Values for Lawshe’s Content Validity Ratio. *Measurement and Evaluation in Counseling and Development*, 45(3), 197–210. https://doi.org/10.1177/0748175612440286
 #'
 #' @seealso [CVRcut.Wilson()], [CVRcut.Ayres()], [CVRcut.Bag()]

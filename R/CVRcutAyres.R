@@ -22,12 +22,9 @@
 #' tests.
 #'
 #' @references
-#' Ayres, C., & Scally, A. J. (2014). Critical values for Lawshe's content validity ratio.
-#' Measurement and Evaluation in Counseling and Development, 47, 79–86.
-#' https://doi.org/10.1177/0748175613513808
+#' Ayres, C., & Scally, A. J. (2014). Critical values for Lawshe's content validity ratio. Measurement and Evaluation in Counseling and Development, 47, 79–86. https://doi.org/10.1177/0748175613513808
 #'
-#' Lawshe, C. H. (1975). A quantitative approach to content validity. Personnel psychology, 28, 563–575.
-#' https://doi.org/10.1111/j.1744-6570.1975.tb01393.x
+#' Lawshe, C. H. (1975). A quantitative approach to content validity. Personnel psychology, 28, 563–575. https://doi.org/10.1111/j.1744-6570.1975.tb01393.x
 #'
 #'@seealso
 #'\code{\link[ValContent:CVR]{ValContent::CVR}}

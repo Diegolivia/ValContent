@@ -2,7 +2,7 @@
 % Please edit documentation in R/SVALsingle.R
 \name{SVALsingle}
 \alias{SVALsingle}
-\title{Substantive Validity: Single Item}
+\title{Substantive Validity for single Items}
 \usage{
 SVALsingle(item, conf.level = 0.95)
 }
@@ -32,7 +32,7 @@ the chosen construct. Values may be: 1, 2, 3, 4 or other numerical codes (e.g., 
 Note: This function does not yet handle missing values. Users should remove or impute missing data before using it.
 }
 \examples{
-# Example 1 -----------------------
+# Example 1
 gais <- data.frame(
   gais2 = c(4,4,4,4,4,2,3,2,4,4,3,4,4,3,4,4,2,1,2,3,4,3,4,4,2,3,4,4,4),
   gais3 = c(4,4,4,4,4,1,4,2,1,4,3,4,4,3,4,4,4,1,2,3,3,3,2,4,4,3,4,4,4),

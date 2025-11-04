@@ -1,4 +1,4 @@
-#' @title Substantive Validity: Single Item
+#' @title Substantive Validity for single Items
 #' @description This function calculates substantive coefficients ('psa' and 'svc'; Anderson & Gerbing, 1991), including asymmetric confidence intervals using the Wilson method.
 #' @param item Numerical vector with the responses to an item. Each response represents a chosen construct, usually forming a multinomial variable.
 #' @param conf.level Confidence level for asymmetric confidence intervals (e.g., .90, .95, .99).
@@ -43,7 +43,7 @@
 #' \code{\link[ValContent:SVALplot]{SVALplot}} for visualizing results of SVAL analyses.
 #'
 #' @examples
-#' # Example 1 -----------------------
+#' # Example 1
 #' gais <- data.frame(
 #'   gais2 = c(4,4,4,4,4,2,3,2,4,4,3,4,4,3,4,4,2,1,2,3,4,3,4,4,2,3,4,4,4),
 #'   gais3 = c(4,4,4,4,4,1,4,2,1,4,3,4,4,3,4,4,4,1,2,3,3,3,2,4,4,3,4,4,4),

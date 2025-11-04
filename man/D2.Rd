@@ -71,14 +71,18 @@ When `CI = TRUE`, bootstrap confidence intervals for `r` are computed using the 
 which is preferred when data are non-normal or samples are small (Bishara & Hittner, 2017).
 }
 \examples{
+
+## Example 1 -------------
 # Single-item case: two groups with different number of raters
 g1 <- c(7, 6, 5)
 g2 <- c(1, 2, 1, 2)
 D2(g1, g2, c = 7)
 
+## Example 2 -------------
 # Single-item case with scalar values
 D2(ratings1 = 3.2, ratings2 = 4.9, c = 7)
 
+## Example 3 -------------
 # Multiple-item case
 ratings1 <- data.frame(Item1 = c(1, 3, 2), Item2 = c(4, 5, 6))
 ratings2 <- data.frame(Item1 = c(5, 4, 5), Item2 = c(6, 5, 4))
@@ -87,10 +91,10 @@ D2(ratings1, ratings2, c = 7, CI = TRUE)
 }
 \references{
 Aiken, L. R., & Aiken, T. A. (1986). Difference Tests for Distributions of Ratings.
-Educational and Psychological Measurement, 46(4), 871–881. \doi{10.1177/001316448604600407}
+Educational and Psychological Measurement, 46(4), 871–881. https://doi.org/10.1177/001316448604600407
 
 Rosenthal, R. (1991). Meta-analytic procedures for social research (revised). Sage: Newbury Park, CA.
 
 Bishara, A. J., & Hittner, J. B. (2017). Confidence intervals for correlations when data are not normal.
-Behavior Research Methods, 49(1), 294–309. \doi{10.3758/s13428-016-0702-8}
+Behavior Research Methods, 49(1), 294–309. https://doi.org/10.3758/s13428-016-0702-8
 }

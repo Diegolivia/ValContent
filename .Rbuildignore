@@ -3,5 +3,3 @@
 ^LICENSE\.md$
 .vscode
 README.html
-^R/CIR\.R$
-^R/CVplot\.R$

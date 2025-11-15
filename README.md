@@ -2,22 +2,22 @@
 
 R package for content validity analysis
 
-**Package:** ValCont\
-**Title:** R Package for content validity coefficient estimation\
-**Version:** 0.1.0\
-**Date:** 07-28-2025\
-[**Authors\@R**](mailto:Authors@R)**:**
-- **Cesar Merino-Soto (aut, cre, ctb, rev)**
+\strong{Package:} ValCont\
+\strong{Title:} R Package for content validity coefficient estimation\
+\strong{Version:} 0.1.0\
+\strong{Date:} 07-28-2025\
+[\strong{Authors\@R}](mailto:Authors@R)\strong{:}
+- \strong{Cesar Merino-Soto (aut, cre, ctb, rev)}
 - Email: [sikayax\@yahoo.com.ar](mailto:sikayax@yahoo.com.ar)
 - ORCID: https://orcid.org/0000-0001-8049-7069
-- **Jose Livia-Segovia (aut, ctb)**
+- \strong{Jose Livia-Segovia (aut, ctb)}
 - Email: [joselivia\@gmail.com](mailto:joselivia@gmail.com)
 - ORCID: https://orcid.org/0000-0003-2226-3349
-- **Diego Livia-Ortiz (aut, ctb, cre, rev)**
+- \strong{Diego Livia-Ortiz (aut, ctb, cre, rev)}
 - Email: [diegolivia\@hotmail.com](mailto:diegolivia@hotmail.com)
 - ORCID: https://orcid.org/0000-0002-2107-3140
 
-**Description:**\
+\strong{Description:}\
 `ValCont` is a dedicated content validity package in R. `ValCont` implement the computation of several coefficients used in content validity studies, with data usually obtained from selected participants such as expert judges or experiential judges. The coefficients calculated by ValCont are:
 
 -   CVC (Hernandez-Nieto, 2002)
@@ -40,7 +40,7 @@ Some functions were added to estimate other relevant aspects of the content vali
 
 -   Basic functions to make graphs of results are also implemented.
 
-**Install:**
+\strong{Install:}
 
 You can install the development version of `ValCont` from GitHub using:
 ```R
@@ -49,7 +49,7 @@ if(!"devtools" %in% row.names(installed.packages())){
 }
 devtools::install_github("Diegolivia/ValCont")
 ```
-**References:**
+\strong{References:}
 
 -   Aiken, L. R. (1980). Content validity and reliability of single items or questionnaires. Educational and Psychological Measurement, 40, 955-959. <https://doi.org/10.1177/001316448004000419>
 -   Aiken, L. R. (1985). Three coefficients for analyzing the reliability and validity of ratings. Educational and Psychological Measurement, 45, 131-142. <https://doi.org/10.1177/0013164485451012>
@@ -66,11 +66,11 @@ devtools::install_github("Diegolivia/ValCont")
 -   Wilson, E. B. (1927). Probable inference, the law of succession, and statistical inference. Journal of the American Statistical Association, 22, 209-212. <https://doi.org/10.2307/2276774>
 -   Zou, G., Donner, A. and Qiu, S. (2025). MOVER-R for Confidence Intervals of Ratios. In Wiley StatsRef: Statistics Reference Online (eds N. Balakrishnan, T. Colton, B. Everitt, W. Piegorsch, F. Ruggeri and J.L. Teugels). <https://doi.org/10.1002/9781118445112.stat08085>
 
-**Depends:** R (\>= 2.10)\
-**Imports:** boots, ggplo2, stats, utils\
-**License:** GPL-3\
-**Encoding:** UTF-8\
-**LazyData:** true\
-**Maintainer:** Diego Livia-Ortiz\
-**URL:** https://github.com/Diegolivia/ValContent/
+\strong{Depends:} R (\>= 2.10)\
+\strong{Imports:} boots, ggplo2, stats, utils\
+\strong{License:} GPL-3\
+\strong{Encoding:} UTF-8\
+\strong{LazyData:} true\
+\strong{Maintainer:} Diego Livia-Ortiz\
+\strong{URL:} https://github.com/Diegolivia/ValCont/
 

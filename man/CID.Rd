@@ -4,7 +4,14 @@
 \alias{CID}
 \title{Confidence interval for diference of content validity coefficients}
 \usage{
-CID(group1, group2, coef.col = "coef", lwr.col = "lwr.ci", upr.col = "upr.ci")
+CID(
+  group1,
+  group2,
+  coef.col = "coef",
+  lwr.col = "lwr.ci",
+  upr.col = "upr.ci",
+  na.rm = FALSE
+)
 }
 \arguments{
 \item{group1}{Output dataframe 1 of one of the 'ValCont' functions to obtain content validity coefficients.}
@@ -16,6 +23,9 @@ CID(group1, group2, coef.col = "coef", lwr.col = "lwr.ci", upr.col = "upr.ci")
 \item{lwr.col}{Name of the column in the dataframe that stores the lower bound of the confidence interval}
 
 \item{upr.col}{Name of the column in the dataframe that stores the upper limit of the confidence interval}
+
+\item{na.rm}{Logical. If FALSE (default) the function stops when missing values are detected.
+If TRUE rows with missing values in the relevant columns are removed before processing.}
 }
 \value{
 dataframe with four columns: label of the items, difference between the coefficients, the upper and upper limit of the confidence interval of the difference.

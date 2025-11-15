@@ -27,8 +27,8 @@
 #' Lawshe, C. H. (1975). A quantitative approach to content validity. Personnel psychology, 28, 563–575. https://doi.org/10.1111/j.1744-6570.1975.tb01393.x
 #'
 #'@seealso
-#'\code{\link[ValContent:CVR]{ValContent::CVR}}
-#'\code{\link[ValContent:CVRcut]{ValContent::CVRcut}}
+#'\code{\link[ValCont:CVR]{ValCont::CVR}}
+#'\code{\link[ValCont:CVRcut]{ValCont::CVRcut}}
 #' @examples
 #'
 #' ### Example 1 ----------

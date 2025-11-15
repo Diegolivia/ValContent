@@ -18,9 +18,9 @@
 #' @details
 #' This function serves to generate interpretation tables for the CVR coefficient
 #' according to Lawshe (1975), using different statistical approaches:
-#' - **Wilson method**: Calculates confidence intervals for proportions.
-#' - **Ayres method**: Uses the original proposal by Ayres (1972).
-#' - **Bag method**: Bayesian method proposed by Baghestani (1993), with prior selection.
+#' - \strong{Wilson method}: Calculates confidence intervals for proportions.
+#' - \strong{Ayres method}: Uses the original proposal by Ayres (1972).
+#' - \strong{Bag method}: Bayesian method proposed by Baghestani (1993), with prior selection.
 #'
 #' @references
 #' Lawshe, C. H. (1975). A quantitative approach to content validity. *Personnel Psychology*, 28(4), 563–575. https://doi.org/10.1111/j.1744-6570.1975.tb01393.x

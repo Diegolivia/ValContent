@@ -19,8 +19,8 @@
 #'  it will be highlighted. You can also provide a vector of labels to improve interpretability of the category axis.
 #'
 #' @seealso
-#'\code{\link[ValContent:SVALmult]{ValContent::SVALmult}} to compute substantive validity coefficients across multiple items. \cr
-#'\code{\link[ValContent:SVALsingle]{ValContent::SVALsingle}} for single-item analysis.
+#'\code{\link[ValCont:SVALmult]{ValCont::SVALmult}} to compute substantive validity coefficients across multiple items. \cr
+#'\code{\link[ValCont:SVALsingle]{ValCont::SVALsingle}} for single-item analysis.
 #'
 #' @examples
 #' \dontrun{
@@ -51,8 +51,12 @@ SVALplot <- function(results, item, type = "svc", target = NULL, labels = NULL) 
   if (!is.null(target)) {
     df$CategoryLabel[df$Cat == target] <- paste0(df$CategoryLabel[df$Cat == target], "*")
   }
+  Labels <- df$CategoryLabel
+  Ydata <- df[[type]]
+  lwr.ci <- df$lwr.ci
+  up.ci <- df$up.ci
 
-  ggplot(df, aes(x = CategoryLabel, y = .data[[type]])) +
+  ggplot(df, aes(x = Labels, y = Ydata)) +
     geom_point(size = 3, color = "#0072B2") +
     geom_errorbar(
       aes(ymin = lwr.ci, ymax = up.ci), width = 0.2, color = "#0072B2"

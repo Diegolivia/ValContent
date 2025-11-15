@@ -33,7 +33,6 @@ j5 = c(3,2,3,3,2,2,2,2,3,2))
 ## Run CVR
 CVR(data = CVRdata)
 
-#'@export
 }
 \references{
 Lawshe, C. H. (1975). A quantitative approach to content validity. Personnel psychology, 28, 563–575. https://doi.org/10.1111/j.1744-6570.1975.tb01393.x

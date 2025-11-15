@@ -27,7 +27,7 @@
 #' These values are usually obtained from one of the functions of the `ValCont` package.
 #' However, this function can also be used with any `data.frame` that includes point estimates and the corresponding lower and upper confidence limits.
 #'
-#' **Note**: The function has not yet been prepared to resolve missing values, so the user must remove or impute any `NA`s before plotting.
+#' \strong{Note}: The function has not yet been prepared to resolve missing values, so the user must remove or impute any `NA`s before plotting.
 #'
 #' @references
 #' Hink, J. K., Wogalter, M. S., & Eustace, J. K. (1996). Display of Quantitative Information: Are Grables better than Plain Graphs or Tables? *Proceedings of the Human Factors and Ergonomics Society Annual Meeting*, 40(23), 1155–1159. https://doi.org/10.1177/154193129604002302
@@ -44,18 +44,15 @@
 #'  J2 = c(5, 2, 6, 6, 6, 6, 6, 5, 4, 6, 5, 6, 4, 4, 3),
 #'  J3 = c(5, 5, 6, 6, 6, 5, 6, 5, 4, 5, 5, 6, 5, 3, 5),
 #'  J4 = c(5, 5, 6, 6, 6, 6, 6, 6, 5, 6, 3, 6, 5, 3, 5),
-#'  J5 = c(5, 5, 6, 6, 6, 6, 6, 6, 6, 5, 5, 6, 3, 4, 5),
+#'  J5 = c(5, 5, 6, 6, 6, 6, 6, 6, 6, 5, 5, 6, 3, 4, 5))
 #'
 #'## Run CVI
 #' Ej1.CVIoutput <- CVI(data = Ej1, cut = 4, conf.level = .90)
 #'
 #' ## Run plot
 #'
-#' CVplot(data = Ej1.CVIoutput,
-#' item.col = “Item”,
-#' point.coefficient = “CVI”,
-#' lwr.ci = “lwr.ci”,
-#' up.ci = “upr.ci”)
+#' CVplot(data = Ej1.CVIoutput, item.col = "Item", point.coeficient = "CVI",
+#' lwr.ci = "lwr.ci", up.ci = "upr.ci")
 #'
 #' @export
 CVplot <- function(data, item.col, point.coeficient, lwr.ci, up.ci,
@@ -85,8 +82,15 @@ CVplot <- function(data, item.col, point.coeficient, lwr.ci, up.ci,
     data[[item.col]] <- factor(data[[item.col]], levels = unique(data[[item.col]]), ordered = TRUE)
   }
 
-  p <- ggplot(data, aes(x = .data[[item.col]], y = .data[[point.coeficient]])) +
-    geom_errorbar(aes(ymin = .data[[lwr.ci]], ymax = .data[[up.ci]]), width = 0.2) +
+  plot_data <- data
+  item <- coefficient <- lwr <- upr <- NULL
+  names(plot_data)[names(plot_data) == item.col] <- "item"
+  names(plot_data)[names(plot_data) == point.coeficient] <- "coefficient"
+  names(plot_data)[names(plot_data) == lwr.ci] <- "lwr"
+  names(plot_data)[names(plot_data) == up.ci] <- "upr"
+
+  p <- ggplot(plot_data, aes(x = item, y = coefficient)) +
+    geom_errorbar(aes(ymin = lwr, ymax = upr), width = 0.2) +
     geom_point(size = 3) +
     labs(title = title, x = x.label, y = y.label) +
     theme_minimal()

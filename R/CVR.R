@@ -1,5 +1,6 @@
 #'@title Content Validity Ratio
 #'@description Calculate the CVR coefficient (content validity ratio)
+#' 
 #'@param data dataframe, with the columns assigned to each judge, and the rows assigned to each evaluated item.
 #'
 #'@return
@@ -31,7 +32,7 @@
 #'## Run CVR
 #'CVR(data = CVRdata)
 #'
-#'#'@export
+#'@export
 CVR <- function(data) {
 # Transformar las respuestas: 3 -> 1 (essential), otros -> 0
 data_binaria <- as.data.frame(t(apply(data, 1, function(row) {

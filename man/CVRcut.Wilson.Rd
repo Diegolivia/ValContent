@@ -45,6 +45,6 @@ content validity ratio. *Measurement and Evaluation in Counseling and Developmen
 https://doi.org/10.1177/0748175612440286
 }
 \seealso{
-\code{\link[ValContent:CVR]{ValContent::CVR}}
-\code{\link[ValContent:CVRcut]{ValContent::CVRcut}}
+\code{\link[ValCont:CVR]{ValCont::CVR}}
+\code{\link[ValCont:CVRcut]{ValCont::CVRcut}}
 }

@@ -36,8 +36,8 @@ you must pass on to the recipients the same freedoms that you received. You must
 sure that they, too, receive or can get the source code. And you must show them these
 terms so they know their rights.
 
-Developers that use the GNU GPL protect your rights with two steps: **(1)** assert
-copyright on the software, and **(2)** offer you this License giving you legal permission
+Developers that use the GNU GPL protect your rights with two steps: \strong{(1)} assert
+copyright on the software, and \strong{(2)} offer you this License giving you legal permission
 to copy, distribute and/or modify it.
 
 For the developers' and authors' protection, the GPL clearly explains that there is
@@ -95,8 +95,8 @@ parties to make or receive copies. Mere interaction with a user through a comput
 network, with no transfer of a copy, is not conveying.
 
 An interactive user interface displays “Appropriate Legal Notices” to the
-extent that it includes a convenient and prominently visible feature that **(1)**
-displays an appropriate copyright notice, and **(2)** tells the user that there is no
+extent that it includes a convenient and prominently visible feature that \strong{(1)}
+displays an appropriate copyright notice, and \strong{(2)} tells the user that there is no
 warranty for the work (except to the extent that warranties are provided), that
 licensees may convey the work under this License, and how to view a copy of this
 License. If the interface presents a list of user commands or options, such as a
@@ -114,8 +114,8 @@ specified for a particular programming language, one that is widely used among
 developers working in that language.
 
 The “System Libraries” of an executable work include anything, other than
-the work as a whole, that **(a)** is included in the normal form of packaging a Major
-Component, but which is not part of that Major Component, and **(b)** serves only to
+the work as a whole, that \strong{(a)} is included in the normal form of packaging a Major
+Component, but which is not part of that Major Component, and \strong{(b)} serves only to
 enable use of the work with that Major Component, or to implement a Standard
 Interface for which an implementation is available to the public in source code form.
 A “Major Component”, in this context, means a major essential component
@@ -193,18 +193,18 @@ You may convey a work based on the Program, or the modifications to produce it f
 the Program, in the form of source code under the terms of section 4, provided that
 you also meet all of these conditions:
 
-* **a)** The work must carry prominent notices stating that you modified it, and giving a
+* \strong{a)} The work must carry prominent notices stating that you modified it, and giving a
 relevant date.
-* **b)** The work must carry prominent notices stating that it is released under this
+* \strong{b)} The work must carry prominent notices stating that it is released under this
 License and any conditions added under section 7. This requirement modifies the
 requirement in section 4 to “keep intact all notices”.
-* **c)** You must license the entire work, as a whole, under this License to anyone who
+* \strong{c)} You must license the entire work, as a whole, under this License to anyone who
 comes into possession of a copy. This License will therefore apply, along with any
 applicable section 7 additional terms, to the whole of the work, and all its parts,
 regardless of how they are packaged. This License gives no permission to license the
 work in any other way, but it does not invalidate such permission if you have
 separately received it.
-* **d)** If the work has interactive user interfaces, each must display Appropriate Legal
+* \strong{d)} If the work has interactive user interfaces, each must display Appropriate Legal
 Notices; however, if the Program has interactive interfaces that do not display
 Appropriate Legal Notices, your work need not make them do so.
 
@@ -222,23 +222,23 @@ You may convey a covered work in object code form under the terms of sections 4 
 5, provided that you also convey the machine-readable Corresponding Source under the
 terms of this License, in one of these ways:
 
-* **a)** Convey the object code in, or embodied in, a physical product (including a
+* \strong{a)} Convey the object code in, or embodied in, a physical product (including a
 physical distribution medium), accompanied by the Corresponding Source fixed on a
 durable physical medium customarily used for software interchange.
-* **b)** Convey the object code in, or embodied in, a physical product (including a
+* \strong{b)} Convey the object code in, or embodied in, a physical product (including a
 physical distribution medium), accompanied by a written offer, valid for at least
 three years and valid for as long as you offer spare parts or customer support for
-that product model, to give anyone who possesses the object code either **(1)** a copy of
+that product model, to give anyone who possesses the object code either \strong{(1)} a copy of
 the Corresponding Source for all the software in the product that is covered by this
 License, on a durable physical medium customarily used for software interchange, for
 a price no more than your reasonable cost of physically performing this conveying of
-source, or **(2)** access to copy the Corresponding Source from a network server at no
+source, or \strong{(2)} access to copy the Corresponding Source from a network server at no
 charge.
-* **c)** Convey individual copies of the object code with a copy of the written offer to
+* \strong{c)} Convey individual copies of the object code with a copy of the written offer to
 provide the Corresponding Source. This alternative is allowed only occasionally and
 noncommercially, and only if you received the object code with such an offer, in
 accord with subsection 6b.
-* **d)** Convey the object code by offering access from a designated place (gratis or for
+* \strong{d)} Convey the object code by offering access from a designated place (gratis or for
 a charge), and offer equivalent access to the Corresponding Source in the same way
 through the same place at no further charge. You need not require recipients to copy
 the Corresponding Source along with the object code. If the place to copy the object
@@ -248,7 +248,7 @@ provided you maintain clear directions next to the object code saying where to f
 the Corresponding Source. Regardless of what server hosts the Corresponding Source,
 you remain obligated to ensure that it is available for as long as needed to satisfy
 these requirements.
-* **e)** Convey the object code using peer-to-peer transmission, provided you inform
+* \strong{e)} Convey the object code using peer-to-peer transmission, provided you inform
 other peers where the object code and Corresponding Source of the work are being
 offered to the general public at no charge under subsection 6d.
 
@@ -256,9 +256,9 @@ A separable portion of the object code, whose source code is excluded from the
 Corresponding Source as a System Library, need not be included in conveying the
 object code work.
 
-A “User Product” is either **(1)** a “consumer product”, which
+A “User Product” is either \strong{(1)} a “consumer product”, which
 means any tangible personal property which is normally used for personal, family, or
-household purposes, or **(2)** anything designed or sold for incorporation into a
+household purposes, or \strong{(2)} anything designed or sold for incorporation into a
 dwelling. In determining whether a product is a consumer product, doubtful cases
 shall be resolved in favor of coverage. For a particular product received by a
 particular user, “normally used” refers to a typical or common use of
@@ -316,19 +316,19 @@ Notwithstanding any other provision of this License, for material you add to a
 covered work, you may (if authorized by the copyright holders of that material)
 supplement the terms of this License with terms:
 
-* **a)** Disclaiming warranty or limiting liability differently from the terms of
+* \strong{a)} Disclaiming warranty or limiting liability differently from the terms of
 sections 15 and 16 of this License; or
-* **b)** Requiring preservation of specified reasonable legal notices or author
+* \strong{b)} Requiring preservation of specified reasonable legal notices or author
 attributions in that material or in the Appropriate Legal Notices displayed by works
 containing it; or
-* **c)** Prohibiting misrepresentation of the origin of that material, or requiring that
+* \strong{c)} Prohibiting misrepresentation of the origin of that material, or requiring that
 modified versions of such material be marked in reasonable ways as different from the
 original version; or
-* **d)** Limiting the use for publicity purposes of names of licensors or authors of the
+* \strong{d)} Limiting the use for publicity purposes of names of licensors or authors of the
 material; or
-* **e)** Declining to grant rights under trademark law for use of some trade names,
+* \strong{e)} Declining to grant rights under trademark law for use of some trade names,
 trademarks, or service marks; or
-* **f)** Requiring indemnification of licensors and authors of that material by anyone
+* \strong{f)} Requiring indemnification of licensors and authors of that material by anyone
 who conveys the material (or modified versions of it) with contractual assumptions of
 liability to the recipient, for any liability that these contractual assumptions
 directly impose on those licensors and authors.
@@ -358,8 +358,8 @@ automatically terminate your rights under this License (including any patent lic
 granted under the third paragraph of section 11).
 
 However, if you cease all violation of this License, then your license from a
-particular copyright holder is reinstated **(a)** provisionally, unless and until the
-copyright holder explicitly and finally terminates your license, and **(b)** permanently,
+particular copyright holder is reinstated \strong{(a)} provisionally, unless and until the
+copyright holder explicitly and finally terminates your license, and \strong{(b)} permanently,
 if the copyright holder fails to notify you of the violation by some reasonable means
 prior to 60 days after the cessation.
 
@@ -435,9 +435,9 @@ such an agreement or commitment not to enforce a patent against the party.
 If you convey a covered work, knowingly relying on a patent license, and the
 Corresponding Source of the work is not available for anyone to copy, free of charge
 and under the terms of this License, through a publicly available network server or
-other readily accessible means, then you must either **(1)** cause the Corresponding
-Source to be so available, or **(2)** arrange to deprive yourself of the benefit of the
-patent license for this particular work, or **(3)** arrange, in a manner consistent with
+other readily accessible means, then you must either \strong{(1)} cause the Corresponding
+Source to be so available, or \strong{(2)} arrange to deprive yourself of the benefit of the
+patent license for this particular work, or \strong{(3)} arrange, in a manner consistent with
 the requirements of this License, to extend the patent license to downstream
 recipients. “Knowingly relying” means you have actual knowledge that, but
 for the patent license, your conveying the covered work in a country, or your
@@ -458,8 +458,8 @@ License. You may not convey a covered work if you are a party to an arrangement 
 a third party that is in the business of distributing software, under which you make
 payment to the third party based on the extent of your activity of conveying the
 work, and under which the third party grants, to any of the parties who would receive
-the covered work from you, a discriminatory patent license **(a)** in connection with
-copies of the covered work conveyed by you (or copies made from those copies), or **(b)**
+the covered work from you, a discriminatory patent license \strong{(a)} in connection with
+copies of the covered work conveyed by you (or copies made from those copies), or \strong{(b)}
 primarily for and in connection with specific products or compilations that contain
 the covered work, unless you entered into that arrangement, or that patent license
 was granted, prior to 28 March 2007.

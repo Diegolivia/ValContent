@@ -6,7 +6,8 @@
 #'@param coef.col Name of the column in the dataframe storing the calculated coefficient
 #'@param lwr.col Name of the column in the dataframe that stores the lower bound of the confidence interval
 #'@param upr.col Name of the column in the dataframe that stores the upper limit of the confidence interval
-#'
+#'@param na.rm Logical. If FALSE (default) the function stops when missing values are detected.
+#'              If TRUE rows with missing values in the relevant columns are removed before processing.
 #'@return
 #'dataframe with four columns: label of the items, difference between the coefficients, the upper and upper limit of the confidence interval of the difference.
 #'
@@ -99,10 +100,20 @@
 #'    upr.col = "upr.ci")
 #'
 #'@export
-CID <- function(group1, group2, coef.col = "coef", lwr.col = "lwr.ci", upr.col = "upr.ci") {
+CID <- function(group1, group2, coef.col = "coef", lwr.col = "lwr.ci", upr.col = "upr.ci", na.rm = FALSE) {
   # Validar que los argumentos son data.frames
   if (!is.data.frame(group1) || !is.data.frame(group2)) {
     stop("Ambos argumentos 'group1' y 'group2' deben ser data.frames.")
+  }
+
+  # Detección de valores perdidos
+  if (!na.rm) {
+    if (any(is.na(group1)) || any(is.na(group2))) {
+      stop("Valores perdidos detectados. Usa na.omit() primero o establece na.rm=TRUE.")
+    }
+  } else {
+    group1 <- na.omit(group1)
+    group2 <- na.omit(group2)
   }
 
   # Validar que las columnas necesarias existen en los data.frames

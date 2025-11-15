@@ -21,8 +21,8 @@ Calculate the CVI coefficient with random agreement adjustment (Polit & Beck, 20
 }
 \details{
 The `CVIR` function calculates the CVI, with adjustment for chance agreement (Polit, Beck, & Owen, 2007).
-As with the 'CVI' function, in 'CVI_R' items can be rated with a wide range of point scales (Polit, Beck, & Owen, 2007; Polit, & Beck, 2006). This rating scale can be 3-point, or usually 4- or 5-point (Lynn, 1986; Waltz & Bausell, 1981).
-The `CVIR` cutoff point, for identifying valid items, is generally based on the last two top ratings; for example, on a relevance scale of 1 to 4, the cutoff point may be 3 (Beck & Gable, 2001; Grant & Davis, 1997). 'CVI_R' uses 'cut' to dichotomize the judges' responses and transform them into the CVI.
+As with the 'CVI' function, in 'CVIR' items can be rated with a wide range of point scales (Polit, Beck, & Owen, 2007; Polit, & Beck, 2006). This rating scale can be 3-point, or usually 4- or 5-point (Lynn, 1986; Waltz & Bausell, 1981).
+The `CVIR` cutoff point, for identifying valid items, is generally based on the last two top ratings; for example, on a relevance scale of 1 to 4, the cutoff point may be 3 (Beck & Gable, 2001; Grant & Davis, 1997). 'CVIR' uses 'cut' to dichotomize the judges' responses and transform them into the CVI.
 The asymmetric confidence intervals use Wilson's (1927) approach, as applied to Aiken's V coefficient (Penfield, & Giacobbi, 2004).
 The results should be complemented by an estimator of inter-judge variability or agreement.
 

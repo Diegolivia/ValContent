@@ -39,9 +39,9 @@ Builds a table of critical values for Lawshe's Content Validity Ratio (CVR), usi
 \details{
 This function serves to generate interpretation tables for the CVR coefficient
 according to Lawshe (1975), using different statistical approaches:
-- **Wilson method**: Calculates confidence intervals for proportions.
-- **Ayres method**: Uses the original proposal by Ayres (1972).
-- **Bag method**: Bayesian method proposed by Baghestani (1993), with prior selection.
+- \strong{Wilson method}: Calculates confidence intervals for proportions.
+- \strong{Ayres method}: Uses the original proposal by Ayres (1972).
+- \strong{Bag method}: Bayesian method proposed by Baghestani (1993), with prior selection.
 }
 \examples{
 CVRcut(N_min = 5, N_max = 15, method = "Wilson", alpha = 0.05, tails = "two")

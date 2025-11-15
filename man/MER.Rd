@@ -72,7 +72,7 @@ Penfield, R. D., & Miller, J. M. (2004). Improving Content Validation Studies Us
 Wilson, E. B. (1927). Probable inference, the law of succession, and statistical inference. Journal of the American Statistical Association, 22, 209-212. https://doi.org/10.2307/2276774
 }
 \seealso{
-\code{\link[ValContent:Haiken]{ValContent::HAiken}} for a homogeneity coefficient
+\code{\link[ValCont:Haiken]{ValCont::HAiken}} for a homogeneity coefficient
 }
 \author{
 Cesar Merino-Soto (\email{sikayax@yahoo.cam.ar})

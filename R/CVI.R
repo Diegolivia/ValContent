@@ -10,11 +10,11 @@
 #'@details
 #'Calculate the CVI coefficient (Martuza, 1977; Lynn, 1986), and asymmetric confidence intervals (Wilson, 1927; Penfield & Giacobbi, 2004). The results should be complemented by an estimator of inter-judge variability or agreement.
 #'The content validity index (CVI) was first proposed by Martuza (1977), but frequently associated with other researchers (Polit, & Beck, 2006), e.g., Lynn (1986), Davis (1992), among others.
-#'The **CVI** function calculates the CVI without adjustment for chance agreement (Polit, & Beck, 2007).
+#'The \strong{CVI} function calculates the CVI without adjustment for chance agreement (Polit, & Beck, 2007).
 #'Items can be rated according to traditional recommendations (Polit, Beck, & Owen, 2007; Polit, & Beck, 2006), based on an ordinal scale between 3 to 5 points (Lynn, 1986), or on a 4-point scale (Lynn, 1986; Waltz & Bausell, 1981).
 #'The usual labels to evaluate the relevance for each item are: not relevant, somewhat relevant, etc. (Davis, 1992).
 #'The usual CVI cut-off point for identifying valid from invalid items is generally in the top two ratings (3 or higher on a relevance scale of 1 to 4; Beck & Gable, 2001; Grant & Davis, 1997). 'cut' dichotomizes the judges' responses to calculate CVI.
-#'The **CVI** function can be used for rated items with any rating range, and any chosen cut point ('cut').
+#'The \strong{CVI} function can be used for rated items with any rating range, and any chosen cut point ('cut').
 #'Asymmetric confidence intervals use Wilson's (1927) approach, as used for Aiken's V coefficient (Penfield, & Giacobbi, 2004).
 #'Note: The function has not yet been prepared to resolve missing values, so the user must remove or impute any missing values.
 #'

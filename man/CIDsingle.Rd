@@ -32,7 +32,7 @@ valid then its values will be > 3), MOVER is appropriate for non-normal distribu
 The application of MOVER for content validity coefficient was initially published by Merino-Soto (2018) for the
 difference between V coefficients (Aiken, 1980, 1985). Later, Merino-Soto (2023) extended this approach for
 Aiken's V by adding a point estimator of the difference, based on the standardized difference between proportions.
-There is \code{\link[ValContent:CID]{ValContent::CID}} for this method for multiple items, however `CIDsingle` function compares the
+There is \code{\link[ValCont:CID]{ValCont::CID}} for this method for multiple items, however `CIDsingle` function compares the
 results of two specific content validity coefficients with their respective confidence intervals. For example, the
 user can compare the coefficient calculated on his data (however, this coefficient must also have its confidence
 intervals calculated), with another coefficient obtained from a previous study.

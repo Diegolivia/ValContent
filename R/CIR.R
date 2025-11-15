@@ -6,6 +6,8 @@
 #'@param coef.col Name of the column in the dataframe storing the calculated coefficient
 #'@param lwr.col Name of the column in the dataframe that stores the lower bound of the confidence interval
 #'@param upr.col Name of the column in the dataframe that stores the upper limit of the confidence interval
+#'@param na.rm Logical. If FALSE (default) the function stops when missing values are detected.
+#'              If TRUE rows with missing values in the relevant columns are removed before processing.
 #'
 #'@return
 #'dataframe with four columns: label of the items, ratio between the coefficients, the upper and upper limit of the confidence interval of the difference.
@@ -26,49 +28,21 @@
 #'
 #'@seealso
 #'\code{\link[ratesci:moverci]{ratesci::moverci}}
-#'\code{\link[ValContent:CID]{ValContent::CID}}
+#'\code{\link[ValCont:CID]{ValCont::CID}}
 #'
 #'@examples
 #'
 #'### Example 1 -----------
 #'
-#'## Group 1 output
-#'
-#'Vgroup1 <- data.frame(
-#'  V = c(0.85, 0.78, 0.90),
-#'  lwr.ci = c(0.80, 0.75, 0.88),
-#'  upr.ci = c(0.90, 0.82, 0.92))
-#'
-#'rownames(Vgroup1) <- c("Item1", "Item2", "Item3")
-#'
-#'## Group 2 output
-#'
-#'Vgroup2 <- data.frame(
-#'  V = c(0.80, 0.75),
-#'  lwr.ci = c(0.76, 0.70),
-#'  upr.ci = c(0.84, 0.78))
-#'
-#'rownames(Vgroup2) <- c("Item1", "Item2")
-#'
-#'## Run
-#'CIR(Vgroup1, Vgroup2,
-#'    coef.col = "V",
-#'    lwr.col = "lwr.ci",
-#'    upr.col = "upr.ci")
-#'
-#'### Example 2 -----------
-#'
 #'## Random data (Low ratings): 11 items (rows), 4 raters (columns)
-#'
-#'random_data2 <- data.frame(
+#'Data1 <- data.frame(
 #'  juez1 = sample(1:2, 11, replace = TRUE),
 #'  juez2 = sample(2:3, 11, replace = TRUE),
 #'  juez3 = sample(1:2, 11, replace = TRUE),
 #'  juez4 = sample(1:3, 11, replace = TRUE))
 #'
 #'## Random data (High ratings): 10 items (rows), 6 raters (columns)
-#'
-#'random_data3 <- data.frame(
+#'Data2 <- data.frame(
 #'  obs1 = sample(5:7, 10, replace = TRUE),
 #'  obs2 = sample(4:7, 10, replace = TRUE),
 #'  obs3 = sample(4:7, 10, replace = TRUE),
@@ -77,24 +51,46 @@
 #'  obs6 = sample(6:7, 10, replace = TRUE))
 #'
 #'## Saving results from Aiken's V analysis, for each group
-#'output.V1 <- Vaiken(data = random_data2, min = 1, max = 7, conf.level = .90)
-#'output.V2 <- Vaiken(data = random_data3, min = 1, max = 7, conf.level = .90)
+#'group1 <- Vaiken(data = Data1, min = 1, max = 7, conf.level = .90)
+#'group2 <- Vaiken(data = Data2, min = 1, max = 7, conf.level = .90)
 #'
-#'## Run CID
-#'CIR(group1 = output.V2,
-#'    group2 = output.V1,
+#'CIR(group1 = group1,
+#'    group2 = group2,
 #'    coef.col = "V",
 #'    lwr.col = "lwr.ci",
 #'    upr.col = "upr.ci")
 #'
+#'
 #' @export
-CIR <- function(group1, group2, coef.col, lwr.col, upr.col) {
+CIR <- function(group1, group2, coef.col, lwr.col, upr.col, na.rm = FALSE) {
   # Validaciones iniciales
   if (!all(c(coef.col, lwr.col, upr.col) %in% colnames(group1))) {
     stop("group1 debe contener las columnas especificadas en coef.col, lwr.col y upr.col")
   }
   if (!all(c(coef.col, lwr.col, upr.col) %in% colnames(group2))) {
     stop("group2 debe contener las columnas especificadas en coef.col, lwr.col y upr.col")
+  }
+
+    # Detectar valores perdidos en las columnas relevantes
+  cols_g1 <- intersect(c(coef.col, lwr.col, upr.col, "Item"), colnames(group1))
+  cols_g2 <- intersect(c(coef.col, lwr.col, upr.col, "Item"), colnames(group2))
+
+  has_na_g1 <- any(is.na(group1[, cols_g1, drop = FALSE]))
+  has_na_g2 <- any(is.na(group2[, cols_g2, drop = FALSE]))
+
+  if (has_na_g1 || has_na_g2) {
+    if (!na.rm) {
+      stop("Missing values detected. Use na.omit() first or set na.rm=TRUE")
+    } else {
+      # Eliminar filas con NA en las columnas de coef, lwr o upr (no es necesario Item para complete.cases)
+      keep_g1 <- complete.cases(group1[, intersect(c(coef.col, lwr.col, upr.col), colnames(group1)), drop = FALSE])
+      keep_g2 <- complete.cases(group2[, intersect(c(coef.col, lwr.col, upr.col), colnames(group2)), drop = FALSE])
+      nrem1 <- sum(!keep_g1)
+      nrem2 <- sum(!keep_g2)
+      group1 <- group1[keep_g1, , drop = FALSE]
+      group2 <- group2[keep_g2, , drop = FALSE]
+      warning(sprintf("na.rm=TRUE: removed %d rows with missing values from group1 and %d from group2", nrem1, nrem2))
+    }
   }
 
   # Identificar items comunes

@@ -17,11 +17,11 @@
 #'
 #' @details
 #' The data frame inputs (`ratings1` and `ratings2`) must be structured such that
-#' **rows represent raters** and **columns represent items**. Each cell should contain
+#' \strong{rows represent raters} and \strong{columns represent items}. Each cell should contain
 #' the rating that a rater gave to a specific item.
 #'
 #' - If `ratings1` and `ratings2` are numeric vectors (or single numbers), they are interpreted as the ratings
-#'   from two independent groups on a single item. In this case, they do **not** need to be of equal length.
+#'   from two independent groups on a single item. In this case, they do \strong{not} need to be of equal length.
 #'
 #' - If both are data frames (or matrices), each column represents an item, and each row is a rater. In this case,
 #'   the number of columns (items) must match in both data frames.

@@ -38,8 +38,8 @@ SVALplot(results, item = "gais3", type = "psa", labels = c("Anger", "Fear", "Joy
 
 }
 \seealso{
-\code{\link[ValContent:SVALmult]{ValContent::SVALmult}} to compute substantive validity coefficients across multiple items. \cr
-\code{\link[ValContent:SVALsingle]{ValContent::SVALsingle}} for single-item analysis.
+\code{\link[ValCont:SVALmult]{ValCont::SVALmult}} to compute substantive validity coefficients across multiple items. \cr
+\code{\link[ValCont:SVALsingle]{ValCont::SVALsingle}} for single-item analysis.
 }
 \author{
 César Merino-Soto (\email{sikayax@yahoo.com.ar})

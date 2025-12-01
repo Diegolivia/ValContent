@@ -8,7 +8,9 @@
 #' @param data A data frame with item responses. Each response represents a chosen construct, typically forming a multinomial variable.
 #' @param columns A vector of column indices or names to be analyzed.
 #' @param conf.level Confidence level for asymmetric confidence intervals (e.g., .90, .95, .99).
-#'
+#' @param na.rm Logical. If FALSE (default) the function stops when missing values are detected.
+#'              If TRUE rows with missing values in the relevant columns are removed before processing.
+#' 
 #' @return
 #' A named list where each element corresponds to one of the analyzed items. Each element contains two data frames:
 #' \itemize{
@@ -79,7 +81,17 @@
 #' César Merino-Soto (\email{sikayax@yahoo.com.ar})
 #'
 #' @export
-SVALmult <- function(data, columns, conf.level = 0.95) {
+SVALmult <- function(data, columns, conf.level = 0.95, na.rm = FALSE) {
+
+  # Detección de valores perdidos
+  if (!na.rm) {
+    if (any(is.na(data))) {
+      stop("Valores perdidos detectados. Usa na.omit() primero o establece na.rm=TRUE.")
+    }
+  } else {
+    data <- na.omit(data)
+  }
+
   # Subfunction: Wilson CI
   scoreci <- function(x, n, conf.level) {
     zalpha <- abs(qnorm((1 - conf.level) / 2))

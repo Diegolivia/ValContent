@@ -5,7 +5,9 @@
 #' @param min minimum possible rating value
 #' @param max maximum possible rating value
 #' @param conf.level confidence level for confidence intervals (ex., .90, .95, .99)
-#'
+#' @param na.rm Logical. If FALSE (default) the function stops when missing values are detected.
+#'              If TRUE rows with missing values in the relevant columns are removed before processing.
+#' 
 #'@return
 #'dataframe with V coefficients for all items analyzed, and confidence intervals
 #'
@@ -48,7 +50,17 @@
 #'J6 = c(4, 1, 3, 5, 5))
 #'Vaiken(data = data2Tst, min = 1, max = 5, conf.level = .90)
 
-Vaiken <- function(data, min, max, conf.level = 0.95) {
+Vaiken <- function(data, min, max, conf.level = 0.95, na.rm = FALSE) {
+
+  # Detección de valores perdidos
+  if (!na.rm) {
+    if (any(is.na(data))) {
+      stop("Valores perdidos detectados. Usa na.omit() primero o establece na.rm=TRUE.")
+    }
+  } else {
+    data <- na.omit(data)
+  }
+
   # Validation: data
   if (!is.data.frame(data)) {
     stop("El argumento 'data' debe ser un data.frame.")

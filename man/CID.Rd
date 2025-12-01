@@ -101,6 +101,7 @@ CID(group1 = output.V2,
    lwr.col = "lwr.ci",
    upr.col = "upr.ci")
 
+
 }
 \references{
 Aiken, L. R. (1980). Content validity and reliability of single items or questionnaires. Educational and. Psychological Measurement, 40, 955-959. https://doi.org/10.1177/001316448004000419

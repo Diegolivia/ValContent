@@ -15,7 +15,8 @@
 #' @param sort.by.coef Logical. Whether to sort the items by their coefficient value in descending order. Default is `FALSE`.
 #' @param reference.line Optional. A numeric value to add a horizontal reference line (e.g., `0.80`). Default is `NULL` (no line).
 #' @param rotate.x.labels Logical. Whether to rotate the x-axis labels for better readability. Default is `FALSE`.
-#'
+#'@param na.rm Logical. If FALSE (default) the function stops when missing values are detected.
+#'              If TRUE rows with missing values in the relevant columns are removed before processing.
 #' @return
 #' `ggplot2` object displaying an interval plot of the content validity coefficients and their confidence intervals for the selected items.
 #'
@@ -61,7 +62,17 @@ CVplot <- function(data, item.col, point.coeficient, lwr.ci, up.ci,
                    title = "Coefficient Plot",
                    sort.by.coef = FALSE,
                    reference.line = NULL,
-                   rotate.x.labels = FALSE) {
+                   rotate.x.labels = FALSE,
+                   na.rm = FALSE) {
+
+  # Detección de valores perdidos
+  if (!na.rm) {
+    if (any(is.na(data))) {
+      stop("Valores perdidos detectados. Usa na.omit() primero o establece na.rm=TRUE.")
+    }
+  } else {
+    data <- na.omit(data)
+  }
 
   required_cols <- c(item.col, point.coeficient, lwr.ci, up.ci)
   if (!all(required_cols %in% colnames(data))) {
@@ -74,6 +85,7 @@ CVplot <- function(data, item.col, point.coeficient, lwr.ci, up.ci,
       stop("None of the selected items are found in the data.")
     }
   }
+  
 
   if (sort.by.coef) {
     data[[item.col]] <- factor(data[[item.col]],

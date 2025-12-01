@@ -3,7 +3,9 @@
 #'@param data dataframe, with n columns (judges or scorers), and k rows (evaluated items).
 #'@param max maximum possible rating value used.
 #'@param conf.level confidence level for confidence intervals (eg., .90, .95, .99).
-#'
+#'@param na.rm Logical. If FALSE (default) the function stops when missing values are detected.
+#'              If TRUE rows with missing values in the relevant columns are removed before processing.
+#' 
 #'@return dataframe with CVC coefficients and confidence intervals.
 #'
 #'@details
@@ -60,10 +62,19 @@
 
 
 # Funcion principal CVC
-CVC <- function(data, max, conf.level) {
+CVC <- function(data, max, conf.level, na.rm = FALSE) {
   # Verificar si el data.frame contiene solo valores numericos
   if (!all(sapply(data, is.numeric))) {
     stop("El data.frame debe contener solo valores numericos.")
+  }
+
+  # Detección de valores perdidos
+  if (!na.rm) {
+    if (any(is.na(data))) {
+      stop("Valores perdidos detectados. Usa na.omit() primero o establece na.rm=TRUE.")
+    }
+  } else {
+    data <- na.omit(data)
   }
 
   # Numero de jueces (columnas)

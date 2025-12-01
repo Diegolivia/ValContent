@@ -4,10 +4,13 @@
 \alias{CVR}
 \title{Content Validity Ratio}
 \usage{
-CVR(data)
+CVR(data, na.rm = FALSE)
 }
 \arguments{
 \item{data}{dataframe, with the columns assigned to each judge, and the rows assigned to each evaluated item.}
+
+\item{na.rm}{Logical. If FALSE (default) the function stops when missing values are detected.
+If TRUE rows with missing values in the relevant columns are removed before processing.}
 }
 \value{
 dataframe with CVR coefficients for all analyzed items

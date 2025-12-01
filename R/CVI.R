@@ -3,7 +3,8 @@
 #'@param data dataframe, with the columns assigned to each judge, and the rows assigned to each assessed item.
 #'@param cut Specific cut-off point, from which the item is considered valid (or relevant, clear, etc.)
 #'@param conf.level confidence level for asymmetric confidence intervals (ex., .90, .95, .99)
-#'
+#'@param na.rm Logical. If FALSE (default) the function stops when missing values are detected.
+#'              If TRUE rows with missing values in the relevant columns are removed before processing.
 #'@return
 #'dataframe with CVI for all items analyzed, and confidence intervals.
 #'
@@ -69,7 +70,7 @@
 #'@export
 #'
 #'
-CVI <- function(data, cut, conf.level) {
+CVI <- function(data, cut, conf.level, na.rm = FALSE) {
   # Funcion interna para calcular el intervalo de confianza de Wilson
   get_wilson_CI <- function(x, n, conf.level) {
     p_hat <- x
@@ -86,6 +87,15 @@ CVI <- function(data, cut, conf.level) {
   # Verificar si los datos son numericos
   if (!all(sapply(data, is.numeric))) {
     stop("Todas las columnas deben contener datos numericos.")
+  }
+
+  # Detección de valores perdidos
+  if (!na.rm) {
+    if (any(is.na(data))) {
+      stop("Valores perdidos detectados. Usa na.omit() primero o establece na.rm=TRUE.")
+    }
+  } else {
+    data <- na.omit(data)
   }
 
   # Numero total de jueces

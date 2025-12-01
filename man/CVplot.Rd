@@ -16,7 +16,8 @@ CVplot(
   title = "Coefficient Plot",
   sort.by.coef = FALSE,
   reference.line = NULL,
-  rotate.x.labels = FALSE
+  rotate.x.labels = FALSE,
+  na.rm = FALSE
 )
 }
 \arguments{
@@ -43,6 +44,9 @@ CVplot(
 \item{reference.line}{Optional. A numeric value to add a horizontal reference line (e.g., `0.80`). Default is `NULL` (no line).}
 
 \item{rotate.x.labels}{Logical. Whether to rotate the x-axis labels for better readability. Default is `FALSE`.}
+
+\item{na.rm}{Logical. If FALSE (default) the function stops when missing values are detected.
+If TRUE rows with missing values in the relevant columns are removed before processing.}
 }
 \value{
 `ggplot2` object displaying an interval plot of the content validity coefficients and their confidence intervals for the selected items.

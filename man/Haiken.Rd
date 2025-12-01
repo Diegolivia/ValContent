@@ -4,7 +4,7 @@
 \alias{Haiken}
 \title{Coefficient of homogeneity of response}
 \usage{
-Haiken(data, ncat, conf.level)
+Haiken(data, ncat, conf.level, na.rm = FALSE)
 }
 \arguments{
 \item{data}{dataframe, with the columns assigned to each judge, and the rows assigned to each evaluated item.}
@@ -12,6 +12,9 @@ Haiken(data, ncat, conf.level)
 \item{ncat}{number of response categories or options used in the rating}
 
 \item{conf.level}{confidence level for the confidence intervals (eg., .90, .95, .99)}
+
+\item{na.rm}{Logical. If FALSE (default) the function stops when missing values are detected.
+If TRUE rows with missing values in the relevant columns are removed before processing.}
 }
 \value{
 dataframe with H coefficients for all items analyzed, and their confidence intervals.

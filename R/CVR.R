@@ -2,7 +2,9 @@
 #'@description Calculate the CVR coefficient (content validity ratio)
 #' 
 #'@param data dataframe, with the columns assigned to each judge, and the rows assigned to each evaluated item.
-#'
+#'@param na.rm Logical. If FALSE (default) the function stops when missing values are detected.
+#'              If TRUE rows with missing values in the relevant columns are removed before processing.
+#' 
 #'@return
 #'dataframe with CVR coefficients for all analyzed items
 #'
@@ -33,7 +35,16 @@
 #'CVR(data = CVRdata)
 #'
 #'@export
-CVR <- function(data) {
+CVR <- function(data, na.rm = FALSE) {
+
+  # Detección de valores perdidos
+if (!na.rm) {
+  if (any(is.na(data))) {
+    stop("Valores perdidos detectados. Usa na.omit() primero o establece na.rm=TRUE.")
+  }
+} else {
+  data <- na.omit(data)
+}
 # Transformar las respuestas: 3 -> 1 (essential), otros -> 0
 data_binaria <- as.data.frame(t(apply(data, 1, function(row) {
   ifelse(row == 3, 1, 0)

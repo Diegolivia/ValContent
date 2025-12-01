@@ -4,7 +4,7 @@
 \alias{CVI}
 \title{Content Validity Index}
 \usage{
-CVI(data, cut, conf.level)
+CVI(data, cut, conf.level, na.rm = FALSE)
 }
 \arguments{
 \item{data}{dataframe, with the columns assigned to each judge, and the rows assigned to each assessed item.}
@@ -12,6 +12,9 @@ CVI(data, cut, conf.level)
 \item{cut}{Specific cut-off point, from which the item is considered valid (or relevant, clear, etc.)}
 
 \item{conf.level}{confidence level for asymmetric confidence intervals (ex., .90, .95, .99)}
+
+\item{na.rm}{Logical. If FALSE (default) the function stops when missing values are detected.
+If TRUE rows with missing values in the relevant columns are removed before processing.}
 }
 \value{
 dataframe with CVI for all items analyzed, and confidence intervals.

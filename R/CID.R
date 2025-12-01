@@ -99,6 +99,7 @@
 #'    lwr.col = "lwr.ci",
 #'    upr.col = "upr.ci")
 #'
+#' 
 #'@export
 CID <- function(group1, group2, coef.col = "coef", lwr.col = "lwr.ci", upr.col = "upr.ci", na.rm = FALSE) {
   # Validar que los argumentos son data.frames

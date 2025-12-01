@@ -4,7 +4,7 @@
 \alias{Vaiken}
 \title{Aiken's V coefficient}
 \usage{
-Vaiken(data, min, max, conf.level = 0.95)
+Vaiken(data, min, max, conf.level = 0.95, na.rm = FALSE)
 }
 \arguments{
 \item{data}{dataframe, with the columns assigned to each rater, and the rows assigned to each evaluated item.}
@@ -14,6 +14,9 @@ Vaiken(data, min, max, conf.level = 0.95)
 \item{max}{maximum possible rating value}
 
 \item{conf.level}{confidence level for confidence intervals (ex., .90, .95, .99)}
+
+\item{na.rm}{Logical. If FALSE (default) the function stops when missing values are detected.
+If TRUE rows with missing values in the relevant columns are removed before processing.}
 }
 \value{
 dataframe with V coefficients for all items analyzed, and confidence intervals

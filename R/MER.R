@@ -4,7 +4,9 @@
 #'@param ncat Number of possible values or categories used in rating
 #'@param start Minimum possible value (0 or 1)
 #'@param conf.level Confidence level for confidence intervals (ex., .90, .95, .99)
-#'
+#'@param na.rm Logical. If FALSE (default) the function stops when missing values are detected.
+#'              If TRUE rows with missing values in the relevant columns are removed before processing.
+#' 
 #'@return
 #'dataframe with MERs for all items analyzed, and confidence intervals.
 #'
@@ -64,7 +66,17 @@
 #'MER(data = Ej1, ncat = 6, start = 1, conf.level = .90)
 #'
 #'@export
-MER <- function(data, ncat, start, conf.level = 0.90) {
+MER <- function(data, ncat, start, conf.level = 0.90, na.rm = FALSE) {
+  
+  # Detección de valores perdidos
+  if (!na.rm) {
+    if (any(is.na(data))) {
+      stop("Valores perdidos detectados. Usa na.omit() primero o establece na.rm=TRUE.")
+    }
+  } else {
+    data <- na.omit(data)
+  }
+
   # Verificaciones iniciales
   if (!is.data.frame(data)) stop("'data' debe ser un data.frame")
   if (!is.numeric(ncat) || ncat <= 1) stop("'ncat' debe ser un numero mayor que 1")

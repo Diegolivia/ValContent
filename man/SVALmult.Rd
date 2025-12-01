@@ -4,7 +4,7 @@
 \alias{SVALmult}
 \title{Substantive Validity for an set of Items}
 \usage{
-SVALmult(data, columns, conf.level = 0.95)
+SVALmult(data, columns, conf.level = 0.95, na.rm = FALSE)
 }
 \arguments{
 \item{data}{A data frame with item responses. Each response represents a chosen construct, typically forming a multinomial variable.}
@@ -12,6 +12,9 @@ SVALmult(data, columns, conf.level = 0.95)
 \item{columns}{A vector of column indices or names to be analyzed.}
 
 \item{conf.level}{Confidence level for asymmetric confidence intervals (e.g., .90, .95, .99).}
+
+\item{na.rm}{Logical. If FALSE (default) the function stops when missing values are detected.
+If TRUE rows with missing values in the relevant columns are removed before processing.}
 }
 \value{
 A named list where each element corresponds to one of the analyzed items. Each element contains two data frames:

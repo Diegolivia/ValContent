@@ -4,7 +4,7 @@
 \alias{CVC}
 \title{CVC}
 \usage{
-CVC(data, max, conf.level)
+CVC(data, max, conf.level, na.rm = FALSE)
 }
 \arguments{
 \item{data}{dataframe, with n columns (judges or scorers), and k rows (evaluated items).}
@@ -12,6 +12,9 @@ CVC(data, max, conf.level)
 \item{max}{maximum possible rating value used.}
 
 \item{conf.level}{confidence level for confidence intervals (eg., .90, .95, .99).}
+
+\item{na.rm}{Logical. If FALSE (default) the function stops when missing values are detected.
+If TRUE rows with missing values in the relevant columns are removed before processing.}
 }
 \value{
 dataframe with CVC coefficients and confidence intervals.

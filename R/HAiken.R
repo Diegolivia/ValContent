@@ -4,7 +4,9 @@
 #'@param data dataframe, with the columns assigned to each judge, and the rows assigned to each evaluated item.
 #'@param ncat number of response categories or options used in the rating
 #'@param conf.level confidence level for the confidence intervals (eg., .90, .95, .99)
-#'
+#'@param na.rm Logical. If FALSE (default) the function stops when missing values are detected.
+#'              If TRUE rows with missing values in the relevant columns are removed before processing.
+#' 
 #'@return
 #'dataframe with H coefficients for all items analyzed, and their confidence intervals.
 #'
@@ -56,10 +58,16 @@
 #'Haiken(as.data.frame(t(Ej2)), ncat = 5, conf.level = .90)
 #'
 #'@export
-Haiken <- function(data, ncat, conf.level) {
+Haiken <- function(data, ncat, conf.level, na.rm = FALSE) {
 
-  sum_missing <- rowSums(is.na(data))
-  n_subj <- nrow(data) - sum_missing
+  # Detección de valores perdidos
+  if (!na.rm) {
+    if (any(is.na(data))) {
+      stop("Valores perdidos detectados. Usa na.omit() primero o establece na.rm=TRUE.")
+    }
+  } else {
+    data <- na.omit(data)
+  }
 
   # Numero de filas
   num_filas <- nrow(data)

@@ -160,6 +160,10 @@ MDScontent <- function(
   # -----------------------
   # Minimal validations
   # -----------------------
+  if (!requireNamespace("ggplot2", quietly = TRUE)) {
+    stop("Package 'ggplot2' is required for plotting. Please install it.")
+  }
+
   if (is.data.frame(data)) data <- as.matrix(data)
   if (!is.matrix(data) || !is.numeric(data)) stop("`data` must be a numeric matrix/data.frame.")
   if (ncol(data) < 2) stop("`data` must have at least 2 columns (>= 2 item×trait pairs).")
@@ -216,20 +220,17 @@ MDScontent <- function(
   }
 
   # -----------------------
-  # Compute item-to-item dissimilarities (Fixed and cleaned)
+  # Compute item-to-item dissimilarities
   # -----------------------
   dist_items <- switch(
     distance,
     euclid = stats::dist(X, method = "euclidean"),
     cor = {
-      # Correlation between item profiles (rows of X) -> cor(t(X))
       Ci <- stats::cor(t(X), method = "pearson", use = "pairwise.complete.obs")
       as.dist(pmax(0, 1 - Ci))
     },
     cosine = {
-      # Cosine distance: 1 - cosine similarity
       norms <- sqrt(rowSums(X^2))
-      # Protection against division by zero
       norms[norms == 0] <- 1
       Xn <- X / norms
       S <- Xn %*% t(Xn)
@@ -245,10 +246,8 @@ MDScontent <- function(
   gof <- NA_real_
 
   if (mds == "classic") {
-    # Use eig = TRUE to get standard GOF
     cmd_fit <- stats::cmdscale(dist_items, k = k, eig = TRUE)
     coords <- cmd_fit$points
-    # GOF for classic MDS (proportion of variance explained)
     if (any(cmd_fit$eig > 0)) {
       gof <- sum(cmd_fit$eig[1:k]) / sum(cmd_fit$eig[cmd_fit$eig > 0])
     } else {
@@ -274,7 +273,6 @@ MDScontent <- function(
               "). Data may be over-structured.", call. = FALSE)
     }
 
-    # GOF as R^2 between original and reproduced distances
     d2 <- stats::dist(coords[, 1:2, drop = FALSE])
     gof <- suppressWarnings(stats::cor(as.vector(dist_items), as.vector(d2), use = "complete.obs")^2)
   }
@@ -349,14 +347,38 @@ MDScontent <- function(
               centroid_type = key_type)
 
   # -----------------------
-  # Plotting (Aesthetically Upgraded)
+  # Plotting with ggplot2
   # -----------------------
-  # Palette setup
-  trait_colors <- rainbow(Tt, s = 0.6, v = 0.85)
-  names(trait_colors) <- trait_levels
-  item_colors <- trait_colors[as.character(trait_levels[key_idx])]
+  # Prepara datos para ggplot
+  df_items <- data.frame(
+    item = rownames(coords),
+    Dim1 = coords[, 1],
+    Dim2 = coords[, 2],
+    trait = factor(trait_levels[key_idx], levels = trait_levels),
+    stringsAsFactors = FALSE
+  )
 
-  # Pre-calculate Biplot Vectors
+  df_centroids <- data.frame(
+    trait = factor(trait_levels, levels = trait_levels),
+    Dim1 = Ccoords[, 1],
+    Dim2 = Ccoords[, 2],
+    stringsAsFactors = FALSE
+  )
+  df_centroids <- df_centroids[!is.na(df_centroids$Dim1), ]
+
+  # Convex Hulls
+  hull_data <- do.call(rbind, lapply(split(df_items, df_items$trait), function(d) {
+    if (nrow(d) >= 3) {
+      h <- d[chull(d$Dim1, d$Dim2), , drop = FALSE]
+      return(h)
+    }
+    return(NULL)
+  }))
+
+  # Segmentos item -> centroide
+  df_segments <- merge(df_items, df_centroids, by = "trait", suffixes = c("_item", "_cent"))
+
+  # Biplot Vectors
   V <- matrix(NA_real_, nrow = Tt, ncol = 2)
   for (t in seq_len(Tt)) {
     V[t, 1] <- suppressWarnings(stats::cor(X[, t], coords[, 1], use = "pairwise.complete.obs"))
@@ -364,104 +386,78 @@ MDScontent <- function(
   }
   V[is.na(V)] <- 0
 
-  # Scaling for arrows (proportional to axis span, preserves angles)
   rx <- diff(range(coords[, 1])); ry <- diff(range(coords[, 2]))
   target_len <- 0.7 * min(rx, ry)
   lens <- sqrt(rowSums(V^2))
   s <- if (max(lens) > 0) target_len / max(lens) else 1
   V2 <- V * s
 
-  .plot_items <- function(overlay_biplot = FALSE) {
-    x <- coords[, 1]; y <- coords[, 2]
+  df_arrows <- data.frame(
+    trait = factor(trait_levels, levels = trait_levels),
+    x = 0, y = 0,
+    xend = V2[, 1],
+    yend = V2[, 2]
+  )
+  df_arrows <- df_arrows[!is.na(df_arrows$xend) & df_arrows$xend != 0, ]
 
-    # Adjust limits if overlaying biplot
-    xlim <- range(x); ylim <- range(y)
-    if (overlay_biplot) {
-      xlim <- range(c(xlim, V2[, 1]))
-      ylim <- range(c(ylim, V2[, 2]))
+  # Construcción del gráfico base
+  p <- ggplot2::ggplot() +
+    ggplot2::theme_minimal() +
+    ggplot2::labs(
+      x = "Dimension 1", y = "Dimension 2",
+      title = paste0("MDS Content Map (", mds, ")"),
+      subtitle = paste0("Distance: ", distance, " | Score: ", score,
+                        ifelse(mds == "nonmetric", paste0(" | STRESS: ", signif(stress, 3)), ""))
+    )
+
+  if (display == "items" || display == "both") {
+    if (!is.null(hull_data)) {
+      p <- p + ggplot2::geom_polygon(data = hull_data,
+                                     ggplot2::aes(x = Dim1, y = Dim2, group = trait, fill = trait),
+                                     alpha = 0.1, color = NA, show.legend = FALSE)
     }
-    xlim <- xlim + c(-0.15, 0.15) * diff(xlim)
-    ylim <- ylim + c(-0.15, 0.15) * diff(ylim)
+    p <- p +
+      ggplot2::geom_segment(data = df_segments,
+                            ggplot2::aes(x = Dim1_item, y = Dim2_item, xend = Dim1_cent, yend = Dim2_cent, color = trait),
+                            alpha = 0.4, show.legend = FALSE) +
+      ggplot2::geom_point(data = df_items,
+                          ggplot2::aes(x = Dim1, y = Dim2, color = trait),
+                          size = 3, alpha = 0.9) +
+      ggplot2::geom_point(data = df_centroids,
+                          ggplot2::aes(x = Dim1, y = Dim2, fill = trait),
+                          shape = 22, size = 5, color = "black", stroke = 1.2, show.legend = TRUE)
 
-    plot(x, y, type = "n", xlab = "Dimension 1", ylab = "Dimension 2",
-         xlim = xlim, ylim = ylim, main = "MDS Content Map",
-         bty = "l", las = 1, col.axis = "gray40", col.lab = "gray20")
-    grid(col = "gray90", lty = 1)
-
-    # Draw convex hulls and segments
-    for (t in seq_len(Tt)) {
-      ids <- which(key_idx == t)
-      if (length(ids) == 0 || anyNA(Ccoords[t, ])) next
-
-      segments(x0 = x[ids], y0 = y[ids], x1 = Ccoords[t, 1], y1 = Ccoords[t, 2],
-               col = adjustcolor(trait_colors[t], alpha.f = 0.4), lwd = 1.5)
-
-      if (length(ids) >= 3) {
-        hull <- chull(coords[ids, 1:2])
-        polygon(coords[ids[hull], 1], coords[ids[hull], 2],
-                col = adjustcolor(trait_colors[t], alpha.f = 0.1),
-                border = adjustcolor(trait_colors[t], alpha.f = 0.3), lwd = 1)
-      }
+    if (isTRUE(label.items)) {
+      p <- p + ggrepel::geom_text_repel(data = df_items,
+                                        ggplot2::aes(x = Dim1, y = Dim2, label = item),
+                                        size = 3, max.overlaps = 20)
     }
-
-    # Plot items
-    points(x, y, pch = 21, bg = adjustcolor(item_colors, alpha.f = 0.8), col = "gray20", cex = 1.5)
-    if (isTRUE(label.items)) text(x, y, labels = rownames(coords), pos = 3, cex = 0.8, col = "gray30")
-
-    # Plot centroids
-    valid_centroid <- !is.na(Ccoords[, 1])
-    points(Ccoords[valid_centroid, 1], Ccoords[valid_centroid, 2], pch = 22,
-           bg = trait_colors[valid_centroid], col = "gray20", cex = 1.8, lwd = 1.5)
     if (isTRUE(label.traits)) {
-      text(Ccoords[valid_centroid, 1], Ccoords[valid_centroid, 2],
-           labels = rownames(Ccoords)[valid_centroid], pos = 1, font = 2, cex = 0.9)
+      p <- p + ggplot2::geom_text(data = df_centroids,
+                                  ggplot2::aes(x = Dim1, y = Dim2, label = trait),
+                                  vjust = -1.5, fontface = "bold", size = 4)
     }
-
-    if (overlay_biplot) {
-      arrows(0, 0, V2[, 1], V2[, 2], length = 0.1, col = trait_colors, lwd = 2)
-      if (isTRUE(label.traits)) {
-        text(V2[, 1], V2[, 2], labels = colnames(X), pos = 4, font = 2, cex = 0.9, col = trait_colors)
-      }
-    }
-
-    mtext(paste0("Method: ", mds, " | Distance: ", distance, " | STRESS: ", signif(stress, 3)),
-          side = 3, line = 0.5, cex = 0.8, col = "gray40")
-    legend("topright", legend = rownames(Ccoords), pch = 22, pt.bg = trait_colors,
-           col = "gray20", bty = "n", title = "Traits", cex = 0.9)
   }
 
-  .plot_biplot <- function() {
-    x <- coords[, 1]; y <- coords[, 2]
-
-    xlim <- range(c(x, V2[, 1])) + c(-0.15, 0.15) * diff(range(c(x, V2[, 1])))
-    ylim <- range(c(y, V2[, 2])) + c(-0.15, 0.15) * diff(range(c(y, V2[, 2])))
-
-    plot(x, y, type = "n", xlab = "Dimension 1", ylab = "Dimension 2",
-         xlim = xlim, ylim = ylim, main = "MDS Biplot",
-         bty = "l", las = 1, col.axis = "gray40", col.lab = "gray20")
-    grid(col = "gray90", lty = 1)
-
-    points(x, y, pch = 21, bg = adjustcolor("gray50", alpha.f = 0.7), col = "gray20", cex = 1.2)
-    if (isTRUE(label.items)) text(x, y, labels = rownames(coords), pos = 3, cex = 0.8, col = "gray30")
-
-    arrows(0, 0, V2[, 1], V2[, 2], length = 0.1, col = trait_colors, lwd = 2)
+  if (display == "biplot" || display == "both") {
+    p <- p + ggplot2::geom_segment(data = df_arrows,
+                                   ggplot2::aes(x = x, y = y, xend = xend, yend = yend, color = trait),
+                                   arrow = ggplot2::arrow(length = ggplot2::unit(0.15, "inches")),
+                                   linewidth = 1.1, show.legend = FALSE)
+    if (display == "biplot" && isTRUE(label.items)) {
+      p <- p + ggrepel::geom_text_repel(data = df_items,
+                                        ggplot2::aes(x = Dim1, y = Dim2, label = item),
+                                        size = 3, max.overlaps = 20)
+    }
     if (isTRUE(label.traits)) {
-      text(V2[, 1], V2[, 2], labels = colnames(X), pos = 4, font = 2, cex = 0.9, col = trait_colors)
+      p <- p + ggplot2::geom_text(data = df_arrows,
+                                  ggplot2::aes(x = xend, y = yend, label = trait, color = trait),
+                                  vjust = -1, hjust = -0.1, fontface = "bold", size = 4, show.legend = FALSE)
     }
-
-    mtext(paste0("Method: ", mds, " | Distance: ", distance),
-          side = 3, line = 0.5, cex = 0.8, col = "gray40")
-    legend("topright", legend = colnames(X), pch = 22, pt.bg = trait_colors,
-           col = "gray20", bty = "n", title = "Traits", cex = 0.9)
   }
 
-  if (display == "items") {
-    .plot_items(overlay_biplot = FALSE)
-  } else if (display == "biplot") {
-    .plot_biplot()
-  } else if (display == "both") {
-    .plot_items(overlay_biplot = TRUE)
-  }
+  # Print plot
+  print(p)
 
   # -----------------------
   # Return
@@ -481,13 +477,14 @@ MDScontent <- function(
     coords_items = coords_df,
     centroids = centroids_df,
     fit = fit,
-    Dmatrix = Dmat
+    Dmatrix = Dmat,
+    plot = p
   )
   class(out) <- c("MDScontent", class(out))
   out
 }
 
-# Custom print method for clean console output
+# Custom print method
 #' @export
 print.MDScontent <- function(x, ...) {
   cat("--- MDS Content Analysis ---\n")
@@ -501,5 +498,6 @@ print.MDScontent <- function(x, ...) {
   cat("Distance     :", x$fit$distance, "\n")
   cat("Centroid type:", x$fit$centroid_type, "(", x$fit$centroid, ")\n")
   cat("----------------------------\n")
+  cat("Use `x$plot` to access the ggplot object and customize with `+`.\n")
   invisible(x)
 }

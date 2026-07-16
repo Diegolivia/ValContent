@@ -13,6 +13,7 @@ ValCont is a dedicated content validity package in R. ValCont implement the comp
 
 Authors:
 \itemize{
+  \item Diego Livia Ortiz \email{diegolivia@hotmail.com} [contributor, reviewer]
   \item Cesar Merino-Soto \email{sikayax@yahoo.com.ar} [contributor, reviewer]
   \item Jose Livia Segovia \email{joselivia@gmail.com} [contributor]
 }

@@ -14,7 +14,6 @@
 #'Calculate the average rating of the judges for each item, based on the proposal of Penfield & Miller (2004), and asymmetric confidence intervals (Wilson, 1927; Penfield, 2003; Penfield & Miller, 2004). MER' is a modification of the two syntax previous (Merino-Soto and Livia-Segovia, 2022; Penfield, & Miller, 2004).
 #'Due to the usual small number of participants in content validity studies, asymmetric confidence intervals may be an optimal approach to inferentially assess item validity.
 #'The results should be supplemented with an estimator of inter-judge variability or agreement.
-#'Note: The function has not yet been prepared to resolve missing values, so the user must remove or impute any missing values.
 #'
 #'@references
 #'Aiken, L. R. (1980). Content validity and reliability of single items or questionnaires. Educational and. Psychological Measurement, 40, 955-959. https://doi.org/10.1177/001316448004000419

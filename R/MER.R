@@ -6,7 +6,7 @@
 #'@param conf.level Confidence level for confidence intervals (ex., .90, .95, .99)
 #'@param na.rm Logical. If FALSE (default) the function stops when missing values are detected.
 #'              If TRUE rows with missing values in the relevant columns are removed before processing.
-#' 
+#'
 #'@return
 #'dataframe with MERs for all items analyzed, and confidence intervals.
 #'
@@ -36,9 +36,6 @@
 #'@seealso
 #'\code{\link[ValCont:Haiken]{ValCont::HAiken}} for a homogeneity coefficient
 #'
-#'@author
-#'Cesar Merino-Soto (\email{sikayax@yahoo.cam.ar})
-#'
 #'@examples
 #'
 #'## Example
@@ -67,47 +64,70 @@
 #'
 #'@export
 MER <- function(data, ncat, start, conf.level = 0.90, na.rm = FALSE) {
-  
-  # Detección de valores perdidos
+
+  # Missing values detection
   if (!na.rm) {
     if (any(is.na(data))) {
-      stop("Valores perdidos detectados. Usa na.omit() primero o establece na.rm=TRUE.")
+      stop("Missing values detected. Use na.omit() first or set na.rm=TRUE.")
     }
   } else {
     data <- na.omit(data)
   }
 
-  # Verificaciones iniciales
-  if (!is.data.frame(data)) stop("'data' debe ser un data.frame")
-  if (!is.numeric(ncat) || ncat <= 1) stop("'ncat' debe ser un numero mayor que 1")
-  if (!is.numeric(start) || !start %in% c(0, 1)) stop("'start' debe ser 0 o 1")
+  # Initial checks
+  if (!is.data.frame(data)) stop("'data' must be a data.frame")
+  if (!is.numeric(ncat) || ncat <= 1) stop("'ncat' must be a number greater than 1")
+  if (!is.numeric(start) || !start %in% c(0, 1)) stop("'start' must be 0 or 1")
   if (!is.numeric(conf.level) || conf.level <= 0 || conf.level >= 1) {
-    stop("'conf.level' debe estar entre 0 y 1")
+    stop("'conf.level' must be between 0 and 1")
   }
 
-  # Ajuste del nivel de confianza
   alpha <- 1 - conf.level
+  z <- qnorm(1 - alpha / 2)          # normal quantile (not t)
+  k <- ncat - 1                      # range of the scale (0 to k)
+  min_val <- start
+  max_val <- start + ncat - 1
 
-  # Calculo de la media y del intervalo de confianza para cada item
-  results <- apply(data, 1, function(item_ratings) {
-    mean_rating <- mean(item_ratings) # Media del item
-    n <- length(item_ratings)        # Numero de jueces
-    sd_rating <- sd(item_ratings)    # Desviacion estandar
+  # Function to compute CI for one item (vector of ratings)
+  compute_item <- function(item_ratings) {
+    M <- mean(item_ratings)
+    n <- length(item_ratings)
 
-    # Calculo de los limites del IC asimetrico
-    error_margin <- qt(1 - alpha / 2, df = n - 1) * (sd_rating / sqrt(n))
-    lwr <- max(mean_rating - error_margin, start) # Limite inferior ajustado al minimo posible
-    upr <- min(mean_rating + error_margin, start + ncat - 1) # Limite superior ajustado al maximo posible
+    # Compute p depending on start
+    if (start == 0) {
+      p <- M / k
+    } else { # start == 1
+      p <- (M - 1) / k
+    }
 
-    c(MER = round(mean_rating, 3),
-      lwr.ci = round(lwr, 3),
-      upr.ci = round(upr, 3))
-  })
+    # Avoid p exactly 0 or 1 for numerical stability (though formulas handle it)
+    p <- max(1e-10, min(1 - 1e-10, p))
 
-  # Transformar los resultados en un data.frame
+    # Wilson score limits for proportion
+    term1 <- 2 * p * n * k + z^2
+    term2 <- z * sqrt(4 * n * k * p * (1 - p) + z^2)
+    denom <- 2 * (n * k + z^2)
+
+    pi_L <- (term1 - term2) / denom
+    pi_U <- (term1 + term2) / denom
+
+    # Confidence limits for the mean
+    LCL <- M - z * sqrt(k * pi_L * (1 - pi_L) / n)
+    UCL <- M + z * sqrt(k * pi_U * (1 - pi_U) / n)
+
+    # Truncate to the possible scale range (robustness)
+    LCL <- max(LCL, min_val)
+    UCL <- min(UCL, max_val)
+
+    c(MER = round(M, 3),
+      lwr.ci = round(LCL, 3),
+      upr.ci = round(UCL, 3))
+  }
+
+  results <- apply(data, 1, compute_item)
   results_df <- as.data.frame(t(results))
-  results_df$Item <- seq_len(nrow(results_df)) # Agregar la columna 'Item'
-  results_df <- results_df[, c("Item", "MER", "lwr.ci", "upr.ci")] # Reordenar columnas
+  results_df$Item <- seq_len(nrow(results_df))
+  results_df <- results_df[, c("Item", "MER", "lwr.ci", "upr.ci")]
 
   return(results_df)
 }

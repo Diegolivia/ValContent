@@ -77,6 +77,3 @@ Wilson, E. B. (1927). Probable inference, the law of succession, and statistical
 \seealso{
 \code{\link[ValCont:Haiken]{ValCont::HAiken}} for a homogeneity coefficient
 }
-\author{
-Cesar Merino-Soto (\email{sikayax@yahoo.cam.ar})
-}

@@ -40,7 +40,7 @@ Some functions were added to estimate other relevant aspects of the content vali
 
 -   Basic functions to make graphs of results are also implemented.
 
-\strong{Install:}
+## Install:
 
 You can install the development version of `ValCont` from GitHub using:
 ```R
@@ -49,7 +49,7 @@ if(!"devtools" %in% row.names(installed.packages())){
 }
 devtools::install_github("Diegolivia/ValCont")
 ```
-\strong{References:}
+## References:
 
 -   Aiken, L. R. (1980). Content validity and reliability of single items or questionnaires. Educational and Psychological Measurement, 40, 955-959. <https://doi.org/10.1177/001316448004000419>
 -   Aiken, L. R. (1985). Three coefficients for analyzing the reliability and validity of ratings. Educational and Psychological Measurement, 45, 131-142. <https://doi.org/10.1177/0013164485451012>
@@ -66,11 +66,11 @@ devtools::install_github("Diegolivia/ValCont")
 -   Wilson, E. B. (1927). Probable inference, the law of succession, and statistical inference. Journal of the American Statistical Association, 22, 209-212. <https://doi.org/10.2307/2276774>
 -   Zou, G., Donner, A. and Qiu, S. (2025). MOVER-R for Confidence Intervals of Ratios. In Wiley StatsRef: Statistics Reference Online (eds N. Balakrishnan, T. Colton, B. Everitt, W. Piegorsch, F. Ruggeri and J.L. Teugels). <https://doi.org/10.1002/9781118445112.stat08085>
 
-\strong{Depends:} R (\>= 2.10)\
-\strong{Imports:} boots, ggplo2, stats, utils\
-\strong{License:} GPL-3\
-\strong{Encoding:} UTF-8\
-\strong{LazyData:} true\
-\strong{Maintainer:} Diego Livia-Ortiz\
-\strong{URL:} https://github.com/Diegolivia/ValCont/
+*Depends*: R (\>= 2.10)\
+*Imports*: boots, ggplo2, stats, utils\
+*License*: GPL-3\
+*Encoding*: UTF-8\
+*LazyData*: true\
+*Maintainer*: Diego Livia-Ortiz\
+*URL*: https://github.com/Diegolivia/ValCont/
 

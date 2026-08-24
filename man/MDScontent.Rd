@@ -82,6 +82,13 @@ correspondence between each item and each trait (attribute). The function:
 and (6) plots either the main map, a biplot, or both.
 }
 \details{
+## Operational rationale
+The MDS method requires a comparative design for obtaining the judges' ratings
+for each item. Each item must be evaluated against several attributes (not just one),
+and the judge must rate how well each item corresponds to each attribute. This format
+is consistent with the substantive validity method (\code{\link[ValCont:CIDsingle]{ValCont::CIDsingle}})
+and Hinkey’s approach \code{\link[ValCont:HT]{ValCont::HT}}
+
 ## Conceptual rationale
 The function provides a **geometric visualization** of content validity structure.
 Ratings from judges are first aggregated into an Items × Traits profile matrix.
@@ -101,7 +108,7 @@ The resulting map represents:
 ## Interpretation
 This function is intended primarily for **visual diagnostic purposes**.
 It does not replace quantitative content validity coefficients (e.g., Aiken's V,
-CVI, SVAL, or Hit-based approaches), but complements them by examining
+Polit's CVI, Anderson-Gerbing's, or Colquit's approaches), but complements them by examining
 structural coherence.
 
 The map may be interpreted as follows:
@@ -132,7 +139,7 @@ that complements coefficient-based evidence.
 #  was evaluated for its correspondence to four attributes. The database should
 #  be structured as follows:
 #
-#  item item1.judge1 item1.judge2 item1.judge3 item1.judge4 item2.judge1 item2.judge2 ...
+#  item item1.jdg1 item1.jde2 item1.jde3 item1.jde4 item2.jde1 item2.jde2 ...
 #
 #  For this example:
 

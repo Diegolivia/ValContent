@@ -15,24 +15,22 @@
 #'`CID` uses Method of Variance Estimates Recovery (MOVER; Zou, & Donner, 2008).
 #'Because data produced by judges' judgments tend to be asymmetrically distributed (if the item is rated, on a scale of 1 to 5, as predominantly valid then its values will be > 3), MOVER is appropriate for non-normal distributions.
 #'MOVER depends on the quality or precision of the confidence intervals calculated for the coefficients in each group.
-#'The application of MOVER for content validity coefficient was initially published by Merino-Soto (2018) for the difference between V coefficients (Aiken, 1980, 1985). Later, Merino-Soto (2023) extended this approach for Aiken's V by adding a point estimator of the difference, based on the standardized difference between proportions
+#'The application of MOVER for content validity coefficient was initially published by Merino-Soto (2018) for the difference between V coefficients (Aiken, 1980, 1985). Later, Merino-Soto (2023) extended this approach for Aiken's V by adding a point estimator of the difference, based on the standardized difference between proportions.
 #'The compared content validity coefficients obtained should be of the same type, and the estimated confidence intervals for these coefficients should also come from the same level; for example, at .95 or .90.
-#'Singer (2010) observed that at extremely low values (e.g., proportions near .0), the coverage of this method is not as good. In the context of comparing content validity coefficients, treated as proportions, it is rare to find such low coefficients (and their confidence intervals). Unless the items are extremely poor in content.
-#'
-#'Note: The function has not yet been prepared to resolve missing values, so the user must remove or impute any missing values.
+#'Singer (2010) observed that at extremely low values (e.g., proportions near .0), the coverage of this method is not as good. In the context of comparing content validity coefficients, treated as proportions, it is rare to find such very low coefficients (and their confidence intervals). Unless the items are extremely poor in content.
 #'
 #'@references
-#'Aiken, L. R. (1980). Content validity and reliability of single items or questionnaires. Educational and. Psychological Measurement, 40, 955-959. https://doi.org/10.1177/001316448004000419
+#'Aiken, L. R. (1980). Content validity and reliability of single items or questionnaires. \emph{Educational and. Psychological Measurement, 40}, 955-959. \doi{10.1177/001316448004000419}
 #'
-#'Aiken, L. R. (1985). Three coefficients for analyzing the reliability and validity of ratings. Educational and Psychological Measurement, 45, 131-142. https://doi.org/10.1177/0013164485451012
+#'Aiken, L. R. (1985). Three coefficients for analyzing the reliability and validity of ratings. \emph{Educational and Psychological Measurement, 45}, 131-142. \doi{10.1177/0013164485451012}
 #'
-#'Merino-Soto, C. (2018) Confidence interval for difference between coefficients of content validity (Aiken's V): a SPSS syntax. Anales de  Psicologia, 34(3), 587-590. https://doi.org/10.6018/analesps.34.3.283481
+#'Merino-Soto, C. (2018) Confidence interval for difference between coefficients of content validity (Aiken's V): a SPSS syntax. \emph{Anales de  Psicologia, 34}(3), 587-590. \doi{10.6018/analesps.34.3.283481}
 #'
-#'Merino-Soto, C. (2023). Coeficientes V de Aiken: diferencias en los juicios de validez de contenido. MHSalud, 20(1), 23-32. https://doi.org/10.15359/mhs.20-1.3
+#'Merino-Soto, C. (2023). Coeficientes V de Aiken: diferencias en los juicios de validez de contenido. \emph{MHSalud, 20}(1), 23-32. \doi{10.15359/mhs.20-1.3}
 #'
-#'Singer, J. (2010). Construction of confidence limits about effect measures: A general approach, by G. Y. Zou and A. Donner, Statistics in Medicine 2008; 27:1693-1702. Statistics in Medicine, 29(16), 1757–1759. https://doi.org/10.1002/sim.3887
+#'Singer, J. (2010). Construction of confidence limits about effect measures: A general approach, by G. Y. Zou and A. Donner, Statistics in Medicine 2008; 27:1693-1702. \emph{Statistics in Medicine, 29}(16), 1757–1759. \doi{10.1002/sim.3887}
 #'
-#'Zou, G.Y. and Donner, A. (2008) Construction of confidence limits about effect measures: a general approach. Stat. Med. 27, 1693–1702. https://doi.org//10.1002/sim.3095
+#'Zou, G.Y. and Donner, A. (2008) Construction of confidence limits about effect measures: a general approach. \emph{Statistics in Medicine, 27}, 1693–1702. \doi{10.1002/sim.3095}
 #'
 #'@author
 #'Cesar Merino-Soto (\email{sikayax@yahoo.cam.ar})
@@ -99,34 +97,34 @@
 #'    lwr.col = "lwr.ci",
 #'    upr.col = "upr.ci")
 #'
-#' 
+#'
 #'@export
 CID <- function(group1, group2, coef.col = "coef", lwr.col = "lwr.ci", upr.col = "upr.ci", na.rm = FALSE) {
-  # Validar que los argumentos son data.frames
+  # Verify that the arguments are DataFrames
   if (!is.data.frame(group1) || !is.data.frame(group2)) {
-    stop("Ambos argumentos 'group1' y 'group2' deben ser data.frames.")
+    stop("Both the 'group1' and 'group2' arguments must be data.frames.")
   }
 
-  # Detección de valores perdidos
+  # Detection of Missing Values
   if (!na.rm) {
     if (any(is.na(group1)) || any(is.na(group2))) {
-      stop("Valores perdidos detectados. Usa na.omit() primero o establece na.rm=TRUE.")
+      stop("Missing values detected. Use na.omit() first, or set na.rm=TRUE.")
     }
   } else {
     group1 <- na.omit(group1)
     group2 <- na.omit(group2)
   }
 
-  # Validar que las columnas necesarias existen en los data.frames
+  # Verify that the necessary columns exist in the data frames
   required_cols <- c(coef.col, lwr.col, upr.col)
   if (!all(required_cols %in% colnames(group1))) {
-    stop("El data.frame 'group1' no contiene las columnas necesarias.")
+    stop("The 'group1' data.frame does not contain the required columns.")
   }
   if (!all(required_cols %in% colnames(group2))) {
-    stop("El data.frame 'group2' no contiene las columnas necesarias.")
+    stop("The 'group2' data.frame does not contain the required columns.")
   }
 
-  # Combinar los datos para realizar las comparaciones
+  # Combine the data to make comparisons
   combined_data <- merge(
     group1,
     group2,
@@ -136,12 +134,12 @@ CID <- function(group1, group2, coef.col = "coef", lwr.col = "lwr.ci", upr.col =
   rownames(combined_data) <- combined_data$Row.names
   combined_data$Row.names <- NULL
 
-  # Verificar si hubo exclusiones debido a items ausentes en un grupo
+  # Check whether there were any exclusions due to missing items in a group
   if (nrow(combined_data) < nrow(group1) || nrow(combined_data) < nrow(group2)) {
-    warning("Algunos items no tienen correspondencia entre los grupos y han sido excluidos de la comparacion.")
+    warning("Some items do not have a match across the groups and have been excluded from the comparison.")
   }
 
-  # Calcular la diferencia de los coeficientes y los intervalos de confianza
+  # Calculate the difference between the coefficients and the confidence intervals
   combined_data <- within(combined_data, {
     Delta <- round(get(paste0(coef.col, "_1")) - get(paste0(coef.col, "_2")), 3)
     lwr.ci <- round(
@@ -152,7 +150,7 @@ CID <- function(group1, group2, coef.col = "coef", lwr.col = "lwr.ci", upr.col =
                      (get(paste0(coef.col, "_2")) - get(paste0(lwr.col, "_2")))^2), 3)
   })
 
-  # Seleccionar las columnas finales para el reporte y reiniciar nombres de filas
+  # Select the final columns for the report and reset the row labels
   result <- combined_data[, c("Delta", "lwr.ci", "upr.ci")]
   row.names(result) <- NULL
 

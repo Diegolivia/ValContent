@@ -6,26 +6,25 @@
 #'@param conf.level confidence level for the confidence intervals (eg., .90, .95, .99)
 #'@param na.rm Logical. If FALSE (default) the function stops when missing values are detected.
 #'              If TRUE rows with missing values in the relevant columns are removed before processing.
-#' 
+#'
 #'@return
 #'dataframe with H coefficients for all items analyzed, and their confidence intervals.
 #'
 #'@details
 #'Compute the H coefficient (Aiken, 1980, 1985) to estimate the homogeneity of response of the judges/scorers to the items.
 #'To maintain consistency with the methods usually associated with content validity, 'HAiken' is proposed as an option.
-#''HAiken' also compute asymmetric confidence intervals use the method of Wilson (1927). and adapted by Penfield and Giacobbi (2004) for Aiken's V coefficient.
+#''HAiken' also compute asymmetric confidence intervals use the method of Wilson (1927), and adapted by Penfield and Giacobbi (2004) for Aiken's V coefficient.
 #'The H coefficient, or equivalent coefficients, should complement the results of the content validity coefficients.
 #'Other methods for estimating judges' agreement or homogeneity of response may also be useful.
-#'Note: The function has not yet been prepared to resolve missing values, so the user must remove or impute any missing values.
 #'
 #'@references
-#'Aiken, L. R. (1980). Content validity and reliability of single items or questionnaires. Educational and. Psychological Measurement, 40, 955-959. https://doi.org/10.1177/001316448004000419
+#'Aiken, L. R. (1980). Content validity and reliability of single items or questionnaires. \emph{Educational and. Psychological Measurement, 40}, 955-959. \doi{10.1177/001316448004000419}
 #'
-#'Aiken, L. R. (1985). Three coefficients for analyzing the reliability and validity of ratings. Educational and Psychological Measurement, 45, 131-142. https://doi.org/10.1177/0013164485451012
+#'Aiken, L. R. (1985). Three coefficients for analyzing the reliability and validity of ratings. \emph{Educational and Psychological Measurement, 45}, 131-142. \doi{10.1177/0013164485451012}
 #'
-#'Penfield, R. D., & Miller, J. M. (2004). Improving Content Validation Studies Using an Asymmetric Confidence Interval for the Mean of Expert Ratings. Applied Measurement in Education, 17(4), 359–370. https://doi.org/10.1207/s15324818ame1704_2
+#'Penfield, R. D. & Giacobbi, P. R., Jr. (2004) Applying a score confidence interval to Aiken’s item content-relevance index. \emph{Measurement in Physical Education and Exercise Science, 8}(4), 213-225. \doi{10.1207/s15327841mpee0804_3}
 #'
-#'Wilson, E. B. (1927). Probable inference, the law of succession, and statistical inference. Journal of the American Statistical Association, 22, 209-212. https://doi.org/10.2307/2276774
+#'Wilson, E. B. (1927). Probable inference, the law of succession, and statistical inference. \emph{Journal of the American Statistical Association, 22}, 209-212. \doi{10.2307/2276774}
 #'
 #'@seealso
 #'\code{\link[PropCIs:scoreci]{PropCIs::scoreci}} for score method confidence interval
@@ -59,23 +58,22 @@
 #'
 #'@export
 Haiken <- function(data, ncat, conf.level, na.rm = FALSE) {
-
-  # Detección de valores perdidos
+  # Detection of Missing Values
   if (!na.rm) {
     if (any(is.na(data))) {
-      stop("Valores perdidos detectados. Usa na.omit() primero o establece na.rm=TRUE.")
+      stop("There are missing values. Use na.omit() first, or set na.rm=TRUE.")
     }
   } else {
     data <- na.omit(data)
   }
 
-  # Numero de filas
+  # Number of rows
   num_filas <- nrow(data)
 
-  # Calcular j segun si ncol(data) es par o impar
+  # Calculate j depending on whether ncol(data) is even or odd
   j <- ifelse(ncol(data) %% 2 == 0, 0, 1)
 
-  # data frame para almacenar resultados
+  # data frame for storing results
   resultados <- data.frame(
     Item = 1:num_filas,
     H = numeric(num_filas),
@@ -84,22 +82,22 @@ Haiken <- function(data, ncat, conf.level, na.rm = FALSE) {
     n.subj = numeric(num_filas)
   )
 
-  # Calcular las diferencias por pares (diferencias absolutas) y los intervalos de confianza para cada fila
+  # Calculate the pairwise differences (absolute differences) and confidence intervals for each row
   for (i in 1:num_filas) {
     fila_actual <- data[i, ]
 
-    # Calcular las diferencias por pares como diferencias absolutas y desempaquetarlas
+    # Calculate the pairwise differences as absolute differences and unpack them
     diff_abs <- combn(colnames(fila_actual), 2, function(pair) {
       col1 <- fila_actual[pair[1]]
       col2 <- fila_actual[pair[2]]
       diff_abs <- abs(col1 - col2)
       return(diff_abs)
-    }, simplify = FALSE)  # Utilizar simplify = FALSE para obtener una lista
+    }, simplify = FALSE)  # Use `simplify = FALSE` to get a list
 
-    # Desempaquetar las diferencias absolutas de la lista
+    # Unpack the absolute differences from the list
     diff_abs_unlist <- unlist(diff_abs)
 
-    # Calcular el resultado para la fila actual usando ncat, diff_abs_unlist y j
+    # Calculate the result for the current row using ncat, diff_abs_unlist, and j
     resultado_actual <- 1 - (4 * sum(diff_abs_unlist) / ((ncat - 1) * (ncol(data)^2) - j))
 
     get_wilson_CI <- function(x, n, conf.level) {
@@ -114,10 +112,11 @@ Haiken <- function(data, ncat, conf.level, na.rm = FALSE) {
               'upper' = omega * (A + B))
       return(CI)
     }
-    # Calcular el intervalo de confianza con la funcion get_wilson_CI y el nivel de confianza alpha
+
+    # Calculate the confidence interval using the get_wilson_CI function and the alpha confidence level
     wilson_interval <- get_wilson_CI(resultado_actual, ncol(data), conf.level)
 
-    # Almacenar los resultados en el data frame
+    # Store the results in the data frame
     resultados[i, "H"] <- resultado_actual
     resultados[i, "lwr.ci"] <- wilson_interval['lower']
     resultados[i, "upr.ci"] <- wilson_interval['upper']

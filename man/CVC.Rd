@@ -24,8 +24,6 @@ Calculates the content validity coefficient (CVC; Hernandez-Nieto, 2002). CVC ma
 }
 \details{
 This function calculates the content validity coefficient CVC (Hernandez-Nieto, 2002). Asymmetric confidence intervals are also calculated (Wilson, 1927; Penfield & Giacobbi, 2004). CVC' is the second coefficient that adjusts for possible random response of the raters, while another proposal for the CVI coefficient was created by Polit, & Beck (2007).
-
-Note: The function has not yet been prepared to resolve missing values, so the user must remove or impute any missing values.
 }
 \examples{
 ### Example 1
@@ -61,10 +59,13 @@ CVC(random_data,max = 5, conf.level = .90)
 
 }
 \references{
-Hernandez-Nieto, R. A. (2002). Contributions to Statistical Analysis. Merida, Venezuela: Universidad de Los Andes.
-Penfield, R. D. & Giacobbi, P. R., Jr. (2004) Applying a score confidence interval to Aiken's item content-relevance index. Measurement in Physical Education and Exercise Science, 8(4), 213-225. https://doi.org/10.1207/s15327841mpee0804_3
-Polit DF, Beck CT, Owen SV.  Is the CVI an acceptable indicator of content validity?  Appraisal and recommendations. Research in Nursing & Health. 2007;30(4):459-67. https://doi.org/10.1002/nur.20199
-Wilson, E. B. (1927). Probable inference, the law of succession, and statistical inference. Journal of the American Statistical Association, 22, 209-212. https://doi.org/10.2307/2276774
+Hernandez-Nieto, R. A. (2002). \emph{Contributions to Statistical Analysis}. Merida, Venezuela: Universidad de Los Andes.
+
+Penfield, R. D. & Giacobbi, P. R., Jr. (2004) Applying a score confidence interval to Aiken's item content-relevance index. \emph{Measurement in Physical Education and Exercise Science, 8}(4), 213-225. \doi{10.1207/s15327841mpee0804_3}
+
+Polit, D.F., Beck, C.T. and Owen, S.V. (2007), Is the CVI an acceptable indicator of content validity? Appraisal and recommendations. \emph{Research in Nursing & Health, 30}, 459-467. \doi{10.1002/nur.20199}
+
+Wilson, E. B. (1927). Probable inference, the law of succession, and statistical inference. \emph{Journal of the American Statistical Association, 22}, 209-212. \doi{10.2307/2276774}
 }
 \seealso{
 \code{\link[PropCIs:scoreci]{PropCIs::scoreci}} for score method confidence interval

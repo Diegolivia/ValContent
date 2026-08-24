@@ -5,27 +5,26 @@
 #'@param conf.level confidence level for confidence intervals (eg., .90, .95, .99).
 #'@param na.rm Logical. If FALSE (default) the function stops when missing values are detected.
 #'              If TRUE rows with missing values in the relevant columns are removed before processing.
-#' 
+#'
 #'@return dataframe with CVC coefficients and confidence intervals.
 #'
 #'@details
 #'This function calculates the content validity coefficient CVC (Hernandez-Nieto, 2002). Asymmetric confidence intervals are also calculated (Wilson, 1927; Penfield & Giacobbi, 2004). CVC' is the second coefficient that adjusts for possible random response of the raters, while another proposal for the CVI coefficient was created by Polit, & Beck (2007).
 #'
-#'Note: The function has not yet been prepared to resolve missing values, so the user must remove or impute any missing values.
-#'
 #'@references
-#'Hernandez-Nieto, R. A. (2002). Contributions to Statistical Analysis. Merida, Venezuela: Universidad de Los Andes.
-#'Penfield, R. D. & Giacobbi, P. R., Jr. (2004) Applying a score confidence interval to Aiken's item content-relevance index. Measurement in Physical Education and Exercise Science, 8(4), 213-225. https://doi.org/10.1207/s15327841mpee0804_3
-#'Polit DF, Beck CT, Owen SV.  Is the CVI an acceptable indicator of content validity?  Appraisal and recommendations. Research in Nursing & Health. 2007;30(4):459-67. https://doi.org/10.1002/nur.20199
-#'Wilson, E. B. (1927). Probable inference, the law of succession, and statistical inference. Journal of the American Statistical Association, 22, 209-212. https://doi.org/10.2307/2276774
+#'Hernandez-Nieto, R. A. (2002). \emph{Contributions to Statistical Analysis}. Merida, Venezuela: Universidad de Los Andes.
+#'
+#'Penfield, R. D. & Giacobbi, P. R., Jr. (2004) Applying a score confidence interval to Aiken's item content-relevance index. \emph{Measurement in Physical Education and Exercise Science, 8}(4), 213-225. \doi{10.1207/s15327841mpee0804_3}
+#'
+#'Polit, D.F., Beck, C.T. and Owen, S.V. (2007), Is the CVI an acceptable indicator of content validity? Appraisal and recommendations. \emph{Research in Nursing & Health, 30}, 459-467. \doi{10.1002/nur.20199}
+#'
+#'Wilson, E. B. (1927). Probable inference, the law of succession, and statistical inference. \emph{Journal of the American Statistical Association, 22}, 209-212. \doi{10.2307/2276774}
 #'
 #'@seealso
 #'\code{\link[PropCIs:scoreci]{PropCIs::scoreci}} for score method confidence interval
 #'
 #' @author
 #' Cesar Merino-Soto (\email{sikayax@yahoo.com.ar})
-#'
-#' @export
 #'
 #'@examples
 #'### Example 1
@@ -59,16 +58,14 @@
 #'## Run CVC
 #'CVC(random_data,max = 5, conf.level = .90)
 #'
-
-
-# Funcion principal CVC
+#' @export
 CVC <- function(data, max, conf.level, na.rm = FALSE) {
-  # Verificar si el data.frame contiene solo valores numericos
+  # Check whether the data.frame contains only numeric values
   if (!all(sapply(data, is.numeric))) {
-    stop("El data.frame debe contener solo valores numericos.")
+    stop("The data.frame must contain only numeric values.")
   }
 
-  # Detección de valores perdidos
+  # Detection of Missing Values
   if (!na.rm) {
     if (any(is.na(data))) {
       stop("Valores perdidos detectados. Usa na.omit() primero o establece na.rm=TRUE.")
@@ -77,19 +74,19 @@ CVC <- function(data, max, conf.level, na.rm = FALSE) {
     data <- na.omit(data)
   }
 
-  # Numero de jueces (columnas)
+  # Number of judges (columns)
   num_jueces <- ncol(data)
 
-  # Calcular Pe segun la formula dada
+  # Calculate Pe using the given formula
   Pe <- (1 / num_jueces) ^ num_jueces
 
-  # Calcular la media de cada item (fila)
+  # Calculate the average for each item (row)
   medias_items <- rowMeans(data)
 
-  # Calcular el CVC para cada item
+  # Calculate the CVC for each item
   CVC_items <- round((medias_items - Pe) / max, 3)
 
-  # Calcular los intervalos de confianza de Wilson para cada CVC
+  # Calculate Wilson's confidence intervals for each CVC
 
   get_wilson_CI <- function(x, n, conf.level) {
     p_hat <- x
@@ -104,7 +101,7 @@ CVC <- function(data, max, conf.level, na.rm = FALSE) {
   }
   intervalos_CI <- t(sapply(CVC_items, get_wilson_CI, n = num_jueces, conf.level = conf.level))
 
-  # Crear un data.frame con los resultados
+  # data.frame with the results
   resultado_df <- data.frame(
     Item = 1:nrow(data),
     CVC = round(CVC_items, 3),

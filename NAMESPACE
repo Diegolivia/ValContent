@@ -28,24 +28,30 @@ export(SVALsingle)
 export(Vaiken)
 export(Vaikenpub)
 export(minimumCV)
-importFrom(boot,boot)
-importFrom(boot,boot.ci)
-importFrom(ggplot2,aes)
-importFrom(ggplot2,element_text)
-importFrom(ggplot2,geom_abline)
-importFrom(ggplot2,geom_errorbar)
-importFrom(ggplot2,geom_hline)
-importFrom(ggplot2,geom_point)
-importFrom(ggplot2,ggplot)
-importFrom(ggplot2,labs)
-importFrom(ggplot2,theme)
-importFrom(ggplot2,theme_minimal)
-importFrom(stats,complete.cases)
-importFrom(stats,na.omit)
-importFrom(stats,pbeta)
-importFrom(stats,pbinom)
-importFrom(stats,pnorm)
-importFrom(stats,qnorm)
-importFrom(stats,qt)
-importFrom(stats,sd)
+importFrom(boot,
+  boot,
+  boot.ci
+)
+importFrom(ggplot2,
+  aes,
+  element_text,
+  geom_abline,
+  geom_errorbar,
+  geom_hline,
+  geom_point,
+  ggplot,
+  labs,
+  theme,
+  theme_minimal
+)
+importFrom(stats,
+  complete.cases,
+  na.omit,
+  pbeta,
+  pbinom,
+  pnorm,
+  qnorm,
+  qt,
+  sd
+)
 importFrom(utils,combn)

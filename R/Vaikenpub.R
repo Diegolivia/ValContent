@@ -9,17 +9,19 @@
 #' @param n Integer. Number of judges or raters who rated each item.
 #' @param lo Numeric. Minimum value of the rating scale.
 #' @param hi Numeric. Maximum value of the rating scale.
-#' @param conf.level Confidence level for the Wilson interval (default = 0.95).
+#' @param conf.level Confidence level for the Wilson interval (default = 0.90).
 #' @param item.names Optional. Vector of item names. If NULL, defaults to Item1, Item2, etc.
 #'
 #' @return A data.frame with item names, V values, and lower and upper confidence intervals.
 #'
 #' @references
-#' Penfield, R. D., & Giacobbi, P. R., Jr. (2004). Applying a score confidence interval to Aiken’s item content-relevance index. 
-#' \emph{Measurement in Physical Education and Exercise Science, 8}(4), 213–225.
 #'
-#' Wilson, E. B. (1927). Probable inference, the law of succession, and statistical inference. 
-#' \emph{Journal of the American Statistical Association, 22}, 209–212.
+#' Merino, C., & Livia, J. (2009). Intervalos de confianza asimetricos para el indice de validez de contenido: un programa Visual Basic para la V de Aiken. \emph{Anales de Psicologia, 25}(1), 169-171. \url{https://revistas.um.es/analesps/article/view/71631}
+#'
+#' Penfield, R. D. & Giacobbi, P. R., Jr. (2004) Applying a score confidence interval to Aiken’s item content-relevance index. \emph{Measurement in Physical Education and Exercise Science, 8}(4), 213-225. \doi{10.1207/s15327841mpee0804_3}
+#'
+#' Wilson, E. B. (1927). Probable inference, the law of succession, and statistical inference. \emph{Journal of the American Statistical Association, 22}, 209-212. \doi{10.2307/2276774}
+#'
 #'
 #' @examples
 #' \donttest{
@@ -41,21 +43,21 @@ Vaikenpub <- function(V, n, lo, hi, conf.level = 0.90, item.names = NULL) {
     B <- crit * sqrt(p_hat * (1 - p_hat) / N + crit^2 / (4 * N^2))
     c(lower = omega * (A - B), upper = omega * (A + B))
   }
-  
+
   if (any(V < 0 | V > 1)) stop("All V values must be between 0 and 1.")
   if (is.null(item.names)) item.names <- paste0("Item", seq_along(V))
-  
+
   k <- hi - lo
   N <- n * k
-  
+
   lwr <- upr <- numeric(length(V))
-  
+
   for (i in seq_along(V)) {
     CI <- get_wilson_CI(V[i], N, conf.level)
     lwr[i] <- CI["lower"]
     upr[i] <- CI["upper"]
   }
-  
+
   data.frame(
     Item = item.names,
     V = round(V, 3),

@@ -2,7 +2,7 @@
 % Please edit documentation in R/CVIR.R
 \name{CVIR}
 \alias{CVIR}
-\title{Content Validity Index Revised (with random agreement adjustment)}
+\title{Content Validity Index Revised CVI-R (with random agreement adjustment)}
 \usage{
 CVIR(data, cut, conf.level)
 }
@@ -54,23 +54,23 @@ CVIR(data = Ej1, cut = 4, conf.level = .90)
 
 }
 \references{
-Davis, L.L. (1992). Instrument review: Getting the most from your panel of experts. Applied Nursing Research, 5, 194-197. https://doi.org/10.1016/S0897-1897(05)80008-4
+Davis, L.L. (1992). Instrument review: Getting the most from your panel of experts. \emph{Applied Nursing Research, 5}, 194-197. https://doi.org/10.1016/S0897-1897(05)80008-4
 
-Grant, J.S., & Davis, L.T. (1997). Selection and use of content experts in instrument development. Research in Nursing & Health, 20, 269-274. https://doi.org/10.1002/(sici)1098-240x(199706)20:3<269::aid-nur9>3.0.co;2-g
+Grant, J.S., & Davis, L.T. (1997). Selection and use of content experts in instrument development. \emph{Research in Nursing & Health, 20}, 269-274. https://doi.org/10.1002/(sici)1098-240x(199706)20:3<269::aid-nur9>3.0.co;2-g
 
-Lynn, M.R. (1986). Determination and quantification of content validity. Nursing Research, 35, 382-385. https://doi.org/10.1097/00006199-198611000-00017
+Lynn, M.R. (1986). Determination and quantification of content validity. \emph{Nursing Research, 35}, 382-385.
 
-Martuza, V.R. (1977). Applying norm-referenced and criterion-referenced measurement in education. Boston: Allyn & Bacon
+Martuza, V.R. (1977). \emph{Applying norm-referenced and criterion-referenced measurement in education}. Boston: Allyn & Bacon
 
-Penfield, R. D. & Giacobbi, P. R., Jr. (2004) Applying a score confidence interval to Aiken's item content-relevance index. Measurement in Physical Education and Exercise Science, 8(4), 213-225. https://doi.org/10.1207/s15327841mpee0804_3
+Penfield, R. D. & Giacobbi, P. R., Jr. (2004) Applying a score confidence interval to Aiken's item content-relevance index. \emph{Measurement in Physical Education and Exercise Science, 8}(4), 213-225. \doi{10.1207/s15327841mpee0804_3}
 
-Polit, D. F., & Beck, C. T. (2006). The content validity index: are you sure you know what's being reported? Critique and recommendations. Research in nursing & health, 29(5), 489-497. https://doi.org/10.1002/nur.20147
+Polit, D. F., & Beck, C. T. (2006). The content validity index: are you sure you know what's being reported? Critique and recommendations. \emph{Research in Nursing & Health, 29}(5), 489-497. \doi{10.1002/nur.20147}
 
-Polit, D.F., Beck, C.T. and Owen, S.V. (2007), Is the CVI an acceptable indicator of content validity? Appraisal and recommendations. Res. Nurs. Health, 30: 459-467. https://doi.org/10.1002/nur.20199
+Polit, D.F., Beck, C.T. and Owen, S.V. (2007), Is the CVI an acceptable indicator of content validity? Appraisal and recommendations. \emph{Research in Nursing & Health, 30}, 459-467. \doi{10.1002/nur.20199}
 
-Waltz, C.F., & Bausell, R.B. (1981). Nursing research: Design, statistics, and computer analysis. Philadelphia: F. A. Davis.
+Waltz, C.F., & Bausell, R.B. (1981). \emph{Nursing research: Design, statistics, and computer analysis}. Philadelphia: F. A. Davis.
 
-Wilson, E. B. (1927). Probable inference, the law of succession, and statistical inference. Journal of the American Statistical Association, 22, 209-212. doi: 10.2307/2276774
+Wilson, E. B. (1927). Probable inference, the law of succession, and statistical inference. \emph{Journal of the American Statistical Association, 22}, 209-212. \doi{10.2307/2276774}
 }
 \seealso{
 \code{\link[PropCIs:scoreci]{PropCIs::scoreci}} for score method confidence interval

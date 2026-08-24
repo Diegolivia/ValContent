@@ -1,5 +1,5 @@
 #'@title  Mean of expert ratings (MER)
-#'@description Calculate the average score, with asymmetric confidence intervals.
+#'@description Calculate the Mean of expert ratings (MER), with asymmetric confidence intervals.
 #'@param data dataframe, with the columns assigned to each judge, and the rows assigned to each evaluated item.
 #'@param ncat Number of possible values or categories used in rating
 #'@param start Minimum possible value (0 or 1)
@@ -16,21 +16,21 @@
 #'The results should be supplemented with an estimator of inter-judge variability or agreement.
 #'
 #'@references
-#'Aiken, L. R. (1980). Content validity and reliability of single items or questionnaires. Educational and. Psychological Measurement, 40, 955-959. https://doi.org/10.1177/001316448004000419
+#'Aiken, L. R. (1980). Content validity and reliability of single items or questionnaires. \emph{Educational and. Psychological Measurement, 40}, 955-959. \doi{10.1177/001316448004000419}
 #'
-#'Aiken, L. R. (1985). Three coefficients for analyzing the reliability and validity of ratings. Educational and Psychological Measurement, 45, 131-142. https://doi.org/10.1177/0013164485451012
+#'Aiken, L. R. (1985). Three coefficients for analyzing the reliability and validity of ratings. \emph{Educational and Psychological Measurement, 45}, 131-142. \doi{10.1177/0013164485451012}
 #'
-#'Merino-Soto, C., & Livia-Segovia, J. (2022). Rating mean of expert judges and asymmetric confidence intervals in content validity: an SPSS syntax. Anales de Psicologia, 38(2), 395-398. https://doi.org/10.6018/analesps.489431
+#'Merino, C., & Livia, J. (2009). Intervalos de confianza asimetricos para el indice de validez de contenido: un programa Visual Basic para la V de Aiken. \emph{Anales de Psicologia, 25}(1), 169-171. \url{https://revistas.um.es/analesps/article/view/71631}
 #'
-#'Miller, J. M., & Penfield, R. D. (2005). Using the score method to construct asymmetric confidence intervals: An SAS program for content validation in scale development. Behavior Research Methods, 37, 450-452. https://doi.org/10.3758/BF03192713
+#'Miller, J. M., & Penfield, R. D. (2005). Using the score method to construct asymmetric confidence intervals: An SAS program for content validation in scale development. \emph{Behavior Research Methods, 37}, 450-452. \doi{10.3758/BF03192713}
 #'
-#'Penfield, R. D. (2003). A score method of constructing asymmetric confidence intervals for the mean of a rating scale item. Psychological methods, 8(2), 149-163. https://doi.org/10.1037/1082-989x.8.2.149
+#'Penfield, R. D. (2003). A score method of constructing asymmetric confidence intervals for the mean of a rating scale item. \emph{Psychological methods, 8}(2), 149-163. \doi{10.1037/1082-989x.8.2.149}
 #'
-#'Penfield, R. D. & Giacobbi, P. R., Jr. (2004) Applying a score confidence interval to Aiken’s item content-relevance index. Measurement in Physical Education and Exercise Science, 8(4), 213-225. https://doi.org/10.1207/s15327841mpee0804_3
+#'Penfield, R. D. & Giacobbi, P. R., Jr. (2004) Applying a score confidence interval to Aiken’s item content-relevance index. \emph{Measurement in Physical Education and Exercise Science, 8}(4), 213-225. \doi{10.1207/s15327841mpee0804_3}
 #'
-#'Penfield, R. D., & Miller, J. M. (2004). Improving Content Validation Studies Using an Asymmetric Confidence Interval for the Mean of Expert Ratings. Applied Measurement in Education, 17(4), 359–370. https://doi.org/10.1207/s15324818ame1704_2
+#'Penfield, R. D., & Miller, J. M. (2004). Improving Content Validation Studies Using an Asymmetric Confidence Interval for the Mean of Expert Ratings. \emph{Applied Measurement in Education, 17}(4), 359–370. \doi{10.1207/s15324818ame1704_2}
 #'
-#'Wilson, E. B. (1927). Probable inference, the law of succession, and statistical inference. Journal of the American Statistical Association, 22, 209-212. https://doi.org/10.2307/2276774
+#'Wilson, E. B. (1927). Probable inference, the law of succession, and statistical inference. \emph{Journal of the American Statistical Association, 22}, 209-212. \doi{10.2307/2276774}
 #'
 #'@seealso
 #'\code{\link[ValCont:Haiken]{ValCont::HAiken}} for a homogeneity coefficient

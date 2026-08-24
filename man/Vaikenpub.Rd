@@ -15,7 +15,7 @@ Vaikenpub(V, n, lo, hi, conf.level = 0.9, item.names = NULL)
 
 \item{hi}{Numeric. Maximum value of the rating scale.}
 
-\item{conf.level}{Confidence level for the Wilson interval (default = 0.95).}
+\item{conf.level}{Confidence level for the Wilson interval (default = 0.90).}
 
 \item{item.names}{Optional. Vector of item names. If NULL, defaults to Item1, Item2, etc.}
 }
@@ -39,9 +39,9 @@ Vaikenpub(
 
 }
 \references{
-Penfield, R. D., & Giacobbi, P. R., Jr. (2004). Applying a score confidence interval to Aiken’s item content-relevance index. 
-\emph{Measurement in Physical Education and Exercise Science, 8}(4), 213–225.
+Merino, C., & Livia, J. (2009). Intervalos de confianza asimetricos para el indice de validez de contenido: un programa Visual Basic para la V de Aiken. \emph{Anales de Psicologia, 25}(1), 169-171. \url{https://revistas.um.es/analesps/article/view/71631}
 
-Wilson, E. B. (1927). Probable inference, the law of succession, and statistical inference. 
-\emph{Journal of the American Statistical Association, 22}, 209–212.
+Penfield, R. D. & Giacobbi, P. R., Jr. (2004) Applying a score confidence interval to Aiken’s item content-relevance index. \emph{Measurement in Physical Education and Exercise Science, 8}(4), 213-225. \doi{10.1207/s15327841mpee0804_3}
+
+Wilson, E. B. (1927). Probable inference, the law of succession, and statistical inference. \emph{Journal of the American Statistical Association, 22}, 209-212. \doi{10.2307/2276774}
 }

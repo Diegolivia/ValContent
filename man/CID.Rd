@@ -37,11 +37,9 @@ Calculates confidence interval for the difference of content validity coefficien
 `CID` uses Method of Variance Estimates Recovery (MOVER; Zou, & Donner, 2008).
 Because data produced by judges' judgments tend to be asymmetrically distributed (if the item is rated, on a scale of 1 to 5, as predominantly valid then its values will be > 3), MOVER is appropriate for non-normal distributions.
 MOVER depends on the quality or precision of the confidence intervals calculated for the coefficients in each group.
-The application of MOVER for content validity coefficient was initially published by Merino-Soto (2018) for the difference between V coefficients (Aiken, 1980, 1985). Later, Merino-Soto (2023) extended this approach for Aiken's V by adding a point estimator of the difference, based on the standardized difference between proportions
+The application of MOVER for content validity coefficient was initially published by Merino-Soto (2018) for the difference between V coefficients (Aiken, 1980, 1985). Later, Merino-Soto (2023) extended this approach for Aiken's V by adding a point estimator of the difference, based on the standardized difference between proportions.
 The compared content validity coefficients obtained should be of the same type, and the estimated confidence intervals for these coefficients should also come from the same level; for example, at .95 or .90.
-Singer (2010) observed that at extremely low values (e.g., proportions near .0), the coverage of this method is not as good. In the context of comparing content validity coefficients, treated as proportions, it is rare to find such low coefficients (and their confidence intervals). Unless the items are extremely poor in content.
-
-Note: The function has not yet been prepared to resolve missing values, so the user must remove or impute any missing values.
+Singer (2010) observed that at extremely low values (e.g., proportions near .0), the coverage of this method is not as good. In the context of comparing content validity coefficients, treated as proportions, it is rare to find such very low coefficients (and their confidence intervals). Unless the items are extremely poor in content.
 }
 \examples{
 
@@ -104,17 +102,17 @@ CID(group1 = output.V2,
 
 }
 \references{
-Aiken, L. R. (1980). Content validity and reliability of single items or questionnaires. Educational and. Psychological Measurement, 40, 955-959. https://doi.org/10.1177/001316448004000419
+Aiken, L. R. (1980). Content validity and reliability of single items or questionnaires. \emph{Educational and. Psychological Measurement, 40}, 955-959. \doi{10.1177/001316448004000419}
 
-Aiken, L. R. (1985). Three coefficients for analyzing the reliability and validity of ratings. Educational and Psychological Measurement, 45, 131-142. https://doi.org/10.1177/0013164485451012
+Aiken, L. R. (1985). Three coefficients for analyzing the reliability and validity of ratings. \emph{Educational and Psychological Measurement, 45}, 131-142. \doi{10.1177/0013164485451012}
 
-Merino-Soto, C. (2018) Confidence interval for difference between coefficients of content validity (Aiken's V): a SPSS syntax. Anales de  Psicologia, 34(3), 587-590. https://doi.org/10.6018/analesps.34.3.283481
+Merino-Soto, C. (2018) Confidence interval for difference between coefficients of content validity (Aiken's V): a SPSS syntax. \emph{Anales de  Psicologia, 34}(3), 587-590. \doi{10.6018/analesps.34.3.283481}
 
-Merino-Soto, C. (2023). Coeficientes V de Aiken: diferencias en los juicios de validez de contenido. MHSalud, 20(1), 23-32. https://doi.org/10.15359/mhs.20-1.3
+Merino-Soto, C. (2023). Coeficientes V de Aiken: diferencias en los juicios de validez de contenido. \emph{MHSalud, 20}(1), 23-32. \doi{10.15359/mhs.20-1.3}
 
-Singer, J. (2010). Construction of confidence limits about effect measures: A general approach, by G. Y. Zou and A. Donner, Statistics in Medicine 2008; 27:1693-1702. Statistics in Medicine, 29(16), 1757–1759. https://doi.org/10.1002/sim.3887
+Singer, J. (2010). Construction of confidence limits about effect measures: A general approach, by G. Y. Zou and A. Donner, Statistics in Medicine 2008; 27:1693-1702. \emph{Statistics in Medicine, 29}(16), 1757–1759. \doi{10.1002/sim.3887}
 
-Zou, G.Y. and Donner, A. (2008) Construction of confidence limits about effect measures: a general approach. Stat. Med. 27, 1693–1702. https://doi.org//10.1002/sim.3095
+Zou, G.Y. and Donner, A. (2008) Construction of confidence limits about effect measures: a general approach. \emph{Statistics in Medicine, 27}, 1693–1702. \doi{10.1002/sim.3095}
 }
 \seealso{
 \code{\link[ratesci:moverci]{ratesci::moverci}}

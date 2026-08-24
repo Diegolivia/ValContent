@@ -7,7 +7,7 @@
 #' @param conf.level confidence level for confidence intervals (ex., .90, .95, .99)
 #' @param na.rm Logical. If FALSE (default) the function stops when missing values are detected.
 #'              If TRUE rows with missing values in the relevant columns are removed before processing.
-#' 
+#'
 #'@return
 #'dataframe with V coefficients for all items analyzed, and confidence intervals
 #'
@@ -19,15 +19,15 @@
 #'
 #'
 #'@references
-#'Aiken, L. R. (1980). Content validity and reliability of single items or questionnaires. Educational and. Psychological Measurement, 40, 955-959. https://doi.org/10.1177/001316448004000419
+#'Aiken, L. R. (1980). Content validity and reliability of single items or questionnaires. \emph{Educational and. Psychological Measurement, 40}, 955-959. \doi{10.1177/001316448004000419}
 #'
-#'Aiken, L. R. (1985). Three coefficients for analyzing the reliability and validity of ratings. Educational and Psychological Measurement, 45, 131-142. https://doi.org/10.1177/0013164485451012
+#'Aiken, L. R. (1985). Three coefficients for analyzing the reliability and validity of ratings. \emph{Educational and Psychological Measurement, 45}, 131-142. \doi{10.1177/0013164485451012}
 #'
-#'Merino, C., & Livia, J. (2009). Intervalos de confianza asimetricos para el indice de validez de contenido: un programa Visual Basic para la V de Aiken. Anales de Psicologia, 25(1), 169-171. https://revistas.um.es/analesps/article/view/71631
+#'Merino, C., & Livia, J. (2009). Intervalos de confianza asimetricos para el indice de validez de contenido: un programa Visual Basic para la V de Aiken. \emph{Anales de Psicologia, 25}(1), 169-171. \url{https://revistas.um.es/analesps/article/view/71631}
 #'
-#'Penfield, R. D. & Giacobbi, P. R., Jr. (2004) Applying a score confidence interval to Aiken’s item content-relevance index. Measurement in Physical Education and Exercise Science, 8(4), 213-225. https://doi.org/10.1207/s15327841mpee0804_3
+#'Penfield, R. D. & Giacobbi, P. R., Jr. (2004) Applying a score confidence interval to Aiken’s item content-relevance index. \emph{Measurement in Physical Education and Exercise Science, 8}(4), 213-225. \doi{10.1207/s15327841mpee0804_3}
 #'
-#'Wilson, E. B. (1927). Probable inference, the law of succession, and statistical inference. Journal of the American Statistical Association, 22, 209-212. https://doi.org/10.2307/2276774
+#'Wilson, E. B. (1927). Probable inference, the law of succession, and statistical inference. \emph{Journal of the American Statistical Association, 22}, 209-212. \doi{10.2307/2276774}
 #'
 #'@seealso
 #'\code{\link[PropCIs:scoreci]{PropCIs::scoreci}} for score method confidence interval
@@ -52,10 +52,10 @@
 
 Vaiken <- function(data, min, max, conf.level = 0.95, na.rm = FALSE) {
 
-  # Detección de valores perdidos
+  # Detection of Missing Values
   if (!na.rm) {
     if (any(is.na(data))) {
-      stop("Valores perdidos detectados. Usa na.omit() primero o establece na.rm=TRUE.")
+      stop("Missing values detected. Use na.omit() first, or set na.rm=TRUE.")
     }
   } else {
     data <- na.omit(data)
@@ -63,33 +63,33 @@ Vaiken <- function(data, min, max, conf.level = 0.95, na.rm = FALSE) {
 
   # Validation: data
   if (!is.data.frame(data)) {
-    stop("El argumento 'data' debe ser un data.frame.")
+    stop("The 'data' argument must be a data.frame.")
   }
   if (!is.numeric(as.matrix(data))) {
-    stop("El 'data' debe contener solo valores numericos.")
+    stop("The 'data' field must contain only numeric values.")
   }
 
   # Validation: min, max
   if (!is.numeric(min) || !is.numeric(max)) {
-    stop("'min' y 'max' deben ser valores numericos.")
+    stop("'min' and 'max' must be numeric values.")
   }
   if (min >= max) {
-    stop("'min' debe ser menor que 'max'.")
+    stop("'min' must be less than 'max'.")
   }
 
   # Validation: confidence level
   if (!is.numeric(conf.level) || conf.level <= 0 || conf.level >= 1) {
-    stop("'conf.level' debe estar entre 0 y 1 (excluyendo los extremos).")
+    stop("'conf.level' must be between 0 and 1 (excluding the extremes).")
   }
 
   # Verification: NA
   if (any(is.na(data))) {
-    stop("'data' contiene valores NA. Por favor, limpiar los datos antes de usar la funcion.")
+    stop("'data' contains NA values. Please clean the data before using the function.")
   }
 
   # Verification: valid range of data
   if (any(data < min | data > max)) {
-    stop("Todas las puntuaciones en 'data' deben estar entre 'min' y 'max'.")
+    stop("All scores in 'data' must be between 'min' and 'max'.")
   }
 
   # N judges
@@ -100,8 +100,8 @@ Vaiken <- function(data, min, max, conf.level = 0.95, na.rm = FALSE) {
 
   # Calculate V Aiken and confidence interval
   calcular_valores <- function(puntajes) {
-    M <- mean(puntajes) # Media de las calificaciones
-    V <- (M - min) / (max - min) # C?lculo de V de Aiken
+    M <- mean(puntajes) # Average of the scores
+    V <- (M - min) / (max - min) # Calculation of Aiken's V
 
     # lower and upper limits, method Wilson's score
     nk <- n * (max - min)

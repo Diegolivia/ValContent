@@ -1,4 +1,4 @@
-#'@title Content Validity Index
+#'@title Content Validity Index (CVI)
 #'@description Calculate the Content Validity Index (CVI), without adjustment for random agreement.
 #'@param data dataframe, with the columns assigned to each judge, and the rows assigned to each assessed item.
 #'@param cut Specific cut-off point, from which the item is considered valid (or relevant, clear, etc.)
@@ -17,26 +17,25 @@
 #'The usual CVI cut-off point for identifying valid from invalid items is generally in the top two ratings (3 or higher on a relevance scale of 1 to 4; Beck & Gable, 2001; Grant & Davis, 1997). 'cut' dichotomizes the judges' responses to calculate CVI.
 #'The \strong{CVI} function can be used for rated items with any rating range, and any chosen cut point ('cut').
 #'Asymmetric confidence intervals use Wilson's (1927) approach, as used for Aiken's V coefficient (Penfield, & Giacobbi, 2004).
-#'Note: The function has not yet been prepared to resolve missing values, so the user must remove or impute any missing values.
 #'
 #'@references
-#'Davis, L.L. (1992). Instrument review: Getting the most from your panel of experts. Applied Nursing Research, 5, 194-197. https://doi.org/10.1016/S0897-1897(05)80008-4
+#'Davis, L.L. (1992). Instrument review: Getting the most from your panel of experts. \emph{Applied Nursing Research, 5}, 194-197. https://doi.org/10.1016/S0897-1897(05)80008-4
 #'
-#'Grant, J.S., & Davis, L.T. (1997). Selection and use of content experts in instrument development. Research in Nursing & Health, 20, 269-274. https://doi.org/10.1002/(sici)1098-240x(199706)20:3<269::aid-nur9>3.0.co;2-g
+#'Grant, J.S., & Davis, L.T. (1997). Selection and use of content experts in instrument development. \emph{Research in Nursing & Health, 20}, 269-274. https://doi.org/10.1002/(sici)1098-240x(199706)20:3<269::aid-nur9>3.0.co;2-g
 #'
-#'Lynn, M.R. (1986). Determination and quantification of content validity. Nursing Research, 35, 382-385.
+#'Lynn, M.R. (1986). Determination and quantification of content validity. \emph{Nursing Research, 35}, 382-385.
 #'
-#'Martuza, V.R. (1977). Applying norm-referenced and criterion-referenced measurement in education. Boston: Allyn & Bacon
+#'Martuza, V.R. (1977). \emph{Applying norm-referenced and criterion-referenced measurement in education}. Boston: Allyn & Bacon
 #'
-#'Penfield, R. D. & Giacobbi, P. R., Jr. (2004) Applying a score confidence interval to Aiken's item content-relevance index. Measurement in Physical Education and Exercise Science, 8(4), 213-225. https://doi.org/10.1207/s15327841mpee0804_3
+#'Penfield, R. D. & Giacobbi, P. R., Jr. (2004) Applying a score confidence interval to Aiken's item content-relevance index. \emph{Measurement in Physical Education and Exercise Science, 8}(4), 213-225. \doi{10.1207/s15327841mpee0804_3}
 #'
-#'Polit, D. F., & Beck, C. T. (2006). The content validity index: are you sure you know what's being reported? Critique and recommendations. Research in nursing & health, 29(5), 489-497. https://doi.org/10.1002/nur.20147
+#'Polit, D. F., & Beck, C. T. (2006). The content validity index: are you sure you know what's being reported? Critique and recommendations. \emph{Research in Nursing & Health, 29}(5), 489-497. \doi{10.1002/nur.20147}
 #'
-#'Polit, D.F., Beck, C.T. and Owen, S.V. (2007), Is the CVI an acceptable indicator of content validity? Appraisal and recommendations. Res. Nurs. Health, 30: 459-467. https://doi.org/10.1002/nur.20199
+#'Polit, D.F., Beck, C.T. and Owen, S.V. (2007), Is the CVI an acceptable indicator of content validity? Appraisal and recommendations. \emph{Research in Nursing & Health, 30}, 459-467. \doi{10.1002/nur.20199}
 #'
-#'Waltz, C.F., & Bausell, R.B. (1981). Nursing research: Design, statistics, and computer analysis. Philadelphia: F. A. Davis.
+#'Waltz, C.F., & Bausell, R.B. (1981). \emph{Nursing research: Design, statistics, and computer analysis}. Philadelphia: F. A. Davis.
 #'
-#'Wilson, E. B. (1927). Probable inference, the law of succession, and statistical inference. Journal of the American Statistical Association, 22, 209-212. https://doi.org/10.2307/2276774
+#'Wilson, E. B. (1927). Probable inference, the law of succession, and statistical inference. \emph{Journal of the American Statistical Association, 22}, 209-212. \doi{10.2307/2276774}
 #'
 #'@seealso
 #'\code{\link[PropCIs:scoreci]{PropCIs::scoreci}} for score method confidence interval
@@ -64,14 +63,9 @@
 #'# Run CVI
 #'CVI(data = Ej1, cut = 4, conf.level = .90)
 #'
-#' @author
-#'Cesar Merino-Soto (\email{sikayax@yahoo.cam.ar})
-#'
 #'@export
-#'
-#'
 CVI <- function(data, cut, conf.level, na.rm = FALSE) {
-  # Funcion interna para calcular el intervalo de confianza de Wilson
+  # Built-in function for calculating the Wilson confidence interval
   get_wilson_CI <- function(x, n, conf.level) {
     p_hat <- x
     SE_hat_sq <- p_hat * (1 - p_hat) / n
@@ -84,29 +78,29 @@ CVI <- function(data, cut, conf.level, na.rm = FALSE) {
     return(CI)
   }
 
-  # Verificar si los datos son numericos
+  # Check whether the data is numeric
   if (!all(sapply(data, is.numeric))) {
-    stop("Todas las columnas deben contener datos numericos.")
+    stop("All columns must contain numeric data.")
   }
 
-  # Detección de valores perdidos
+  # Detection of Missing Values
   if (!na.rm) {
     if (any(is.na(data))) {
-      stop("Valores perdidos detectados. Usa na.omit() primero o establece na.rm=TRUE.")
+      stop("Missing values detected. Use na.omit() first, or set na.rm=TRUE.")
     }
   } else {
     data <- na.omit(data)
   }
 
-  # Numero total de jueces
+  # Total number of judges
   num_jueces <- ncol(data)
 
-  # Inicializar listas para almacenar resultados
+  # Initialize lists to store results
   CVI_vals <- numeric(nrow(data))
   lwr_cis <- numeric(nrow(data))
   upp_cis <- numeric(nrow(data))
 
-  # Calcular CVI, porcentaje de acuerdo y CI de Wilson para cada item
+  # Calculate CVI, agreement percentage, and Wilson's CI for each item
   for (i in 1:nrow(data)) {
     Na <- sum(data[i, ] >= cut)
     Nna <- num_jueces - Na
@@ -114,13 +108,13 @@ CVI <- function(data, cut, conf.level, na.rm = FALSE) {
 
     CVI_vals[i] <- Na / N
 
-    # Calcular intervalo de confianza de Wilson
+    # Calculate the Wilson confidence interval
     CI <- get_wilson_CI(CVI_vals[i], N, conf.level)
     lwr_cis[i] <- CI['lower']
     upp_cis[i] <- CI['upper']
   }
 
-  # Crear un data frame con los resultados y redondear a 3 decimales
+  # Data frame with the results, rounded to 3 decimal places
   resultado <- data.frame(
     Item = 1:nrow(data),
     CVI = round(CVI_vals, 3),

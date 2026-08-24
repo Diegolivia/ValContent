@@ -2,46 +2,79 @@
 % Please edit documentation in R/CIR.R
 \name{CIR}
 \alias{CIR}
-\title{MOVER-R Confidence Interval for the Ratio of Content Validity Coefficients}
+\title{MOVER-R Confidence Interval for the Ratio of Two Bounded Proportion Estimates}
 \usage{
 CIR(group1, group2, coef.col, lwr.col, upr.col, na.rm = FALSE)
 }
 \arguments{
-\item{group1}{data.frame containing estimates and CIs for the first group.
-Must include columns specified in \code{coef.col}, \code{lwr.col},
-\code{upr.col}, and an \code{"Item"} column for matching.}
+\item{group1}{A \code{data.frame} containing the point estimates and their
+confidence limits for the first group. Must include columns specified in
+\code{coef.col}, \code{lwr.col}, \code{upr.col}, and an \code{"Item"}
+column for matching.}
 
-\item{group2}{data.frame containing estimates and CIs for the second group.
-Same column requirements as \code{group1}.}
+\item{group2}{A \code{data.frame} containing the point estimates and their
+confidence limits for the second group. Same column requirements as
+\code{group1}.}
 
-\item{coef.col}{Character string. Name of the column with the point estimates.}
+\item{coef.col}{Character string indicating the column name for the point
+estimates.}
 
-\item{lwr.col}{Character string. Name of the column with the lower bounds.}
+\item{lwr.col}{Character string indicating the column name for the lower
+confidence limits.}
 
-\item{upr.col}{Character string. Name of the column with the upper bounds.}
+\item{upr.col}{Character string indicating the column name for the upper
+confidence limits.}
 
-\item{na.rm}{Logical. If \code{TRUE}, rows with missing values in the relevant
-columns are removed with a warning. If \code{FALSE}, missing values
-trigger an error.}
+\item{na.rm}{Logical. If \code{TRUE}, rows containing missing values in the
+relevant columns are removed with a warning. If \code{FALSE}, missing
+values trigger an error.}
 }
 \value{
-A data.frame with columns:
-  \item{Item}{Common item names between both groups.}
-  \item{R}{Estimated ratio (coefficient group1 / coefficient group2).}
-  \item{lwr.ci}{Lower bound of the MOVER-R confidence interval.}
-  \item{upr.ci}{Upper bound of the MOVER-R confidence interval.}
+A \code{data.frame} with the following columns:
+  \item{Item}{Common item identifiers present in both groups.}
+  \item{R}{The estimated ratio (coefficient of group1 divided by
+    coefficient of group2).}
+  \item{lwr.ci}{The lower bound of the MOVER-R confidence interval.}
+  \item{upr.ci}{The upper bound of the MOVER-R confidence interval.}
 }
 \description{
-Computes the confidence interval for the ratio of two independent
-content validity coefficients  using the MOVER-R (Method of Variance Estimates Recovery for Ratios)
-closed-form procedure.
+Computes the confidence interval for the ratio of two independent bounded
+proportion estimates (e.g., Aiken's V coefficients) using the MOVER-R
+(Method of Variance Estimates Recovery for Ratios) closed-form procedure.
+}
+\details{
+The MOVER-R interval is computed using the closed-form solution proposed by
+Donner and Zou (2012). Given two independent estimates \eqn{\hat{\theta}_1}
+and \eqn{\hat{\theta}_2} with corresponding confidence limits
+\eqn{(l_1, u_1)} and \eqn{(l_2, u_2)}, the interval for the ratio
+\eqn{R = \theta_1 / \theta_2} is obtained as:
+
+\deqn{L = \frac{m - \sqrt{m^2 - A \cdot D}}{D}, \quad
+      U = \frac{m + \sqrt{m^2 - B \cdot C}}{C}}
+
+where \eqn{m = \hat{\theta}_1 \hat{\theta}_2},
+\eqn{A = l_1(2\hat{\theta}_1 - l_1)},
+\eqn{B = u_1(2\hat{\theta}_1 - u_1)},
+\eqn{C = l_2(2\hat{\theta}_2 - l_2)}, and
+\eqn{D = u_2(2\hat{\theta}_2 - u_2)}.
+
+For bounded proportion estimates (e.g., Aiken's V, which lies in [0, 1]),
+it is common for the lower confidence limit to equal exactly 0 or the upper
+limit to equal exactly 1. This yields \eqn{C = 0} or \eqn{D = 0},
+respectively, causing a singular division. To maintain numerical stability,
+the function applies a small perturbation (\eqn{\epsilon = 10^{-10}}) to
+any zero-valued auxiliary terms \eqn{C} or \eqn{D}. A warning is issued
+whenever such a correction is applied. Users should consider this
+adjustment carefully and, if necessary, resort to alternative methods
+(e.g., bootstrap) for items with boundary confidence limits.
 }
 \examples{
 \dontrun{
-# Assuming you have data frames 'g1' and 'g2' with columns 'est', 'low', 'high'
-result <- CIR(g1, g2, coef.col = "est", lwr.col = "low", upr.col = "high")
-print(result)
+# Suppose 'group1' and 'group2' contain columns 'est', 'low', and 'high'
+res <- CIR(group1, group2, coef.col = "est", lwr.col = "low", upr.col = "high")
+print(res)
 }
+
 }
 \references{
 Donner, A., & Zou, G. Y. (2012). Closed-form confidence intervals for
@@ -51,5 +84,5 @@ Methods in Medical Research}, 21(4), 347-359.
 Zou, G., Donner, A., & Qiu, S. (2025). MOVER-R for Confidence Intervals
 of Ratios. In N. Balakrishnan, T. Colton, B. Everitt, W. Piegorsch,
 F. Ruggeri and J.L. Teugels (Eds.), \emph{Wiley StatsRef: Statistics
-Reference Online}. https://doi.org/10.1002/9781118445112.stat08085
+Reference Online}. doi:10.1002/9781118445112.stat08085
 }

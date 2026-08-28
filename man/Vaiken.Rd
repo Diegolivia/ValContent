@@ -4,7 +4,16 @@
 \alias{Vaiken}
 \title{Aiken's V coefficient}
 \usage{
-Vaiken(data, min, max, conf.level = 0.95, na.rm = FALSE)
+Vaiken(
+  data,
+  min,
+  max,
+  conf.level = 0.95,
+  na.rm = FALSE,
+  overall = FALSE,
+  overall.method = c("global", "Aiken"),
+  overall.ci = c("Wilson", "MER")
+)
 }
 \arguments{
 \item{data}{dataframe, with the columns assigned to each rater, and the rows assigned to each evaluated item.}
@@ -17,46 +26,93 @@ Vaiken(data, min, max, conf.level = 0.95, na.rm = FALSE)
 
 \item{na.rm}{Logical. If FALSE (default) the function stops when missing values are detected.
 If TRUE rows with missing values in the relevant columns are removed before processing.}
+
+\item{overall}{Logical. If TRUE, adds a row with the overall V coefficient.}
+
+\item{overall.method}{Character. Method for the overall V:
+\itemize{
+  \item \code{"global"}: treats the entire matrix as a single "super-item" (all ratings pooled).
+  \item \code{"Aiken"}: computes V for each judge (based on all items) and then averages them.
+}}
+
+\item{overall.ci}{Character. Method for the overall confidence interval:
+\itemize{
+  \item \code{"Wilson"}: Wilson score interval (Penfield & Giacobbi, 2004).
+  \item \code{"MER"}: score interval for the mean of ratings, then transformed to V (Penfield, 2003).
+}
+Note: When \code{overall.method = "Aiken"}, only \code{"Wilson"} is used (others ignored).}
 }
 \value{
-dataframe with V coefficients for all items analyzed, and confidence intervals
+dataframe with V coefficients for all items, and confidence intervals.
+        If overall = TRUE, an extra row with the overall index is included.
 }
 \description{
 Calculate the V coefficient, known as Aiken's V.
 }
 \details{
-Calculate the V coefficient (Aiken, 1980, 1985), with the formula of Penfield & Giacobbi (2004). It also calculates asymmetric confidence intervals (Wilson, 1927; Penfield & Giacobbi, 2004). The results should be complemented by an estimator of variability or inter-judge agreement. The function uses the modified formula presented by Penfield & Giacobbi (2004).
-This function substantially improves on Vaiken (Merino, & Livia, 2009) because it calculates for multiple items and any confidence level.
+The overall V provides a global estimate of content validity for the whole instrument.
+Two aggregation methods are available:
+\itemize{
+  \item \code{"global"}: all ratings are pooled (treating the matrix as one super-item).
+        The V is the mean of all transformed scores.
+  \item \code{"Aiken"}: V is computed for each judge (using their ratings across all items)
+        and then averaged. This follows the large-sample procedure described by Aiken (1985).
+}
+For confidence intervals, the Wilson score method (Penfield & Giacobbi, 2004) is available for
+both approaches. For the \code{"global"} method, the MER method (Penfield, 2003) is also offered,
+which constructs the CI on the mean of ratings and then transforms to V.
 
-Note: The function has not yet been prepared to resolve missing values, so the user must remove or impute any missing values.
+**Overall V and its confidence interval**
+
+When `overall = TRUE`, the function treats the entire matrix of ratings (all items × all judges)
+as a single "super-item". The overall V coefficient is computed as the mean of all transformed
+scores `(rating - min) / (max - min)`, which is equivalent to `(mean(all_ratings) - min) / (max - min)`.
+This provides a global estimate of content validity for the whole instrument.
+Two methods are available to construct the asymmetric confidence interval for this overall V:
+
+ - **`overall_method = "Wilson"`** (default): Applies the Wilson score interval directly to the overall
+ proportion V, following the logic of Penfield & Giacobbi (2004). The effective sample size
+ is `n_judges × (max - min)`, respecting the independence of judges. This method is the
+ most direct extension of the standard item-level V confidence interval to the global index, and
+ is consistent with the original proposal by Aiken and later developments.
+
+ - **`overall_method = "mer"`**: Implements the score confidence interval for the **mean** of
+ the ratings (MER; Penfield, 2003; Penfield & Miller, 2004) in the original scale, and then
+ transforms the lower and upper bounds to the V metric. This approach first computes an
+ asymmetric CI for the mean `M` of all ratings, and then applies the linear
+ transformation `(CI - min) / (max - min)`. By using the mean as the primary parameter, this
+ method explicitly models the variability among judges and does not rely on the binomial expansion
+ used in the Wilson method.
+
+ Both methods yield a V total that is identical in point estimate, but the confidence intervals may
+ differ slightly. In either case, it is recommended to report the method used and,
+ if possible, to provide both intervals in supplementary materials for transparency.
 }
 \examples{
-
-### Example 2
 data2Tst <- data.frame(
-J1 = c(4, 1, 1, 1, 4),
-J2 = c(4, 1, 2, 2, 3),
-J3 = c(4, 1, 3, 3, 5),
-J4 = c(4, 1, 4, 5, 5),
-J5 = c(4, 1, 5, 5, 5),
-J6 = c(4, 1, 3, 5, 5))
-Vaiken(data = data2Tst, min = 1, max = 5, conf.level = .90)
+  J1 = c(4, 1, 1, 1, 4),
+  J2 = c(4, 1, 2, 2, 3),
+  J3 = c(4, 1, 3, 3, 5),
+  J4 = c(4, 1, 4, 5, 5),
+  J5 = c(4, 1, 5, 5, 5),
+  J6 = c(4, 1, 3, 5, 5))
+
+# Original: item-level V with Wilson CI
+Vaiken(data2Tst, min = 1, max = 5, conf.level = .90)
+
+# Overall V with global pooling, Wilson CI
+Vaiken(data2Tst, min = 1, max = 5, overall = TRUE, overall.method = "global", overall.ci = "Wilson")
+
+# Overall V with Aiken's method (average of judge V's), Wilson CI
+Vaiken(data2Tst, min = 1, max = 5, overall = TRUE, overall.method = "Aiken")
 }
 \references{
-Aiken, L. R. (1980). Content validity and reliability of single items or questionnaires. \emph{Educational and. Psychological Measurement, 40}, 955-959. \doi{10.1177/001316448004000419}
-
-Aiken, L. R. (1985). Three coefficients for analyzing the reliability and validity of ratings. \emph{Educational and Psychological Measurement, 45}, 131-142. \doi{10.1177/0013164485451012}
-
-Merino, C., & Livia, J. (2009). Intervalos de confianza asimetricos para el indice de validez de contenido: un programa Visual Basic para la V de Aiken. \emph{Anales de Psicologia, 25}(1), 169-171. \url{https://revistas.um.es/analesps/article/view/71631}
-
-Penfield, R. D. & Giacobbi, P. R., Jr. (2004) Applying a score confidence interval to Aiken’s item content-relevance index. \emph{Measurement in Physical Education and Exercise Science, 8}(4), 213-225. \doi{10.1207/s15327841mpee0804_3}
-
-Wilson, E. B. (1927). Probable inference, the law of succession, and statistical inference. \emph{Journal of the American Statistical Association, 22}, 209-212. \doi{10.2307/2276774}
-}
-\seealso{
-\code{\link[PropCIs:scoreci]{PropCIs::scoreci}} for score method confidence interval
-}
-\author{
-Diego Livia-Ortiz (\email{diegolivia@hotmail.com})
-Cesar Merino-Soto (\email{sikayax@yahoo.com.ar})
+Aiken, L. R. (1985). Three coefficients for analyzing the reliability and validity of ratings.
+    Educational and Psychological Measurement, 45, 131-142.
+Penfield, R. D. (2003). A score method of constructing asymmetric confidence intervals
+    for the mean of a rating scale item. Psychological Methods, 8(2), 149-163.
+Penfield, R. D. & Giacobbi, P. R., Jr. (2004) Applying a score confidence interval
+    to Aiken’s item content-relevance index. Measurement in Physical Education and Exercise Science, 8(4), 213-225.
+Wilson, E. B. (1927). Probable inference, the law of succession, and statistical inference.
+    Journal of the American Statistical Association, 22, 209-212.
 }

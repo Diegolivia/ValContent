@@ -1,129 +1,259 @@
-#'@title Coefficient of homogeneity of response
-#'@description Calculate the coefficient of homogeneity of response for each item (Aiken, 1980, 1985).
+#' Coefficient of Homogeneity of Response (Aiken's H)
 #'
-#'@param data dataframe, with the columns assigned to each judge, and the rows assigned to each evaluated item.
-#'@param ncat number of response categories or options used in the rating
-#'@param conf.level confidence level for the confidence intervals (eg., .90, .95, .99)
-#'@param na.rm Logical. If FALSE (default) the function stops when missing values are detected.
-#'              If TRUE rows with missing values in the relevant columns are removed before processing.
+#' @description
+#' Calculates Aiken's H coefficient of homogeneity for each item and, optionally,
+#' an overall H (total) across all items. The function uses bootstrap resampling
+#' of judges to obtain confidence intervals.
 #'
-#'@return
-#'dataframe with H coefficients for all items analyzed, and their confidence intervals.
+#' @param data A data frame with judges in columns and items in rows.
+#' @param ncat Number of response categories.
+#' @param conf.level Confidence level for the intervals (e.g., .90, .95).
+#' @param na.rm Logical. If TRUE, rows with missing values are removed.
+#' @param overall Logical. If TRUE (default), the overall H (total) is added as the last row.
+#' @param B Integer. Number of bootstrap resamples (default = 1000).
+#' @param ci.type Character: "logit" (default, recommended), "perc" (percentile), or "norm" (normal approximation).
+#'        The "logit" method transforms the bootstrap H values to the logit scale,
+#'        computes percentiles there, and back-transforms, ensuring the CI lies within [0,1].
 #'
-#'@details
-#'Compute the H coefficient (Aiken, 1980, 1985) to estimate the homogeneity of response of the judges/scorers to the items.
-#'To maintain consistency with the methods usually associated with content validity, 'HAiken' is proposed as an option.
-#''HAiken' also compute asymmetric confidence intervals use the method of Wilson (1927), and adapted by Penfield and Giacobbi (2004) for Aiken's V coefficient.
-#'The H coefficient, or equivalent coefficients, should complement the results of the content validity coefficients.
-#'Other methods for estimating judges' agreement or homogeneity of response may also be useful.
+#' @details
+#' The procedure for obtaining confidence intervals with ci.type = "logit" is as follows:
+#' \enumerate{
+#'   \item Compute the point estimate of H for each item and for the total (if overall = TRUE).
+#'   \item Generate B bootstrap samples by resampling the judges (columns) with replacement.
+#'         For each bootstrap sample, recompute H for each item and the total.
+#'   \item Apply the logit transformation to each bootstrap H value:
+#'         \deqn{L = \log(H / (1 - H))}.
+#'         To avoid infinities when H = 0 or H = 1, a small constant \eqn{\varepsilon = 10^{-6}}
+#'         is added (or subtracted) so that \eqn{H^* = \max(\varepsilon, \min(1-\varepsilon, H))}.
+#'   \item Obtain the percentiles of the logit-transformed bootstrap distribution:
+#'         \eqn{L_{\text{inf}} = \text{percentile}_{\alpha/2}(L)}, \eqn{L_{\text{sup}} = \text{percentile}_{1-\alpha/2}(L)}.
+#'   \item Back-transform to the original scale:
+#'         \eqn{H_{\text{inf}} = \exp(L_{\text{inf}}) / (1 + \exp(L_{\text{inf}}))},
+#'         \eqn{H_{\text{sup}} = \exp(L_{\text{sup}}) / (1 + \exp(L_{\text{sup}}))}.
+#' }
+#' This ensures that the confidence interval respects the [0,1] bounds and is asymmetric when appropriate.
 #'
-#'@references
-#'Aiken, L. R. (1980). Content validity and reliability of single items or questionnaires. \emph{Educational and. Psychological Measurement, 40}, 955-959. \doi{10.1177/001316448004000419}
+#' The methods "perc" and "norm" use the bootstrap percentiles or normal approximation directly on H,
+#' which may produce limits outside [0,1] in extreme cases; they are provided for comparison but are not recommended.
 #'
-#'Aiken, L. R. (1985). Three coefficients for analyzing the reliability and validity of ratings. \emph{Educational and Psychological Measurement, 45}, 131-142. \doi{10.1177/0013164485451012}
+#' @return A data frame with columns:
+#'   \item{Item}{Item number, or "Total" for the overall coefficient.}
+#'   \item{H}{Aiken's H coefficient.}
+#'   \item{lwr.ci}{Lower bound of the confidence interval.}
+#'   \item{upr.ci}{Upper bound of the confidence interval.}
+#'   \item{n.jueces}{Number of judges (same for all rows).}
 #'
-#'Penfield, R. D. & Giacobbi, P. R., Jr. (2004) Applying a score confidence interval to Aiken’s item content-relevance index. \emph{Measurement in Physical Education and Exercise Science, 8}(4), 213-225. \doi{10.1207/s15327841mpee0804_3}
+#' @references
+#' Aiken, L. R. (1980). Content validity and reliability of single items or questionnaires.
+#'   \emph{Educational and Psychological Measurement, 40}, 955-959.
 #'
-#'Wilson, E. B. (1927). Probable inference, the law of succession, and statistical inference. \emph{Journal of the American Statistical Association, 22}, 209-212. \doi{10.2307/2276774}
+#' Aiken, L. R. (1985). Three coefficients for analyzing the reliability and validity of ratings.
+#'   \emph{Educational and Psychological Measurement, 45}, 131-142.
 #'
-#'@seealso
-#'\code{\link[PropCIs:scoreci]{PropCIs::scoreci}} for score method confidence interval
+#' @examples
+#' \dontrun{
+#' # Sample data: 8 items, 18 judges, ratings 1-4
+#' datos <- data.frame(t(file1[, c("claA6", "claA18", "claA2", "claA16",
+#'                                 "claA4", "claA12", "claA9", "claA21")]))
+#' Haiken(datos, ncat = 4, conf.level = .90, overall = TRUE, B = 1000, ci.type = "logit")
+#' }
 #'
-#'@author
-#'Cesar Merino-Soto (\email{sikayax@yahoo.cam.ar})
-#'
+#' @export
+Haiken <- function(data, ncat, conf.level = .95, na.rm = FALSE,
+                   overall = TRUE, B = 1000,
+                   ci.type = c("logit", "perc", "norm")) {
 
-#'@examples
-#'### Example 1 --------------
-#'
-#'#Load data
-#'Ej2 <- data.frame(
-#'  j1 = c(4, 1, 1, 1, 4),
-#'  j2 = c(4, 1, 2, 2, 3),
-#'  j3 = c(4, 1, 3, 3, 5),
-#'  j4 = c(4, 1, 4, 5, 5),
-#'  j5 = c(4, 1, 5, 5, 5),
-#'  j6 = c(4, 1, 3, 5, 5)
-#')
-#'
-#'# Run HAiken
-#'Haiken(Ej2, ncat = 5, conf.level = .90)
-#'
-#'### Example 2 ----------------
-#'# In a dataframe where the rows are the items and the columns are the raters,
-#'# H can be calculated for the raters (columns) by simply transposing the data
-#'# and entering it as a data frame.
-#'
-#'Haiken(as.data.frame(t(Ej2)), ncat = 5, conf.level = .90)
-#'
-#'@export
-Haiken <- function(data, ncat, conf.level, na.rm = FALSE) {
-  # Detection of Missing Values
-  if (!na.rm) {
-    if (any(is.na(data))) {
-      stop("There are missing values. Use na.omit() first, or set na.rm=TRUE.")
+  ci.type <- match.arg(ci.type)
+
+  if (!is.data.frame(data)) data <- as.data.frame(data)
+
+  if (!na.rm && anyNA(data)) {
+    stop("Missing values found. Set na.rm=TRUE or handle them first.")
+  }
+  if (na.rm) data <- na.omit(data)
+
+  n_items <- nrow(data)
+  m <- ncol(data)
+  if (n_items < 1 || m < 2) stop("Need at least 1 item and 2 judges.")
+
+  delta <- ifelse(m %% 2 == 0, 1, 0)
+  denom_item <- (ncat - 1) * (m^2 - delta)
+  denom_total <- (ncat - 1) * n_items * (m^2 - delta)
+
+  # --- Internal function to compute H (individual and total) ---
+  calc_H <- function(mat) {
+    ni <- nrow(mat)
+    mi <- ncol(mat)
+    delta_i <- ifelse(mi %% 2 == 0, 1, 0)
+    denom_i <- (ncat - 1) * (mi^2 - delta_i)
+    denom_total_i <- (ncat - 1) * ni * (mi^2 - delta_i)
+
+    H_ind <- numeric(ni)
+    sum_diffs_total <- 0
+    all_valid <- TRUE
+
+    for (i in 1:ni) {
+      # Convert row to numeric robustly
+      row_i <- as.numeric(mat[i, ])
+      # If any NA, try to convert from factor/character
+      if (anyNA(row_i)) {
+        row_i <- as.numeric(as.character(mat[i, ]))
+      }
+      # If still any NA, impute with median of non-NA values (or skip)
+      if (anyNA(row_i)) {
+        row_i[is.na(row_i)] <- median(row_i, na.rm = TRUE)
+      }
+
+      # Compute pairwise absolute differences
+      diffs <- tryCatch(
+        combn(row_i, 2, function(p) abs(p[1] - p[2])),
+        error = function(e) rep(NA, choose(mi, 2))
+      )
+
+      if (anyNA(diffs)) {
+        all_valid <- FALSE
+        H_ind[i] <- NA
+        sum_diffs_total <- NA
+        break
+      } else {
+        sum_diffs <- sum(diffs, na.rm = TRUE)
+        sum_diffs_total <- sum_diffs_total + sum_diffs
+        H_ind[i] <- 1 - (4 * sum_diffs) / denom_i
+      }
     }
-  } else {
-    data <- na.omit(data)
+
+    H_total <- if (anyNA(H_ind) || !all_valid) {
+      NA
+    } else {
+      1 - (4 * sum_diffs_total) / denom_total_i
+    }
+
+    list(H_individual = H_ind, H_total = H_total, valid = all_valid)
   }
 
-  # Number of rows
-  num_filas <- nrow(data)
+  # --- Point estimates ---
+  est <- calc_H(data)
+  H_ind <- est$H_individual
+  H_total <- est$H_total
 
-  # Calculate j depending on whether ncol(data) is even or odd
-  j <- ifelse(ncol(data) %% 2 == 0, 0, 1)
+  if (anyNA(H_ind)) stop("Point estimates contain NA. Check data and ncat.")
+  if (overall && is.na(H_total)) stop("Total H is NA. Check data.")
 
-  # data frame for storing results
+  # --- Bootstrap over judges (columns) with resampling until valid ---
+  boot_H_ind <- matrix(NA, nrow = B, ncol = n_items)
+  boot_H_total <- numeric(B)
+
+  for (b in 1:B) {
+    valid_boot <- FALSE
+    attempts <- 0
+    while (!valid_boot && attempts < 10) {
+      idx_col <- sample(1:m, size = m, replace = TRUE)
+      boot_data <- data[, idx_col, drop = FALSE]
+      boot_est <- calc_H(boot_data)
+      if (boot_est$valid && !anyNA(boot_est$H_individual) && !is.na(boot_est$H_total)) {
+        valid_boot <- TRUE
+        boot_H_ind[b, ] <- boot_est$H_individual
+        boot_H_total[b] <- boot_est$H_total
+      }
+      attempts <- attempts + 1
+    }
+    if (!valid_boot) {
+      # Fallback: use point estimates
+      boot_H_ind[b, ] <- H_ind
+      boot_H_total[b] <- H_total
+    }
+  }
+
+  # --- Helper to compute confidence intervals (robust) ---
+  get_ci <- function(boot_vals, point_est, conf.level, ci.type) {
+    boot_vals <- boot_vals[!is.na(boot_vals)]
+    if (length(boot_vals) == 0) {
+      return(c(lwr = point_est, upr = point_est))
+    }
+    if (length(unique(boot_vals)) == 1) {
+      return(c(lwr = point_est, upr = point_est))
+    }
+
+    alpha <- 1 - conf.level
+
+    if (ci.type == "perc") {
+      lwr <- quantile(boot_vals, probs = alpha/2, na.rm = TRUE, names = FALSE)
+      upr <- quantile(boot_vals, probs = 1 - alpha/2, na.rm = TRUE, names = FALSE)
+      if (is.na(lwr)) lwr <- min(boot_vals)
+      if (is.na(upr)) upr <- max(boot_vals)
+      return(c(lwr = lwr, upr = upr))
+
+    } else if (ci.type == "norm") {
+      se <- sd(boot_vals, na.rm = TRUE)
+      z <- qnorm(1 - alpha/2)
+      lwr <- point_est - z * se
+      upr <- point_est + z * se
+      return(c(lwr = lwr, upr = upr))
+
+    } else { # "logit" (default)
+      eps <- 1e-6
+      vals <- boot_vals
+      vals[vals <= 0] <- eps
+      vals[vals >= 1] <- 1 - eps
+
+      logit_vals <- log(vals / (1 - vals))
+      lwr_logit <- quantile(logit_vals, probs = alpha/2, na.rm = TRUE, names = FALSE)
+      upr_logit <- quantile(logit_vals, probs = 1 - alpha/2, na.rm = TRUE, names = FALSE)
+      if (is.na(lwr_logit)) lwr_logit <- min(logit_vals)
+      if (is.na(upr_logit)) upr_logit <- max(logit_vals)
+
+      lwr <- exp(lwr_logit) / (1 + exp(lwr_logit))
+      upr <- exp(upr_logit) / (1 + exp(upr_logit))
+      return(c(lwr = lwr, upr = upr))
+    }
+  }
+
+  # --- Compute CIs for each item ---
+  lwr_ind <- numeric(n_items)
+  upr_ind <- numeric(n_items)
+  for (i in 1:n_items) {
+    ci <- get_ci(boot_H_ind[, i], H_ind[i], conf.level, ci.type)
+    lwr_ind[i] <- ci["lwr"]
+    upr_ind[i] <- ci["upr"]
+  }
+
+  # --- CI for the total H (if overall = TRUE) ---
+  if (overall) {
+    ci_total <- get_ci(boot_H_total, H_total, conf.level, ci.type)
+    lwr_total <- ci_total["lwr"]
+    upr_total <- ci_total["upr"]
+  } else {
+    lwr_total <- NA
+    upr_total <- NA
+  }
+
+  # --- Build results data.frame ---
   resultados <- data.frame(
-    Item = 1:num_filas,
-    H = numeric(num_filas),
-    lwr.ci = numeric(num_filas),
-    upr.ci = numeric(num_filas),
-    n.subj = numeric(num_filas)
+    Item = 1:n_items,
+    H = round(H_ind, 3),
+    lwr.ci = round(lwr_ind, 3),
+    upr.ci = round(upr_ind, 3),
+    n.jueces = m,
+    stringsAsFactors = FALSE,
+    row.names = NULL
   )
 
-  # Calculate the pairwise differences (absolute differences) and confidence intervals for each row
-  for (i in 1:num_filas) {
-    fila_actual <- data[i, ]
-
-    # Calculate the pairwise differences as absolute differences and unpack them
-    diff_abs <- combn(colnames(fila_actual), 2, function(pair) {
-      col1 <- fila_actual[pair[1]]
-      col2 <- fila_actual[pair[2]]
-      diff_abs <- abs(col1 - col2)
-      return(diff_abs)
-    }, simplify = FALSE)  # Use `simplify = FALSE` to get a list
-
-    # Unpack the absolute differences from the list
-    diff_abs_unlist <- unlist(diff_abs)
-
-    # Calculate the result for the current row using ncat, diff_abs_unlist, and j
-    resultado_actual <- 1 - (4 * sum(diff_abs_unlist) / ((ncat - 1) * (ncol(data)^2) - j))
-
-    get_wilson_CI <- function(x, n, conf.level) {
-      n <- n
-      p_hat <- x
-      SE_hat_sq <- p_hat * (1 - p_hat) / n
-      crit <- qnorm(1 - conf.level / 2)
-      omega <- n / (n + crit^2)
-      A <- p_hat + crit^2 / (2 * n)
-      B <- crit * sqrt(SE_hat_sq + crit^2 / (4 * n^2))
-      CI <- c('lower' = omega * (A - B),
-              'upper' = omega * (A + B))
-      return(CI)
-    }
-
-    # Calculate the confidence interval using the get_wilson_CI function and the alpha confidence level
-    wilson_interval <- get_wilson_CI(resultado_actual, ncol(data), conf.level)
-
-    # Store the results in the data frame
-    resultados[i, "H"] <- resultado_actual
-    resultados[i, "lwr.ci"] <- wilson_interval['lower']
-    resultados[i, "upr.ci"] <- wilson_interval['upper']
-    resultados[i, "n.subj"] <- num_filas
-
+  if (overall) {
+    fila_total <- data.frame(
+      Item = "Total",
+      H = round(H_total, 3),
+      lwr.ci = if (is.na(lwr_total)) NA else round(lwr_total, 3),
+      upr.ci = if (is.na(upr_total)) NA else round(upr_total, 3),
+      n.jueces = m,
+      stringsAsFactors = FALSE,
+      row.names = NULL
+    )
+    resultados <- rbind(resultados, fila_total)
   }
 
-  return(round(resultados, 3))
-}
+  attr(resultados, "ci.type") <- ci.type
+  attr(resultados, "B") <- B
+  attr(resultados, "conf.level") <- conf.level
 
+  return(resultados)
+}

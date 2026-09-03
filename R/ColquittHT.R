@@ -1,4 +1,4 @@
-#' Hinkin–Tracey Content Validity Indices with Wilson Confidence Intervals
+#' Hinkin–Tracey Content Validity Indices with Confidence Intervals
 #'
 #' @description
 #' Computes Hinkin and Tracey (1999) content validity indices for multiple items
@@ -15,8 +15,9 @@
 #' }
 #'
 #' Asymmetric confidence intervals are constructed using Wilson's score interval method
-#' for proportions (Penfield & Miller, 2004), eliminating out-of-bounds limits and
-#' providing realistic coverage even under zero sample variance or small expert sample sizes.
+#' for proportions for \code{htc} (Penfield & Miller, 2004), and Willink's (2005) asymmetric
+#' interval incorporating the third moment and Cornish-Fisher expansion for \code{htd},
+#' eliminating out-of-bounds limits and providing realistic coverage even under small expert sample sizes.
 #'
 #' @param data A data frame or matrix in wide format, where each column
 #'   corresponds to an item–construct rating. Column names must follow the pattern
@@ -30,10 +31,10 @@
 #'   (e.g., \code{c(item1 = "c2", item2 = "c1")}).
 #' @param anchors Integer. Number of response scale options (e.g., 5 or 7). Ratings
 #'   are assumed to range from 1 to \code{anchors}.
-#' @param ci Logical. If \code{TRUE}, asymmetric Wilson score confidence intervals are
-#'   computed for \code{htc}, \code{htd}, and pairwise \code{htd}. Default is \code{FALSE}.
+#' @param ci Logical. If \code{TRUE}, asymmetric confidence intervals are
+#'   computed for \code{htc} (Wilson score) and \code{htd} (Willink Cornish-Fisher). Default is \code{FALSE}.
 #' @param conf.level Confidence level for intervals (e.g., \code{0.90}, \code{0.95}).
-#'   Default is \code{0.90}.
+#'   Default is \code{0.95}.
 #' @param na.rm Logical. If \code{TRUE} (default), missing values are removed pair-wise or
 #'   list-wise depending on the sub-index calculation.
 #' @param nd Integer. Number of decimal places for rounding output values. Default is \code{3}.
@@ -61,18 +62,13 @@
 #' \strong{Rationale and Construction of Confidence Intervals}
 #'
 #' Standard Studentized \emph{t}-intervals often fail in content validity tasks because rating
-#' distributions near scale bounds produce zero sample variance (e.g., perfect agreement across judges),
-#' yielding artificially collapsed zero-width intervals. To overcome this, confidence intervals
-#' for \code{htc} and \code{htd} are computed via Wilson's score interval (Penfield & Miller, 2004) for mean of
-#' rating expert:
+#' distributions near scale bounds produce zero sample variance or skewness. To overcome this:
 #' \itemize{
-#'   \item \strong{\code{htc} Transformation:} The raw target mean \eqn{\bar{X}} (bounded in \eqn{[1, a]})
-#'         is mapped to a proportion \eqn{p = (\bar{X} - 1) / (a - 1)}. Wilson's score interval is
-#'         computed on \eqn{p} and then rescaled back to the \code{htc} metric (\eqn{[1/a, 1.0]}).
-#'   \item \strong{\code{htd} Transformation:} The distinctiveness index \eqn{htd} naturally ranges in
-#'         \eqn{[-1, 1]}. To apply score-based estimation, it is linearly mapped to a pseudo-proportion
-#'         space \eqn{p_{htd} = (htd + 1) / 2 \in [0, 1]}. Wilson limits are derived for \eqn{p_{htd}}
-#'         and then back-transformed via \eqn{htd_{\text{limit}} = (p_{\text{wilson}} \times 2) - 1}.
+#'   \item \strong{\code{htc} Transformation:} Computed via Wilson's score interval (Penfield & Miller, 2004)
+#'         after mapping the raw target mean to proportion space \eqn{p \in [0, 1]}.
+#'   \item \strong{\code{htd} Transformation:} Computed via Willink's (2005) asymmetric interval method,
+#'         which corrects for sample skewness using the third central moment and Cornish-Fisher expansion,
+#'         with post-hoc truncation to the natural domain \eqn{[-1, 1]}.
 #' }
 #'
 #' \strong{Methodological Note on Comparisons:}
@@ -84,7 +80,7 @@
 #' @return A list with three data frames:
 #' \describe{
 #'   \item{\code{Item.descriptive}}{Item names, target constructs, judge counts (\code{nj}), and mean ratings.}
-#'   \item{\code{Item.criteria}}{Global \code{htc} and \code{htd} indices with corresponding Wilson CIs.}
+#'   \item{\code{Item.criteria}}{Global \code{htc} and \code{htd} indices with corresponding confidence intervals.}
 #'   \item{\code{Pairwise.criteria}}{Pairwise \code{htd} indices comparing target vs. each orbiting construct.}
 #' }
 #'
@@ -98,6 +94,9 @@
 #'
 #' Penfield, R. D., & Miller, J. M. (2004). Improving content validation studies using an asymmetric
 #' confidence interval for the mean of expert ratings. \emph{Applied Measurement in Education, 17}(4), 359–370.
+#'
+#' Willink, R. (2005). A confidence interval for a mean with a correction for skewness.
+#' \emph{Metrika}, 61(2), 159–173.
 #'
 #' @export
 ColquittHT <- function(
@@ -152,13 +151,11 @@ ColquittHT <- function(
     stop("'conf.level' must be a numeric value between 0 and 1.")
   }
 
-  # --- Internal Helper: Wilson Score Confidence Interval for Proportions ---
-  # Computes asymmetric Wilson CI for a proportion p with sample size n.
+  # --- Internal Helper: Wilson Score Confidence Interval for Proportions (HTC) ---
   wilson_ci <- function(p, n, conf.level) {
     if (is.na(p) || is.na(n) || n <= 0) {
       return(list(lwr = NA_real_, upr = NA_real_))
     }
-    # Bound input proportion to [0, 1] to ensure mathematical stability
     p <- max(0, min(1, p))
 
     alpha <- 1 - conf.level
@@ -171,6 +168,48 @@ ColquittHT <- function(
 
     lwr <- max(0, center - spread)
     upr <- min(1, center + spread)
+
+    list(lwr = lwr, upr = upr)
+  }
+
+  # --- Internal Helper: Willink Asymmetric Confidence Interval for HTD (2005) ---
+  willink_ci_htd <- function(x, conf.level) {
+    x <- x[!is.na(x)]
+    n <- length(x)
+    if (n < 3) {
+      return(list(lwr = NA_real_, upr = NA_real_))
+    }
+
+    x_bar <- mean(x)
+    s <- stats::sd(x)
+    alpha <- (1 - conf.level) / 2
+
+    if (s == 0) {
+      return(list(lwr = x_bar, upr = x_bar))
+    }
+
+    # Unbiased third central moment
+    mu3_hat <- (n / ((n - 1) * (n - 2))) * sum((x - x_bar)^3)
+
+    # Scaled skewness coefficient (Willink, 2005)
+    a <- (mu3_hat / (s^3)) / (6 * sqrt(n))
+
+    t_low <- stats::qt(alpha, df = n - 1)
+    t_high <- stats::qt(1 - alpha, df = n - 1)
+
+    G <- function(r) {
+      if (abs(a) < 1e-6) return(r)
+      inner <- 1 + 6 * a * (r - a)
+      if (inner < 0) inner <- 0
+      (1 / (2 * a)) * (inner^(1/3) - 1)
+    }
+
+    lwr <- x_bar - G(t_high) * (s / sqrt(n))
+    upr <- x_bar - G(t_low) * (s / sqrt(n))
+
+    # Truncate to natural bounds of htd [-1, 1]
+    lwr <- max(-1, lwr)
+    upr <- min(1, upr)
 
     list(lwr = lwr, upr = upr)
   }
@@ -234,11 +273,9 @@ ColquittHT <- function(
 
     htc_lci <- htc_uci <- NA_real_
     if (ci && nj > 0) {
-      # Map mean target rating from [1, anchors] to proportion p_target in [0, 1]
       p_target <- (mean_target - 1) / (anchors - 1)
       ci_target <- wilson_ci(p = p_target, n = nj, conf.level = conf.level)
 
-      # Convert Wilson bounds back from proportion space to target mean, then divide by anchors
       mean_lwr <- ci_target$lwr * (anchors - 1) + 1
       mean_upr <- ci_target$upr * (anchors - 1) + 1
       htc_lci  <- mean_lwr / anchors
@@ -269,17 +306,10 @@ ColquittHT <- function(
 
     htd_lci <- htd_uci <- NA_real_
     if (ci) {
-      # Effective number of judges evaluating difference scores
-      n_D <- if (na.rm) sum(!is.na(D_vec)) else length(D_vec)
-      if (n_D > 0) {
-        # Rescale htd from [-1, 1] to pseudo-proportion p_htd in [0, 1]
-        p_htd <- (htd + 1) / 2
-        ci_htd <- wilson_ci(p = p_htd, n = n_D, conf.level = conf.level)
-
-        # Back-transform Wilson bounds to original htd metric [-1, 1]
-        htd_lci <- (ci_htd$lwr * 2) - 1
-        htd_uci <- (ci_htd$upr * 2) - 1
-      }
+      judge_htd <- D_vec / (anchors - 1)
+      ci_htd <- willink_ci_htd(judge_htd, conf.level = conf.level)
+      htd_lci <- ci_htd$lwr
+      htd_uci <- ci_htd$upr
     }
 
     crit_row <- data.frame(
@@ -312,16 +342,10 @@ ColquittHT <- function(
 
       htd_c_lci <- htd_c_uci <- NA_real_
       if (ci) {
-        n_dc <- length(d_c)
-        if (n_dc > 0) {
-          # Rescale pairwise htd from [-1, 1] to pseudo-proportion space [0, 1]
-          p_htd_c <- (htd_c + 1) / 2
-          ci_dc   <- wilson_ci(p = p_htd_c, n = n_dc, conf.level = conf.level)
-
-          # Back-transform limits to original htd metric [-1, 1]
-          htd_c_lci <- (ci_dc$lwr * 2) - 1
-          htd_c_uci <- (ci_dc$upr * 2) - 1
-        }
+        judge_htd_c <- d_c / (anchors - 1)
+        ci_dc <- willink_ci_htd(judge_htd_c, conf.level = conf.level)
+        htd_c_lci <- ci_dc$lwr
+        htd_c_uci <- ci_dc$upr
       }
 
       pair_row <- data.frame(
